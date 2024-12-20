@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35514.174 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAttendance", "SmartAttendance\SmartAttendance.csproj", "{84BEE105-3B40-45E6-8DA2-3F17412BA79B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{DFE8916D-FA7E-421A-A4BC-05536F31219F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "LoggerService\LoggerService.csproj", "{CA471254-79C0-4E85-9C35-CBA2F5ECD5FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84BEE105-3B40-45E6-8DA2-3F17412BA79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84BEE105-3B40-45E6-8DA2-3F17412BA79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84BEE105-3B40-45E6-8DA2-3F17412BA79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84BEE105-3B40-45E6-8DA2-3F17412BA79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE8916D-FA7E-421A-A4BC-05536F31219F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE8916D-FA7E-421A-A4BC-05536F31219F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE8916D-FA7E-421A-A4BC-05536F31219F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE8916D-FA7E-421A-A4BC-05536F31219F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA471254-79C0-4E85-9C35-CBA2F5ECD5FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA471254-79C0-4E85-9C35-CBA2F5ECD5FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA471254-79C0-4E85-9C35-CBA2F5ECD5FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA471254-79C0-4E85-9C35-CBA2F5ECD5FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
