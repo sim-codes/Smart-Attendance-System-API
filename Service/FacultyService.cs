@@ -1,4 +1,5 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -14,11 +15,14 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
+        private readonly IMapper _mapper;
 
-        public FacultyService(IRepositoryManager repository, ILoggerManager logger)
+        public FacultyService(IRepositoryManager repository, ILoggerManager logger,
+            IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<FacultyDto> GetAllFaculties(bool trackChanges)
@@ -27,8 +31,7 @@ namespace Service
             {
                 var faculties = _repository.Faculty.GetAllFaculties(trackChanges);
 
-                var facultiesDto = faculties.Select(faculty => new FacultyDto(
-                    faculty.Id, faculty.Name ?? "", faculty.Code ?? "")).ToList();
+                var facultiesDto = _mapper.Map<IEnumerable<FacultyDto>>(faculties);
 
                 return facultiesDto;
             }

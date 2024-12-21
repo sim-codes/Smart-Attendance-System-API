@@ -1,4 +1,5 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,11 @@ namespace Service
         private readonly Lazy<IFacultyService> _facultyService;
         private readonly Lazy<IDepartmentService> _departmentService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger,
+            IMapper mapper)
         {
-            _facultyService = new Lazy<IFacultyService>(() => new FacultyService(repositoryManager, logger));
-            _departmentService = new Lazy<IDepartmentService>(() => new DepartmentService(repositoryManager, logger));
+            _facultyService = new Lazy<IFacultyService>(() => new FacultyService(repositoryManager, logger, mapper));
+            _departmentService = new Lazy<IDepartmentService>(() => new DepartmentService(repositoryManager, logger, mapper));
         }
 
         public IFacultyService FacultyService => _facultyService.Value;
