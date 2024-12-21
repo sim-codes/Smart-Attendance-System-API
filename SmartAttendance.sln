@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAttendance", "SmartAttendance\SmartAttendance.csproj", "{84BEE105-3B40-45E6-8DA2-3F17412BA79B}"
 EndProject
@@ -12,6 +12,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{2DE91DC4-6E05-40C2-8EF6-5AC1994B6C07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{0E948832-72D3-4D88-AE39-4FC15711B5C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Contracts", "Service.Contracts\Service.Contracts.csproj", "{341CEA23-F343-4FA0-B8BC-B350A5D9F592}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{9E1A59FD-FC54-465E-B238-C99348073398}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{77AF9DE8-3F01-43C1-A052-105DF5671CFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{0E948832-72D3-4D88-AE39-4FC15711B5C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E948832-72D3-4D88-AE39-4FC15711B5C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E948832-72D3-4D88-AE39-4FC15711B5C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341CEA23-F343-4FA0-B8BC-B350A5D9F592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341CEA23-F343-4FA0-B8BC-B350A5D9F592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341CEA23-F343-4FA0-B8BC-B350A5D9F592}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341CEA23-F343-4FA0-B8BC-B350A5D9F592}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E1A59FD-FC54-465E-B238-C99348073398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E1A59FD-FC54-465E-B238-C99348073398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E1A59FD-FC54-465E-B238-C99348073398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E1A59FD-FC54-465E-B238-C99348073398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77AF9DE8-3F01-43C1-A052-105DF5671CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77AF9DE8-3F01-43C1-A052-105DF5671CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77AF9DE8-3F01-43C1-A052-105DF5671CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77AF9DE8-3F01-43C1-A052-105DF5671CFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
