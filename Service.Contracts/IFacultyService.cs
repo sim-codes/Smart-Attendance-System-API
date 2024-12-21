@@ -1,9 +1,9 @@
-﻿using Entities.Models;
+﻿using Shared.DataTransferObjects;
 
 namespace Service.Contracts
 {
     public interface IFacultyService
     {
-        IEnumerable<Faculty> GetAllFaculties(bool trackChanges);
+        IEnumerable<FacultyDto> GetAllFaculties(bool trackChanges);
     }
 }
