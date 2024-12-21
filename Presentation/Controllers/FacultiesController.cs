@@ -19,15 +19,9 @@ namespace Presentation.Controllers
         [HttpGet]
         public IActionResult GetFaculties()
         {
-            try
-            {
-                var faculties = _service.FacultyService.GetAllFaculties(trackChanges: false);
-                return Ok(faculties);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            throw new Exception("Exception");
+            var faculties = _service.FacultyService.GetAllFaculties(trackChanges: false);
+            return Ok(faculties);
         }
     }
 }
