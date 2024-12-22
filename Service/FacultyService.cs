@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -27,19 +28,31 @@ namespace Service
 
         public IEnumerable<FacultyDto> GetAllFaculties(bool trackChanges)
         {
-            try
-            {
-                var faculties = _repository.Faculty.GetAllFaculties(trackChanges);
+            var faculties = _repository.Faculty.GetAllFaculties(trackChanges);
 
-                var facultiesDto = _mapper.Map<IEnumerable<FacultyDto>>(faculties);
+             var facultiesDto = _mapper.Map<IEnumerable<FacultyDto>>(faculties);
 
-                return facultiesDto;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllFaculties)} service method {ex}");
-                throw;
-            }
+            return facultiesDto;
+        }
+
+        public FacultyDto GetFaculty(Guid id, bool trackChanges)
+        {
+            var faculty = _repository.Faculty.GetFaculty(id, trackChanges);
+            if (faculty is null)
+                throw new FacultyNotFoundException(id);
+
+            var facultyDto = _mapper.Map<FacultyDto>(faculty);
+            return facultyDto;
+        }
+
+        public FacultyDto CreateFaculty(FacultyForCreationDto faculty)
+        {
+            var facultyEntity = _mapper.Map<Faculty>(faculty);
+            _repository.Faculty.CreateFaculty(facultyEntity);
+            _repository.Save();
+
+            var facultyToReturn = _mapper.Map<FacultyDto>(facultyEntity);
+            return facultyToReturn;
         }
     }
 }

@@ -19,5 +19,11 @@ namespace Repository
             FindAll(trackChanges)
             .OrderBy(c => c.Name)
             .ToList();
+
+        public Faculty GetFaculty(Guid facultyId, bool trackChanges) =>
+            FindByCondition(c => c.Id.Equals(facultyId), trackChanges)
+            .SingleOrDefault();
+
+        public void CreateFaculty(Faculty faculty) => Create(faculty);
     }
 }

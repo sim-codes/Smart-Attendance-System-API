@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.DataTransferObjects;
 
 namespace Presentation.Controllers
 {
@@ -19,9 +15,25 @@ namespace Presentation.Controllers
         [HttpGet]
         public IActionResult GetFaculties()
         {
-            throw new Exception("Exception");
             var faculties = _service.FacultyService.GetAllFaculties(trackChanges: false);
             return Ok(faculties);
+        }
+
+        [HttpGet("{id:guid}", Name = "FacultyById")]
+        public IActionResult GetFaculty(Guid id)
+        {
+            var faculty = _service.FacultyService.GetFaculty(id, trackChanges: false);
+            return Ok(faculty);
+        }
+
+        [HttpPost]
+        public IActionResult CreateFaculty([FromBody] FacultyForCreationDto faculty)
+        {
+            if (faculty is null)
+                return BadRequest("FacultyForCreationDto object is null");
+
+            var createdFaculty = _service.FacultyService.CreateFaculty(faculty);
+            return CreatedAtRoute("FacultyById", new { id = createdFaculty.Id }, createdFaculty);
         }
     }
 }

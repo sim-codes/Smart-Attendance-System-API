@@ -9,6 +9,9 @@ namespace SmartAttendance
         public MappingProfile()
         {
             CreateMap<Faculty, FacultyDto>();
+            CreateMap<Department, DepartmentDto>();
+            CreateMap<FacultyForCreationDto, Faculty>();
+            CreateMap<DepartmentForCreationDto, Department>();
         }
     }
 }
