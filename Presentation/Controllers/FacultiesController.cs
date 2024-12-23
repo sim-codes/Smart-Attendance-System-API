@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -27,11 +28,9 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateFaculty([FromBody] FacultyForCreationDto faculty)
         {
-            if (faculty is null)
-                return BadRequest("FacultyForCreationDto object is null");
-
             var createdFaculty = _service.FacultyService.CreateFaculty(faculty);
             return CreatedAtRoute("FacultyById", new { id = createdFaculty.Id }, createdFaculty);
         }

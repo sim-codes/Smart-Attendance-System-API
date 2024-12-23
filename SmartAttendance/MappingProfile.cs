@@ -12,6 +12,7 @@ namespace SmartAttendance
             CreateMap<Department, DepartmentDto>();
             CreateMap<FacultyForCreationDto, Faculty>();
             CreateMap<DepartmentForCreationDto, Department>();
+            CreateMap<UserForRegistrationDto, User>();
         }
     }
 }
