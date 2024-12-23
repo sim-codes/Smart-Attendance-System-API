@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +23,9 @@ namespace Service
         private readonly IMapper _mapper;
         private UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly JwtConfiguration _jwtConfiguration;
+
+        private User? _user;
 
         public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
         {
@@ -26,6 +33,8 @@ namespace Service
             _mapper = mapper;
             _userManager = userManager;
             _configuration = configuration;
+            _jwtConfiguration = new JwtConfiguration();
+            _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
@@ -37,6 +46,61 @@ namespace Service
                 await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
 
             return result;
+        }
+
+        public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
+        {
+            _user = await _userManager.FindByNameAsync(userForAuth.Username);
+            var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
+            if (!result)
+                _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong username or password");
+
+            return result;
+        }
+
+        public async Task<string> CreateToken()
+        {
+            var signingCredentials = GetSigningCredentials();
+            var claims = await GetClaims();
+            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+
+            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        }
+
+        private SigningCredentials GetSigningCredentials()
+        {
+            var jwtSettings = _configuration.GetSection("JwtSettings");
+
+            var key = Encoding.UTF8.GetBytes(jwtSettings["secretKey"]);
+            var secret = new SymmetricSecurityKey(key);
+            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+        }
+
+        private async Task<List<Claim>> GetClaims()
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, _user?.UserName)
+            };
+            var roles = await _userManager.GetRolesAsync(_user);
+
+            foreach (var role in roles)
+                claims.Add(new Claim(ClaimTypes.Role, role));
+
+            return claims;
+        }
+
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+        {
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _jwtConfiguration.ValidIssuer,
+                audience: _jwtConfiguration.ValidAudience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtConfiguration.Expires)),
+                signingCredentials: signingCredentials
+            );
+            return tokenOptions;
+
         }
     }
 }

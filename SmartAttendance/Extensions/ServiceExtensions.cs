@@ -1,12 +1,16 @@
 ﻿using Contracts;
+using Entities.ConfigurationModels;
 using Entities.Models;
 using LoggerService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service;
 using Service.Contracts;
+using System.Text;
 
 namespace SmartAttendance.Extensions
 {
@@ -53,6 +57,32 @@ namespace SmartAttendance.Extensions
             .AddDefaultTokenProviders();
         }
             
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtConfiguration = new JwtConfiguration();
+            configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
 
+            var key = Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = jwtConfiguration.ValidIssuer,
+                        ValidAudience = jwtConfiguration.ValidAudience,
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                    };
+                });
+            }
     }
 }
