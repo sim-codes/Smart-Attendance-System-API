@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Repository;
 using Service;
 using Service.Contracts;
@@ -56,7 +57,7 @@ namespace SmartAttendance.Extensions
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
         }
-            
+
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtConfiguration = new JwtConfiguration();
@@ -83,6 +84,60 @@ namespace SmartAttendance.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
                 });
-            }
+        }
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "Smart Attendance System API", 
+                    Version = "v1",
+                    Description = "Smart Attendance System for Institution",
+                    TermsOfService = new Uri("https://example/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Ibrahim Michael",
+                        Email = "segunmichael24@gmail.com",
+                        Url = new Uri("https://simportfolio.netlify.app/"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Simcodes API",
+                        Url = new Uri("https://example.com/license")
+                    }
+                });
+
+                var xmlFile = $"{typeof(Presentation.AssemblyReference).Assembly.GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                s.IncludeXmlComments(xmlPath);
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with Bearer",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Name = "Bearer"
+                        },
+                        new List<string>()
+                    }
+                });
+            });
+        }
     }
 }

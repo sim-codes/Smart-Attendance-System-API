@@ -27,6 +27,7 @@ builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.ConfigureSwagger();
 
 var app = builder.Build();
 
@@ -44,6 +45,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseCors("CorsPolicy");
+app.UseSwagger();
+app.UseSwaggerUI(s =>
+{
+    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Attendance System API v1");
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
