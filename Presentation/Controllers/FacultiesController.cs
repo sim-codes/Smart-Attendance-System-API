@@ -15,13 +15,22 @@ namespace Presentation.Controllers
 
         public FacultiesController(IServiceManager service) => _service = service;
 
-        [HttpGet]
+        /// <summary>
+        /// Get the list of all faculties
+        /// </summary>
+        /// <returns>The faculties list</returns>
+        [HttpGet(Name = "GetFaculties")]
         public IActionResult GetFaculties()
         {
             var faculties = _service.FacultyService.GetAllFaculties(trackChanges: false);
             return Ok(faculties);
         }
 
+        /// <summary>
+        /// Get a specific faculty by ID
+        /// </summary>
+        /// <param name="id">The ID of the faculty</param>
+        /// <returns>The faculty details</returns>
         [HttpGet("{id:guid}", Name = "FacultyById")]
         public IActionResult GetFaculty(Guid id)
         {
@@ -29,6 +38,11 @@ namespace Presentation.Controllers
             return Ok(faculty);
         }
 
+        /// <summary>
+        /// Create a new faculty
+        /// </summary>
+        /// <param name="faculty">The faculty data for creation</param>
+        /// <returns>The created faculty</returns>
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateFaculty([FromBody] FacultyForCreationDto faculty)

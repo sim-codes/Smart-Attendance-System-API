@@ -4,5 +4,11 @@
         <name>Presentation</name>
     </assembly>
     <members>
+        <member name="M:Presentation.Controllers.FacultiesController.GetFaculties">
+            <summary>
+            Get the list of all faculties
+            </summary>
+            <returns>The faculties list</returns>
+        </member>
     </members>
 </doc>

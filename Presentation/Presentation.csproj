@@ -15,7 +15,7 @@
   </ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>CompanyEmployees.Presentation.xml</DocumentationFile>
+		<DocumentationFile>Presentation.xml</DocumentationFile>
 		<OutputPath></OutputPath>
 		<NoWarn>1701;1702;1591</NoWarn>
 	</PropertyGroup>

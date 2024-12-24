@@ -12,6 +12,11 @@ namespace Presentation.Controllers
 
         public DepartmentsController(IServiceManager service) => _service = service;
 
+        /// <summary>
+        /// Get the list of all departments for a specific faculty
+        /// </summary>
+        /// <param name="facultyId">The ID of the faculty</param>
+        /// <returns>The departments list</returns>
         [HttpGet]
         public IActionResult GetDepartments(Guid facultyId)
         {
@@ -19,6 +24,12 @@ namespace Presentation.Controllers
             return Ok(departments);
         }
 
+        /// <summary>
+        /// Get a specific department by ID for a specific faculty
+        /// </summary>
+        /// <param name="facultyId">The ID of the faculty</param>
+        /// <param name="id">The ID of the department</param>
+        /// <returns>The department details</returns>
         [HttpGet("{id:guid}", Name = "DepartmentById")]
         public IActionResult GetDepartment(Guid facultyId, Guid id)
         {
@@ -26,6 +37,12 @@ namespace Presentation.Controllers
             return Ok(department);
         }
 
+        /// <summary>
+        /// Create a new department for a specific faculty
+        /// </summary>
+        /// <param name="facultyId">The ID of the faculty</param>
+        /// <param name="department">The department data for creation</param>
+        /// <returns>The created department</returns>
         [HttpPost]
         public IActionResult CreateDepartment(Guid facultyId, [FromBody] DepartmentForCreationDto department)
         {

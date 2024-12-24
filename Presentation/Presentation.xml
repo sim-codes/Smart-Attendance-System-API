@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Presentation</name>
+    </assembly>
+    <members>
+        <member name="M:Presentation.Controllers.DepartmentsController.GetDepartments(System.Guid)">
+            <summary>
+            Get the list of all departments for a specific faculty
+            </summary>
+            <param name="facultyId">The ID of the faculty</param>
+            <returns>The departments list</returns>
+        </member>
+        <member name="M:Presentation.Controllers.DepartmentsController.GetDepartment(System.Guid,System.Guid)">
+            <summary>
+            Get a specific department by ID for a specific faculty
+            </summary>
+            <param name="facultyId">The ID of the faculty</param>
+            <param name="id">The ID of the department</param>
+            <returns>The department details</returns>
+        </member>
+        <member name="M:Presentation.Controllers.DepartmentsController.CreateDepartment(System.Guid,Shared.DataTransferObjects.DepartmentForCreationDto)">
+            <summary>
+            Create a new department for a specific faculty
+            </summary>
+            <param name="facultyId">The ID of the faculty</param>
+            <param name="department">The department data for creation</param>
+            <returns>The created department</returns>
+        </member>
+        <member name="M:Presentation.Controllers.FacultiesController.GetFaculties">
+            <summary>
+            Get the list of all faculties
+            </summary>
+            <returns>The faculties list</returns>
+        </member>
+        <member name="M:Presentation.Controllers.FacultiesController.GetFaculty(System.Guid)">
+            <summary>
+            Get a specific faculty by ID
+            </summary>
+            <param name="id">The ID of the faculty</param>
+            <returns>The faculty details</returns>
+        </member>
+        <member name="M:Presentation.Controllers.FacultiesController.CreateFaculty(Shared.DataTransferObjects.FacultyForCreationDto)">
+            <summary>
+            Create a new faculty
+            </summary>
+            <param name="faculty">The faculty data for creation</param>
+            <returns>The created faculty</returns>
+        </member>
+    </members>
+</doc>
