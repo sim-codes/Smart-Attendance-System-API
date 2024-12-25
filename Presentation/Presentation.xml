@@ -4,6 +4,21 @@
         <name>Presentation</name>
     </assembly>
     <members>
+        <member name="M:Presentation.Controllers.ClassroomsController.GetClassrooms(System.Guid)">
+            <summary>
+            Get the list of all classrooms for a specific faculty
+            </summary>
+            <param name="facultyId">The ID of the faculty</param>
+            <returns>The classroom list</returns>
+        </member>
+        <member name="M:Presentation.Controllers.ClassroomsController.GetClassroom(System.Guid,System.Guid)">
+            <summary>
+            Get a specific classroom by ID for a specific faculty
+            </summary>
+            <param name="facultyId">The ID of the faculty</param>
+            <param name="id">The ID of the classroom</param>
+            <returns>The classroom details</returns>
+        </member>
         <member name="M:Presentation.Controllers.DepartmentsController.GetDepartments(System.Guid)">
             <summary>
             Get the list of all departments for a specific faculty
@@ -46,6 +61,9 @@
             </summary>
             <param name="faculty">The faculty data for creation</param>
             <returns>The created faculty</returns>
+            <response code="201">Returns the newly created item</response>
+            <response code="400">If the item is null</response>
+            <response code="422">If the model is invalid</response>
         </member>
     </members>
 </doc>

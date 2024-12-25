@@ -9,8 +9,8 @@ namespace Contracts
 {
     public interface IDepartmentRepository
     {
-        IEnumerable<Department> GetDepartments(Guid companyId, bool trackChanges);
+        IEnumerable<Department> GetDepartments(Guid facultyId, bool trackChanges);
         Department GetDepartment(Guid facultyId, Guid id, bool trackChanges);
-        void CreateDepartment(Guid facultyIf, Department department);
+        void CreateDepartment(Guid facultyId, Department department);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace SmartAttendance.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241225130119_InitialClassroomData")]
+    partial class InitialClassroomData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace SmartAttendance.Migrations
                     b.Property<double>("BottomRightLon")
                         .HasColumnType("float");
 
-                    b.Property<Guid>("FacultyId")
+                    b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -63,7 +66,7 @@ namespace SmartAttendance.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FacultyId");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Classroom");
 
@@ -75,8 +78,8 @@ namespace SmartAttendance.Migrations
                             BottomLeftLon = 3.7229999999999999,
                             BottomRightLat = 6.8914999999999997,
                             BottomRightLon = 3.7235,
-                            FacultyId = new Guid("b4e2e3f2-3b3d-4b5d-8b0b-1b1b1b1b1b1b"),
-                            Name = "Engineering Lab 1",
+                            DepartmentId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
+                            Name = "CSC Lab 1",
                             TopLeftLat = 6.8920000000000003,
                             TopLeftLon = 3.7229999999999999,
                             TopRightLat = 6.8920000000000003,
@@ -89,8 +92,8 @@ namespace SmartAttendance.Migrations
                             BottomLeftLon = 3.7240000000000002,
                             BottomRightLat = 6.8920000000000003,
                             BottomRightLon = 3.7244999999999999,
-                            FacultyId = new Guid("b4e2e3f2-3b3d-4b5d-8b0b-1b1b1b1b1b1b"),
-                            Name = "Engineering Lab 2",
+                            DepartmentId = new Guid("80abbca8-664d-4b20-b5de-024705497d4a"),
+                            Name = "EE Lab 1",
                             TopLeftLat = 6.8925000000000001,
                             TopLeftLon = 3.7240000000000002,
                             TopRightLat = 6.8925000000000001,
@@ -409,13 +412,13 @@ namespace SmartAttendance.Migrations
 
             modelBuilder.Entity("Entities.Models.Classroom", b =>
                 {
-                    b.HasOne("Entities.Models.Faculty", "Faculty")
+                    b.HasOne("Entities.Models.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("FacultyId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Faculty");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Entities.Models.Department", b =>

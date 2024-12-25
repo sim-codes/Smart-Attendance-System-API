@@ -11,5 +11,6 @@ namespace Service.Contracts
         IFacultyService FacultyService { get; }
         IDepartmentService DepartmentService { get; }
         IAuthenticationService AuthenticationService { get; }
+        IClassroomService ClassroomService { get; }
     }
 }

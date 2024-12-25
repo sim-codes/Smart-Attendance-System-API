@@ -8,7 +8,6 @@ namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class FacultiesController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -43,7 +42,13 @@ namespace Presentation.Controllers
         /// </summary>
         /// <param name="faculty">The faculty data for creation</param>
         /// <returns>The created faculty</returns>
-        [HttpPost]
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
+        /// <response code="422">If the model is invalid</response>
+        [HttpPost(Name = "CreateFaculty")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateFaculty([FromBody] FacultyForCreationDto faculty)
         {

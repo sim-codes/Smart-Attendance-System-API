@@ -10,6 +10,7 @@ namespace Contracts
     {
         IFacultyRepository Faculty { get; }
         IDepartmentRepository Department { get; }
+        IClassroomRepository Classroom { get; }
         void Save();
     }
 }

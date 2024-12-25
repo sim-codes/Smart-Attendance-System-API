@@ -24,9 +24,11 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new ClassroomConfiguration());
         }
 
         public DbSet<Faculty>? Faculty { get; set; }
         public DbSet<Department>? Department { get; set; }
+        public DbSet<Classroom>? Classroom { get; set; }
     }
 }
