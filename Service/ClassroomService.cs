@@ -28,7 +28,32 @@ namespace Service
 
         public ClassroomDto CreateClassroom(Guid facultyId, ClassroomForCreationDto classroom, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var faculty = _repository.Faculty.GetFaculty(facultyId, trackChanges);
+            if (faculty is null)
+                throw new FacultyNotFoundException(facultyId);
+
+            var classroomEntity = _mapper.Map<Classroom>(classroom);
+
+            _repository.Classroom.CreateClassroom(facultyId, classroomEntity);
+            _repository.Save();
+
+            var classroomToReturn = _mapper.Map<ClassroomDto>(classroomEntity);
+
+            return classroomToReturn;
+        }
+
+        public void DeleteClassroomForFaculty(Guid facultyId, Guid id, bool trackChanges)
+        {
+            var faculty = _repository.Faculty.GetFaculty(facultyId, trackChanges);
+            if (faculty is null)
+                throw new FacultyNotFoundException(facultyId);
+
+            var classroomForFaculty = _repository.Classroom.GetClassroom(facultyId, id, trackChanges);
+            if (classroomForFaculty is null)
+                throw new ClassroomNotFoundException(id);
+
+            _repository.Classroom.DeleteClassroom(classroomForFaculty);
+            _repository.Save();
         }
 
         public ClassroomDto GetClassroom(Guid facultyId, Guid id, bool trackChanges)
@@ -39,7 +64,7 @@ namespace Service
 
             var classroomFromDb = _repository.Classroom.GetClassroom(facultyId, id, trackChanges);
             if (classroomFromDb is null)
-                throw new DepartmentNotFoundException(id);
+                throw new ClassroomNotFoundException(id);
 
             var classroomDto = _mapper.Map<ClassroomDto>(classroomFromDb);
             return classroomDto;

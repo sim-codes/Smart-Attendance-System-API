@@ -32,5 +32,7 @@ namespace Entities.Models
         [ForeignKey(nameof(Faculty))]
         public Guid FacultyId { get; set; }
         public Faculty? Faculty { get; set; }
+
+        public ICollection<CourseClassroom>? CourseClassrooms { get; set; }
     }
 }

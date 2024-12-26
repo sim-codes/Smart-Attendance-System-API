@@ -30,5 +30,8 @@ namespace Repository
         public DbSet<Faculty>? Faculty { get; set; }
         public DbSet<Department>? Department { get; set; }
         public DbSet<Classroom>? Classroom { get; set; }
+        public DbSet<Course>? Course { get; set; }
+        public DbSet<CourseClassroom>? CourseClassroom { get; set; }
+        public DbSet<Level>? Level { get; set; }
     }
 }

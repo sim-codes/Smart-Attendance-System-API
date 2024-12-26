@@ -19,6 +19,22 @@
             <param name="id">The ID of the classroom</param>
             <returns>The classroom details</returns>
         </member>
+        <member name="M:Presentation.Controllers.ClassroomsController.CreateClassroom(System.Guid,Shared.DataTransferObjects.ClassroomForCreationDto)">
+            <summary>
+            Create a new classroom for a specific faculty
+            </summary>
+            <param name="facultyId">The ID of the faculty</param>
+            <param name="classroom">The classroom data for creation</param>
+            <returns>The created classroom</returns>
+        </member>
+        <member name="M:Presentation.Controllers.ClassroomsController.DeleteClassroom(System.Guid,System.Guid)">
+            <summary>
+            Delete a specific classroom by ID for a specific faculty
+            </summary>
+            <param name="facultyId">The ID of the faculty</param>
+            <param name="id">The ID for the classroom to delete</param>
+            <returns>Empty response</returns>
+        </member>
         <member name="M:Presentation.Controllers.DepartmentsController.GetDepartments(System.Guid)">
             <summary>
             Get the list of all departments for a specific faculty

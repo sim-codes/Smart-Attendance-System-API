@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +42,37 @@ namespace Presentation.Controllers
         {
             var classroom = _service.ClassroomService.GetClassroom(facultyId, id, trackChanges: false);
             return Ok(classroom);
+        }
+
+        /// <summary>
+        /// Create a new classroom for a specific faculty
+        /// </summary>
+        /// <param name="facultyId">The ID of the faculty</param>
+        /// <param name="classroom">The classroom data for creation</param>
+        /// <returns>The created classroom</returns>
+        [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public IActionResult CreateClassroom(Guid facultyId, [FromBody] ClassroomForCreationDto classroom)
+        {
+            if (classroom is null)
+                return BadRequest("DepartmentForCreationDto object is null");
+
+            var createdClassroom = _service.ClassroomService.CreateClassroom(facultyId, classroom, trackChanges: false);
+
+            return CreatedAtRoute("ClassroomById", new { facultyId, id = createdClassroom.Id }, createdClassroom);
+        }
+
+        /// <summary>
+        /// Delete a specific classroom by ID for a specific faculty
+        /// </summary>
+        /// <param name="facultyId">The ID of the faculty</param>
+        /// <param name="id">The ID for the classroom to delete</param>
+        /// <returns>Empty response</returns>
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteClassroom(Guid facultyId, Guid id)
+        {
+            _service.ClassroomService.DeleteClassroomForFaculty(facultyId, id, trackChanges: false);
+            return NoContent();
         }
     }
 }

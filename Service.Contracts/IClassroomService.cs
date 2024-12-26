@@ -13,5 +13,6 @@ namespace Service.Contracts
 
         ClassroomDto GetClassroom(Guid facultyId, Guid id, bool trackChanges);
         ClassroomDto CreateClassroom(Guid facultyId, ClassroomForCreationDto classroom, bool trackChanges);
+        void DeleteClassroomForFaculty(Guid facultyId, Guid id, bool trackChanges);
     }
 }

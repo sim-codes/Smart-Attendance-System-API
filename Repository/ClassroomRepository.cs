@@ -29,5 +29,7 @@ namespace Repository
             classroom.FacultyId = facultyId;
             Create(classroom);
         }
+
+        public void DeleteClassroom(Classroom classroom) => Delete(classroom);
     }
 }
