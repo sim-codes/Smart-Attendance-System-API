@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Repository
         private Lazy<IFacultyRepository> _facultyRepository;
         private Lazy<IDepartmentRepository> _departmentRepository;
         private Lazy<IClassroomRepository> _classroomRepository;
+        private Lazy<IStudentRepository> _studentRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -20,13 +22,16 @@ namespace Repository
             _facultyRepository = new Lazy<IFacultyRepository>(() => new FacultyRepository(_repositoryContext));
             _departmentRepository = new Lazy<IDepartmentRepository>(() => new DepartmentRepository(_repositoryContext));
             _classroomRepository = new Lazy<IClassroomRepository>(() => new ClassroomRepository(_repositoryContext));
+            _studentRepository = new Lazy<IStudentRepository>(() => new StudentRepository(_repositoryContext));
         }
 
         public IFacultyRepository Faculty => _facultyRepository.Value;
 
         public IDepartmentRepository Department => _departmentRepository.Value;
         public IClassroomRepository Classroom => _classroomRepository.Value;
+        public IStudentRepository Student => _studentRepository.Value;
 
         public void Save() => _repositoryContext.SaveChanges();
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

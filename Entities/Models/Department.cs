@@ -24,5 +24,7 @@ namespace Entities.Models
         [ForeignKey(nameof(Faculty))]
         public Guid FacultyId { get; set; }
         public Faculty? Faculty { get; set; }
+
+        public ICollection<Student>? Students { get; set; }
     }
 }

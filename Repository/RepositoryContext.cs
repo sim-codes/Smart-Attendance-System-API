@@ -21,11 +21,24 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Student)
+                .WithOne(s => s.User);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.User)
+                .WithOne(u => u.Student)
+                .HasPrincipalKey<User>(u => u.Id);
+
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new ClassroomConfiguration());
+            modelBuilder.ApplyConfiguration(new LevelConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentConfiguration());
         }
+
+        public DbSet<Student> Students { get; set; }
 
         public DbSet<Faculty>? Faculty { get; set; }
         public DbSet<Department>? Department { get; set; }

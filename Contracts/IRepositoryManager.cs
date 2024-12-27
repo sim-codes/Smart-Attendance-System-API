@@ -11,6 +11,8 @@ namespace Contracts
         IFacultyRepository Faculty { get; }
         IDepartmentRepository Department { get; }
         IClassroomRepository Classroom { get; }
+        IStudentRepository Student { get; }
         void Save();
+        Task SaveAsync();
     }
 }

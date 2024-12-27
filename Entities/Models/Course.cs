@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,13 +14,16 @@ namespace Entities.Models
         [Column("CourseId")]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Course name is a required field.")]
+        [Required(ErrorMessage = "Course Title is a required field.")]
         [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters.")]
-        public string? Name { get; set; }
+        public string? Title { get; set; }
 
         [Required(ErrorMessage = "Course code is a required field.")]
         [MaxLength(10, ErrorMessage = "Maximum length for the Code is 10 characters.")]
         public string? Code { get; set; }
+
+        [Required(ErrorMessage = "Course credit unit is a required field.")]
+        public int CreditUnits { get; set; }
 
         [ForeignKey(nameof(Department))]
         public Guid DepartmentId { get; set; }
@@ -27,6 +31,7 @@ namespace Entities.Models
 
         [ForeignKey(nameof(Level))]
         public Guid LevelId { get; set; }
+        [DeleteBehavior(DeleteBehavior.NoAction)]
         public Level? Level { get; set; }
 
         public ICollection<CourseClassroom>? CourseClassrooms { get; set; }

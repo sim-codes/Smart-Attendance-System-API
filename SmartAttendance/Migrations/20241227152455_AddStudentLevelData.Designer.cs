@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace SmartAttendance.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241227152455_AddStudentLevelData")]
+    partial class AddStudentLevelData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,10 +290,12 @@ namespace SmartAttendance.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MatriculationNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -299,21 +304,11 @@ namespace SmartAttendance.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("UserId1")
                         .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .HasFilter("[UserId1] IS NOT NULL");
 
                     b.ToTable("Students");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a1d4c053-49b6-410c-bc78-2d54a9991870"),
-                            DepartmentId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
-                            LevelId = new Guid("a1d4c053-49b6-410c-bc78-2d54a9991870"),
-                            MatriculationNumber = "21/0611",
-                            UserId = "b65a0ac9-72bf-4e24-8406-4de1339199d2"
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -612,20 +607,20 @@ namespace SmartAttendance.Migrations
             modelBuilder.Entity("Entities.Models.Student", b =>
                 {
                     b.HasOne("Entities.Models.Department", "Department")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.Level", "Level")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", "User")
                         .WithOne("Student")
-                        .HasForeignKey("Entities.Models.Student", "UserId");
+                        .HasForeignKey("Entities.Models.Student", "UserId1");
 
                     b.Navigation("Department");
 
@@ -695,11 +690,6 @@ namespace SmartAttendance.Migrations
                     b.Navigation("CourseClassrooms");
                 });
 
-            modelBuilder.Entity("Entities.Models.Department", b =>
-                {
-                    b.Navigation("Students");
-                });
-
             modelBuilder.Entity("Entities.Models.Faculty", b =>
                 {
                     b.Navigation("Departments");
@@ -708,8 +698,6 @@ namespace SmartAttendance.Migrations
             modelBuilder.Entity("Entities.Models.Level", b =>
                 {
                     b.Navigation("Courses");
-
-                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>

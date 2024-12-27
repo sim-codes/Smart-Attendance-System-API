@@ -81,5 +81,26 @@
             <response code="400">If the item is null</response>
             <response code="422">If the model is invalid</response>
         </member>
+        <member name="M:Presentation.Controllers.StudentsController.GetAllStudents">
+            <summary>
+            Get the list of all students
+            </summary>
+            <returns>The students list</returns>
+        </member>
+        <member name="M:Presentation.Controllers.StudentsController.GetStudent(System.String)">
+            <summary>
+            Get a specific student by User ID
+            </summary>
+            <param name="userId">The User ID of the student</param>
+            <returns>The student details</returns>
+        </member>
+        <member name="M:Presentation.Controllers.StudentsController.CreateStudent(System.String,Shared.DataTransferObjects.StudentForCreationDto)">
+            <summary>
+            Create a new student
+            </summary>
+            <param name="userId">The User ID of the student</param>
+            <param name="student">The student data for creation</param>
+            <returns>The created student</returns>
+        </member>
     </members>
 </doc>
