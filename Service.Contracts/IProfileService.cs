@@ -11,5 +11,6 @@ namespace Service.Contracts
     {
         Task<IEnumerable<UserDto>> GetAllUsers();
         Task<UserDto> GetUserById(Guid id);
+        Task<UserDto> GetUserByName(string userName);
     }
 }

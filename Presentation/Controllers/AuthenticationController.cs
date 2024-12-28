@@ -18,7 +18,17 @@ namespace Presentation.Controllers
 
         public AuthenticationController(IServiceManager service) => _service = service;
 
+        /// <summary>
+        /// Register a new user
+        /// </summary>
+        /// <param name="userForRegistration">The user data for registration</param>
+        /// <returns>Status code 201 if the user is created successfully</returns>
+        /// <response code="201">Returns status code 201 if the user is created successfully</response>
+        /// <response code="400">If the user data is invalid</response>
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
@@ -35,16 +45,26 @@ namespace Presentation.Controllers
             return StatusCode(201);
         }
 
+        /// <summary>
+        /// Authenticate a user and generate a token
+        /// </summary>
+        /// <param name="user">The user data for authentication</param>
+        /// <returns>The authentication token and user profile</returns>
+        /// <response code="200">Returns the authentication token and user profile</response>
+        /// <response code="401">If the user credentials are invalid</response>
         [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ProducesResponseType(typeof(object), 200)]
+        [ProducesResponseType(401)]
         public async Task<IActionResult> AuthenticateUser([FromBody] UserForAuthenticationDto user)
         {
             if (!await _service.AuthenticationService.ValidateUser(user))
                 return Unauthorized();
 
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+            var userProfile = await _service.ProfileService.GetUserByName(user.Username);
 
-            return Ok(tokenDto);
+            return Ok(new { Token = tokenDto, User = userProfile });
         }
     }
 }

@@ -35,6 +35,16 @@ namespace Service
             _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
         }
 
+        public async Task<UserDto> GetUserByName(string userName)
+        {
+            _user = await _userManager.FindByNameAsync(userName);
+            if (_user is null)
+                throw new UserNotFoundException(userName);
+            var userDto = _mapper.Map<UserDto>(_user);
+            var roles = await _userManager.GetRolesAsync(_user);
+            return userDto with { Roles = [.. roles] };
+        }
+
         public async Task<UserDto> GetUserById(Guid id)
         {
             var userFromDb = await _userManager.FindByIdAsync(id.ToString());
