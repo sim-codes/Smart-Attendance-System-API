@@ -14,5 +14,6 @@ namespace Service.Contracts
         IClassroomService ClassroomService { get; }
         IProfileService ProfileService { get; }
         IStudentService StudentService { get; }
+        ILecturerService LecturerService { get; }
     }
 }

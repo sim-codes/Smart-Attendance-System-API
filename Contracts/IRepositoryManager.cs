@@ -12,6 +12,7 @@ namespace Contracts
         IDepartmentRepository Department { get; }
         IClassroomRepository Classroom { get; }
         IStudentRepository Student { get; }
+        ILecturerRepository Lecturer { get; }
         void Save();
         Task SaveAsync();
     }

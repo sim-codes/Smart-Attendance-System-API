@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace SmartAttendance.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241228183602_AddInitialLecturerData")]
+    partial class AddInitialLecturerData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,15 +263,6 @@ namespace SmartAttendance.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Lecturers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8f47b996-12c3-4178-a69f-412b56b8f155"),
-                            DepartmentId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
-                            StaffId = "AU22/07623",
-                            UserId = "0da45a2c-7dda-490e-88ac-ff99fbef5a6a"
-                        });
                 });
 
             modelBuilder.Entity("Entities.Models.Level", b =>

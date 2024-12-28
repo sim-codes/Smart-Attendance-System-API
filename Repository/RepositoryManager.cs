@@ -15,6 +15,7 @@ namespace Repository
         private Lazy<IDepartmentRepository> _departmentRepository;
         private Lazy<IClassroomRepository> _classroomRepository;
         private Lazy<IStudentRepository> _studentRepository;
+        private Lazy<ILecturerRepository> _lecturerRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -23,6 +24,7 @@ namespace Repository
             _departmentRepository = new Lazy<IDepartmentRepository>(() => new DepartmentRepository(_repositoryContext));
             _classroomRepository = new Lazy<IClassroomRepository>(() => new ClassroomRepository(_repositoryContext));
             _studentRepository = new Lazy<IStudentRepository>(() => new StudentRepository(_repositoryContext));
+            _lecturerRepository = new Lazy<ILecturerRepository>(() => new LecturerRepository(_repositoryContext));
         }
 
         public IFacultyRepository Faculty => _facultyRepository.Value;
@@ -30,6 +32,7 @@ namespace Repository
         public IDepartmentRepository Department => _departmentRepository.Value;
         public IClassroomRepository Classroom => _classroomRepository.Value;
         public IStudentRepository Student => _studentRepository.Value;
+        public ILecturerRepository Lecturer => _lecturerRepository.Value;
 
         public void Save() => _repositoryContext.SaveChanges();
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();

@@ -30,15 +30,26 @@ namespace Repository
                 .WithOne(u => u.Student)
                 .HasPrincipalKey<User>(u => u.Id);
 
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Lecturer)
+                .WithOne(l => l.User);
+
+            modelBuilder.Entity<Lecturer>()
+                .HasOne(l => l.User)
+                .WithOne(u => u.Lecturer)
+                .HasPrincipalKey<User>(u => u.Id);
+
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new ClassroomConfiguration());
             modelBuilder.ApplyConfiguration(new LevelConfiguration());
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            modelBuilder.ApplyConfiguration(new LecturerConfiguration());
         }
 
         public DbSet<Student> Students { get; set; }
+        public DbSet<Lecturer> Lecturers { get; set; }
 
         public DbSet<Faculty>? Faculty { get; set; }
         public DbSet<Department>? Department { get; set; }

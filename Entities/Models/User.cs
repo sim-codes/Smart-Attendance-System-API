@@ -16,5 +16,6 @@ namespace Entities.Models
         public string? ProfileImageUrl { get; set; }
 
         public Student? Student { get; set; }
+        public Lecturer? Lecturer { get; set; }
     }
 }
