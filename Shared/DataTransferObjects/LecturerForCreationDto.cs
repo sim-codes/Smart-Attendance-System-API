@@ -11,8 +11,6 @@ namespace Shared.DataTransferObjects
     {
         [Required(ErrorMessage = "Staff ID is a required field.")]
         public string? StaffId { get; set; }
-        [Required(ErrorMessage = "User ID is a required field.")]
-        public string? UserId { get; set; }
         [Required(ErrorMessage = "Department ID is a required field.")]
         public Guid DepartmentId { get; set; }
     }

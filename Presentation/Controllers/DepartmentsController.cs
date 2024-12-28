@@ -46,9 +46,6 @@ namespace Presentation.Controllers
         [HttpPost]
         public IActionResult CreateDepartment(Guid facultyId, [FromBody] DepartmentForCreationDto department)
         {
-            if (department is null)
-                return BadRequest("DepartmentForCreationDto object is null");
-
             var createdDepartment = _service.DepartmentService.CreateDepartment(facultyId, department, trackChanges: false);            
 
             return CreatedAtRoute("DepartmentById", new { facultyId, id = createdDepartment.Id }, createdDepartment);

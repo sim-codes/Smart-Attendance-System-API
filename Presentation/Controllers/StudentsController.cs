@@ -62,9 +62,6 @@ namespace Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateStudent(string userId, [FromBody] StudentForCreationDto student)
         {
-            if (student is null)
-                return BadRequest("StudentForCreationDto object is null");
-
             student.UserId = userId;
 
             var createdStudent = await _services.StudentService.CreateStudent(student);

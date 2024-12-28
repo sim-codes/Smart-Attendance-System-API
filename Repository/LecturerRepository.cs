@@ -34,6 +34,10 @@ namespace Repository
             return lecturer;
         }
 
-        public void CreateLecturer(Lecturer lecturer) => Create(lecturer);
+        public void CreateLecturer(string userId, Lecturer lecturer)
+        {
+            lecturer.UserId = userId;
+            Create(lecturer);
+        }
     }
 }

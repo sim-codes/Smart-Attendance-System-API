@@ -12,7 +12,6 @@ namespace Shared.DataTransferObjects
     {
         [Required(ErrorMessage = "Matriculation number is a required field.")]
         public string? MatriculationNumber { get; set; }
-        public string? UserId { get; set; }
         public Guid LevelId { get; set; }
         public Guid DepartmentId { get; set; }
     }

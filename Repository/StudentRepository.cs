@@ -35,6 +35,10 @@ namespace Repository
             return student;
         }
 
-        public void CreateStudent(Student student) => Create(student);
+        public void CreateStudent(string userId, Student student)
+        {
+            student.UserId = userId;
+            Create(student);
+        }
     }
 }

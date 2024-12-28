@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -35,7 +36,7 @@ namespace Presentation.Controllers
         /// <returns>The student details</returns>
         /// <response code="200">Returns the lecturer details</response>
         /// <response code="404">If the lecturer is not found</response>
-        [HttpGet("{userId}")]
+        [HttpGet("{userId}", Name = "GetLecturerByUserId")]
         [ProducesResponseType(typeof(LecturerDto), 200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetLecturer(string userId)
@@ -44,6 +45,24 @@ namespace Presentation.Controllers
             return Ok(lecturer);
         }
 
+        /// <summary>
+        /// Create a new lecturer
+        /// </summary>
+        /// <param name="userId">The User ID of the lecturer</param>
+        /// <param name="lecturer">The lecturer data for creation</param>
+        /// <returns>The created lecturer</returns>
+        /// <response code="201">Returns the newly created lecturer</response>
+        /// <response code="400">If the leturer data is invalid</response>
+        [HttpPost("{userId}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ProducesResponseType(typeof(LecturerDto), 201)]
+        [ProducesResponseType(400)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateStudent(string userId, [FromBody] LecturerForCreationDto lecturer)
+        {
+            var createdLecturer = await _service.LecturerService.CreateLecturer(userId, lecturer);
 
+            return CreatedAtRoute("GetLecturerByUserId", new { userId = createdLecturer.UserId }, createdLecturer);
+        }
     }
 }

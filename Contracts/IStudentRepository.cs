@@ -11,6 +11,6 @@ namespace Contracts
     {
         Task<IEnumerable<Student>> GetAllStudentsAsync(bool trackChanges);
         Task<Student> GetStudentAsync(string userId, bool trackChanges);
-        void CreateStudent(Student student);
+        void CreateStudent(string userId, Student student);
     }
 }

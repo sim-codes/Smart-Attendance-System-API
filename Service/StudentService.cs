@@ -26,11 +26,11 @@ namespace Service
             _userManager = userManager;
         }
 
-        public async Task<StudentDto> CreateStudent(StudentForCreationDto student)
+        public async Task<StudentDto> CreateStudent(string userId, StudentForCreationDto student)
         {
-            var user = await _userManager.FindByIdAsync(student.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
-                throw new UserNotFoundException(student.UserId);
+                throw new UserNotFoundException(userId);
 
             var studentEntity = _mapper.Map<Student>(student);
             studentEntity.User = user;

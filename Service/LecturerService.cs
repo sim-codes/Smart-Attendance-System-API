@@ -31,11 +31,11 @@ namespace Service
             _userManager = userManager;
         }
 
-        public async Task<LecturerDto> CreateLecturer(LecturerForCreationDto lecturer)
+        public async Task<LecturerDto> CreateLecturer(string userId, LecturerForCreationDto lecturer)
         {
-            var user = await _userManager.FindByIdAsync(lecturer.UserId);
-            if (user == null)
-                throw new UserNotFoundException(lecturer.UserId);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+                throw new UserNotFoundException(userId);
 
             var lecturerEntity = _mapper.Map<Lecturer>(lecturer);
             lecturerEntity.User = user;
@@ -49,7 +49,7 @@ namespace Service
 
         public async Task<LecturerDto> GetLecturerAsync(string userId, bool trackChanges)
         {
-            var lecturer = _repository.Lecturer.GetLecturerAsync(userId, trackChanges);
+            var lecturer = await _repository.Lecturer.GetLecturerAsync(userId, trackChanges);
             if (lecturer is null)
                 throw new LecturerNotFoundException(userId);
 
