@@ -9,8 +9,8 @@ namespace Entities.Exceptions
 {
     public sealed class UserNotFoundException : NotFoundException
     {
-        public UserNotFoundException(string userId)
-            : base($"The User with id: {userId} doesn't exist in the database.")
+        public UserNotFoundException(string userIdOrEmail)
+            : base($"The User with {userIdOrEmail} doesn't exist in the database.")
         { }
     }
 }

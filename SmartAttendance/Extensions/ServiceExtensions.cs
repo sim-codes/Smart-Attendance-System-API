@@ -58,6 +58,14 @@ namespace SmartAttendance.Extensions
             .AddDefaultTokenProviders();
         }
 
+        public static void ConfigureTokenProtection(this IServiceCollection services)
+        {
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromMinutes(10);
+            });
+        }
+
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtConfiguration = new JwtConfiguration();

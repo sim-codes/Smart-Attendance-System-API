@@ -66,5 +66,76 @@ namespace Presentation.Controllers
 
             return Ok(new { Token = tokenDto, User = userProfile });
         }
+
+        /// <summary>
+        /// Generate a password reset token
+        /// </summary>
+        /// <param name="email">The email of the user</param>
+        /// <returns>The password reset token</returns>
+        /// <response code="200">Returns the password reset token</response>
+        /// <response code="404">If the user is not found</response>
+        [HttpPost("generate-reset-token")]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GeneratePasswordResetToken([FromBody] string email)
+        {
+            var token = await _service.AuthenticationService.GeneratePasswordResetTokenAsync(email);
+            return Ok(token);
+        }
+
+            /// <summary>
+            /// Reset the password
+            /// </summary>
+            /// <param name="resetPasswordDto">The password reset data</param>
+            /// <returns>Status code 200 if the password is reset successfully</returns>
+            /// <response code="200">Returns status code 200 if the password is reset successfully</response>
+            /// <response code="400">If the password reset data is invalid</response>
+            /// <response code="404">If the user is not found</response>
+            [HttpPost("reset-password")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            var result = await _service.AuthenticationService.ResetPasswordAsync(resetPasswordDto.Email, resetPasswordDto.Token, resetPasswordDto.NewPassword);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Change the password
+        /// </summary>
+        /// <param name="changePasswordDto">The password change data</param>
+        /// <returns>Status code 200 if the password is changed successfully</returns>
+        /// <response code="200">Returns status code 200 if the password is changed successfully</response>
+        /// <response code="400">If the password change data is invalid</response>
+        /// <response code="404">If the user is not found</response>
+        [HttpPost("change-password")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            var result = await _service.AuthenticationService.ChangePasswordAsync(changePasswordDto);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
+        }
     }
 }
