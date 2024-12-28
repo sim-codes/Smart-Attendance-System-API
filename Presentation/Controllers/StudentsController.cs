@@ -62,9 +62,8 @@ namespace Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateStudent(string userId, [FromBody] StudentForCreationDto student)
         {
-            student.UserId = userId;
 
-            var createdStudent = await _services.StudentService.CreateStudent(student);
+            var createdStudent = await _services.StudentService.CreateStudent(userId, student);
 
             return CreatedAtRoute("GetStudentByUserId", new { userId = createdStudent.UserId }, createdStudent);
         }

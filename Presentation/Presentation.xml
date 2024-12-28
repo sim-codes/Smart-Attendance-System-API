@@ -97,6 +97,16 @@
             <response code="200">Returns the lecturer details</response>
             <response code="404">If the lecturer is not found</response>
         </member>
+        <member name="M:Presentation.Controllers.LecturersController.CreateStudent(System.String,Shared.DataTransferObjects.LecturerForCreationDto)">
+            <summary>
+            Create a new lecturer
+            </summary>
+            <param name="userId">The User ID of the lecturer</param>
+            <param name="lecturer">The lecturer data for creation</param>
+            <returns>The created lecturer</returns>
+            <response code="201">Returns the newly created lecturer</response>
+            <response code="400">If the leturer data is invalid</response>
+        </member>
         <member name="M:Presentation.Controllers.StudentsController.GetAllStudents">
             <summary>
             Get the list of all students

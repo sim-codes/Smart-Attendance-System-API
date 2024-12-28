@@ -35,7 +35,7 @@ namespace Service
             var studentEntity = _mapper.Map<Student>(student);
             studentEntity.User = user;
 
-            _repository.Student.CreateStudent(studentEntity);
+            _repository.Student.CreateStudent(userId, studentEntity);
             await _repository.SaveAsync();
 
             var createdStudent = _mapper.Map<StudentDto>(studentEntity);

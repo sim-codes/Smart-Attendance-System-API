@@ -40,7 +40,7 @@ namespace Service
             var lecturerEntity = _mapper.Map<Lecturer>(lecturer);
             lecturerEntity.User = user;
 
-            _repository.Lecturer.CreateLecturer(lecturerEntity);
+            _repository.Lecturer.CreateLecturer(userId, lecturerEntity);
             await _repository.SaveAsync();
 
             var createdLecturer = _mapper.Map<LecturerDto>(lecturerEntity);
