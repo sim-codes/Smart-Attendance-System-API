@@ -21,6 +21,7 @@ namespace Service
         private readonly Lazy<IProfileService> _profileService;
         private readonly Lazy<IStudentService> _studentService;
         private readonly Lazy<ILecturerService> _lecturerService;
+        private readonly Lazy<IAcademicSessionService> _academicSessionService;
 
         public ServiceManager(IRepositoryManager repositoryManager, 
             ILoggerManager logger,
@@ -35,6 +36,7 @@ namespace Service
             _profileService = new Lazy<IProfileService>(() => new ProfileService(logger, mapper, userManager, configuration));
             _studentService = new Lazy<IStudentService>(() => new StudentService(repositoryManager, logger, mapper, userManager));
             _lecturerService = new Lazy<ILecturerService>(() => new LecturerService(repositoryManager, logger, mapper, userManager));
+            _academicSessionService = new Lazy<IAcademicSessionService>(() => new AcademicSessionService(repositoryManager, logger, mapper));
         }
 
         public IFacultyService FacultyService => _facultyService.Value;
@@ -44,5 +46,6 @@ namespace Service
         public IProfileService ProfileService => _profileService.Value;
         public IStudentService StudentService => _studentService.Value;
         public ILecturerService LecturerService => _lecturerService.Value;
+        public IAcademicSessionService AcademicSessionService => _academicSessionService.Value;
     }
 }

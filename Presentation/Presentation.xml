@@ -4,6 +4,32 @@
         <name>Presentation</name>
     </assembly>
     <members>
+        <member name="M:Presentation.Controllers.AcademicSessionsController.GetAcademicSession(System.Guid)">
+            <summary>
+            Get a specific academic session by ID
+            </summary>
+            <param name="id">The ID of the academic session</param>
+            <returns>The academic session details</returns>
+            <response code="200">Returns the academic session details</response>
+            <response code="404">If the academic session is not found</response>
+        </member>
+        <member name="M:Presentation.Controllers.AcademicSessionsController.CreateAcademicSession(Shared.DataTransferObjects.AcademicSessionForCreationDto)">
+            <summary>
+            Create a new academic session
+            </summary>
+            <param name="academicSession">The academic session data for creation</param>
+            <returns>The created academic session</returns>
+            <response code="201">Returns the newly created academic session</response>
+            <response code="400">If the academic session data is invalid</response>
+        </member>
+        <member name="M:Presentation.Controllers.AcademicSessionsController.DeleteAcademicSession(System.Guid)">
+            <summary>
+            Delete an academic session by ID
+            </summary>
+            <param name="id">The ID of the academic session to delete</param>
+            <response code="204">If the academic session is successfully deleted</response>
+            <response code="404">If the academic session is not found</response>
+        </member>
         <member name="M:Presentation.Controllers.AuthenticationController.RegisterUser(Shared.DataTransferObjects.UserForRegistrationDto)">
             <summary>
             Register a new user

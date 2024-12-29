@@ -13,6 +13,7 @@ namespace Contracts
         IClassroomRepository Classroom { get; }
         IStudentRepository Student { get; }
         ILecturerRepository Lecturer { get; }
+        IAcademicSessionRepository AcademicSession { get; }
         void Save();
         Task SaveAsync();
     }

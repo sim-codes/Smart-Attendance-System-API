@@ -6,7 +6,7 @@ using Shared.DataTransferObjects;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/faculties")]
     [ApiController]
     public class FacultiesController : ControllerBase
     {

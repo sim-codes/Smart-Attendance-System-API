@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace SmartAttendance.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241229170250_UpdateSessionDataTimeFields")]
+    partial class UpdateSessionDataTimeFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +35,7 @@ namespace SmartAttendance.Migrations
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool?>("IsActice")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -45,7 +48,7 @@ namespace SmartAttendance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AcademicSessions");
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("Entities.Models.Classroom", b =>
