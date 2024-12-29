@@ -169,23 +169,23 @@ namespace Service
             return await CreateToken(populateExp: false);
         }
 
-        public async Task<string> GeneratePasswordResetTokenAsync(string email)
+        public async Task<string> GeneratePasswordResetTokenAsync(GenerateResetPasswordDto generateResetPassword)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(generateResetPassword.Email);
             if (user is  null)
-                throw new UserNotFoundException(email);
+                throw new UserNotFoundException(generateResetPassword.Email);
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             return token;
         }
 
-        public async Task<IdentityResult> ResetPasswordAsync(string email, string token, string newPassword)
+        public async Task<IdentityResult> ResetPasswordAsync(ResetPasswordDto resetPassword)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(resetPassword.Email);
             if (user is null)
-                throw new UserNotFoundException(email);
+                throw new UserNotFoundException(resetPassword.Email);
 
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            var result = await _userManager.ResetPasswordAsync(user, resetPassword.Email, resetPassword.NewPassword);
             return result;
         }
 
