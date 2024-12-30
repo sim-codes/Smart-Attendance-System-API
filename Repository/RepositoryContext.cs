@@ -52,11 +52,11 @@ namespace Repository
         public DbSet<Student> Students { get; set; }
         public DbSet<Lecturer> Lecturers { get; set; }
 
-        public DbSet<Faculty>? Faculty { get; set; }
-        public DbSet<Department>? Department { get; set; }
-        public DbSet<Classroom>? Classroom { get; set; }
-        public DbSet<Course>? Course { get; set; }
-        public DbSet<CourseClassroom>? CourseClassroom { get; set; }
+        public DbSet<Faculty>? Faculties { get; set; }
+        public DbSet<Department>? Departments { get; set; }
+        public DbSet<Classroom>? Classrooms { get; set; }
+        public DbSet<Course>? Courses { get; set; }
+        public DbSet<ClassScheduleRepository>? ClassSchedules { get; set; }
         public DbSet<Level>? Level { get; set; }
     }
 }

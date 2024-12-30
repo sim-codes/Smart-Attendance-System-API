@@ -33,6 +33,6 @@ namespace Entities.Models
         public Guid FacultyId { get; set; }
         public Faculty? Faculty { get; set; }
 
-        public ICollection<CourseClassroom>? CourseClassrooms { get; set; }
+        public ICollection<ClassSchedule>? ClassSchedules { get; set; }
     }
 }

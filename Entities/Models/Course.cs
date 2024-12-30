@@ -27,13 +27,13 @@ namespace Entities.Models
 
         [ForeignKey(nameof(Department))]
         public Guid DepartmentId { get; set; }
-        public Department? Department { get; set; }
+        public virtual Department? Department { get; set; }
 
         [ForeignKey(nameof(Level))]
         public Guid LevelId { get; set; }
         [DeleteBehavior(DeleteBehavior.NoAction)]
-        public Level? Level { get; set; }
+        public virtual Level? Level { get; set; }
 
-        public ICollection<CourseClassroom>? CourseClassrooms { get; set; }
+        public virtual ICollection<ClassSchedule>? ClassSchedules { get; set; }
     }
 }

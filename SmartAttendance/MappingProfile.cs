@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Models;
+using Shared;
 using Shared.DataTransferObjects;
 
 namespace SmartAttendance
@@ -8,6 +9,8 @@ namespace SmartAttendance
     {
         public MappingProfile()
         {
+            CreateMap<ClassSchedule, ClassScheduleDto>();
+            CreateMap<ClassScheduleForCreationDto, ClassSchedule>();
             CreateMap<AcademicSession, AcademicSessionDto>();
             CreateMap<Faculty, FacultyDto>();
             CreateMap<Department, DepartmentDto>();
