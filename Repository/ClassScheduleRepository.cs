@@ -11,7 +11,9 @@ namespace Repository
     public class ClassScheduleRepository : RepositoryBase<ClassSchedule>, IClassScheduleRepository
     {
         public ClassScheduleRepository(RepositoryContext repositoryContext)
-            : base(repositoryContext) { }
+            : base(repositoryContext)
+        {
+        }
 
         public void CreateClassSchedule(ClassSchedule schedule) => Create(schedule);
 

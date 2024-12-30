@@ -21,7 +21,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public ClassroomDto CreateClassSchedule(ClassScheduleForCreationDto classSchedule)
+        public ClassScheduleDto CreateClassSchedule(ClassScheduleForCreationDto classSchedule)
         {
             var scheduleEntity = _mapper.Map<ClassSchedule>(classSchedule);
 
@@ -29,7 +29,7 @@ namespace Service
             _repositoryManager.Save();
 
             var scheduleToReturn = _mapper.Map<ClassScheduleDto>(scheduleEntity);
-            return scheduleEntity;
+            return scheduleToReturn;
         }
 
         public ClassScheduleDto GetClassScheduleById(Guid Id, bool trackChanges)
@@ -42,9 +42,11 @@ namespace Service
             return classScheduleDto;
         }
 
-        public IEnumerable<ClassScheduleDto> GetClassSchedules()
+        public IEnumerable<ClassScheduleDto> GetClassSchedules(bool trackChanges)
         {
-            throw new NotImplementedException();
+            var classSchedules = _repositoryManager.ClassSchedule.GetClassSchedules(trackChanges);
+            var classSchedulesDto = _mapper.Map<IEnumerable<ClassScheduleDto>>(classSchedules);
+            return classSchedulesDto;
         }
     }
 }

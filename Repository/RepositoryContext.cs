@@ -39,6 +39,11 @@ namespace Repository
                 .WithOne(u => u.Lecturer)
                 .HasPrincipalKey<User>(u => u.Id);
 
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Level)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
@@ -56,7 +61,7 @@ namespace Repository
         public DbSet<Department>? Departments { get; set; }
         public DbSet<Classroom>? Classrooms { get; set; }
         public DbSet<Course>? Courses { get; set; }
-        public DbSet<ClassScheduleRepository>? ClassSchedules { get; set; }
+        public DbSet<ClassSchedule>? ClassSchedules { get; set; }
         public DbSet<Level>? Level { get; set; }
     }
 }

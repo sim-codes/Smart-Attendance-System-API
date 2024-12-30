@@ -10,8 +10,8 @@ namespace Service.Contracts
 {
     public interface IClassScheduleService
     {
-        IEnumerable<ClassScheduleDto> GetClassSchedules();
+        IEnumerable<ClassScheduleDto> GetClassSchedules(bool trackChanges);
         ClassScheduleDto GetClassScheduleById(Guid Id, bool trackChanges);
-        ClassroomDto CreateClassSchedule(ClassScheduleForCreationDto classSchedule);
+        ClassScheduleDto CreateClassSchedule(ClassScheduleForCreationDto classSchedule);
     }
 }

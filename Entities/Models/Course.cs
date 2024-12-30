@@ -16,24 +16,23 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Course Title is a required field.")]
         [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters.")]
-        public string? Title { get; set; }
+        public string Title { get; set; }
 
         [Required(ErrorMessage = "Course code is a required field.")]
         [MaxLength(10, ErrorMessage = "Maximum length for the Code is 10 characters.")]
-        public string? Code { get; set; }
+        public string Code { get; set; }
 
         [Required(ErrorMessage = "Course credit unit is a required field.")]
         public int CreditUnits { get; set; }
 
         [ForeignKey(nameof(Department))]
         public Guid DepartmentId { get; set; }
-        public virtual Department? Department { get; set; }
+        public virtual Department Department { get; set; }
 
         [ForeignKey(nameof(Level))]
         public Guid LevelId { get; set; }
-        [DeleteBehavior(DeleteBehavior.NoAction)]
-        public virtual Level? Level { get; set; }
+        public virtual Level Level { get; set; }
 
-        public virtual ICollection<ClassSchedule>? ClassSchedules { get; set; }
+        public virtual ICollection<ClassSchedule> ClassSchedules { get; set; }
     }
 }
