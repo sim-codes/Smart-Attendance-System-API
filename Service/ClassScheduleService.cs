@@ -2,7 +2,6 @@
 using Contracts;
 using Entities.Models;
 using Service.Contracts;
-using Shared;
 using Shared.DataTransferObjects;
 using Entities.Exceptions;
 

@@ -44,6 +44,10 @@ namespace Repository
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<ClassSchedule>()
+                .Property(b => b.UpdatedAt)
+                .HasDefaultValueSql("GETUTCDATE()");
+
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
@@ -51,6 +55,7 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new LevelConfiguration());
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
             modelBuilder.ApplyConfiguration(new LecturerConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseConfiguration());
         }
 
         public DbSet<AcademicSession> AcademicSessions { get; set; }

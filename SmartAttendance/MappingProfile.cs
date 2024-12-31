@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Entities.Models;
-using Shared;
 using Shared.DataTransferObjects;
 
 namespace SmartAttendance
