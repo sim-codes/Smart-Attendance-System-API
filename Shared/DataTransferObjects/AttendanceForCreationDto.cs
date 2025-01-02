@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Shared.DataTransferObjects
 {
@@ -18,5 +13,11 @@ namespace Shared.DataTransferObjects
 
         [Required]
         public Guid CourseId { get; init; }
+
+        [Required]
+        public double StudentLon { get; init; }
+
+        [Required]
+        public double StudentLat { get; init; }
     }
 }
