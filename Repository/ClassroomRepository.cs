@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,10 @@ namespace Repository
             classroom.FacultyId = facultyId;
             Create(classroom);
         }
+
+        public async Task<Classroom> GetClassroomByCourseScheduleAsync(Guid scheduleId, bool trackChanges) =>
+            await FindByCondition(c => c.ClassSchedules.Any(cs => cs.Id.Equals(scheduleId)), trackChanges)
+            .SingleOrDefaultAsync();
 
         public void DeleteClassroom(Classroom classroom) => Delete(classroom);
     }

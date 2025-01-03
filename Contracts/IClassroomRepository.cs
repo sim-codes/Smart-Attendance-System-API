@@ -11,6 +11,7 @@ namespace Contracts
     {
         IEnumerable<Classroom> GetClassrooms(Guid facultyId, bool trackChanges);
         Classroom GetClassroom(Guid facultyId, Guid id, bool trackChanges);
+        Task<Classroom> GetClassroomByCourseScheduleAsync(Guid scheduleId, bool trackChanges);
         void CreateClassroom(Guid facultyId, Classroom classroom);
         void DeleteClassroom(Classroom classroom);
     }

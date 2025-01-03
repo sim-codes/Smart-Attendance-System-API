@@ -11,6 +11,7 @@ namespace Service.Contracts
     {
         IEnumerable<AttendanceDto> GetAttendances(bool trackChanges);
         AttendanceDto GetAttendance(Guid attendanceId, bool trackChanges);
-        AttendanceDto CreateAttendance(AttendanceForCreationDto attendance);
+        Task<(bool isVaid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance);
+        Task<AttendanceDto> CreateAttendance(string userId,AttendanceForCreationDto attendance);
     }
 }

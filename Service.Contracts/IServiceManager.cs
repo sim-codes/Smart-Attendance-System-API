@@ -17,5 +17,6 @@ namespace Service.Contracts
         ILecturerService LecturerService { get; }
         IAcademicSessionService AcademicSessionService { get; }
         IClassScheduleService ClassScheduleService { get; }
+        IAttendanceService AttendanceService { get; }
     }
 }

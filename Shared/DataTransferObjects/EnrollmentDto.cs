@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-    public record EnrollmentDto(Guid Id, DateTime EnrollmentDate, Guid StudentId, Guid CourseId);
+    public record EnrollmentDto(Guid Id, DateTime EnrollmentDate, string UserId, Guid CourseId);
 }

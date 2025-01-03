@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Entities.Models
 {
@@ -9,13 +10,15 @@ namespace Entities.Models
         public Guid Id { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Student))]
-        public Guid StudentId { get; set; }
-        public virtual Student? Student { get; set; }
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
+        public virtual User? User { get; set; }
 
         [Required]
         [ForeignKey(nameof(Course))]
         public Guid CourseId { get; set; }
+
+        [DeleteBehavior(DeleteBehavior.NoAction)]
         public virtual Course? Course { get; set; }
 
         public DateTime EnrollmentDate { get; set; } = DateTime.UtcNow;

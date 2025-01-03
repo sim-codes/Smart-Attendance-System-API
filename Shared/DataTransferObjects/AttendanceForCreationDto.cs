@@ -9,9 +9,6 @@ namespace Shared.DataTransferObjects
         public string? Notes { get; init; }
 
         [Required]
-        public Guid StudentId { get; init; }
-
-        [Required]
         public Guid CourseId { get; init; }
 
         [Required]

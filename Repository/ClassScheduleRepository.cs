@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +26,24 @@ namespace Repository
             FindAll(tackChanges)
             .OrderBy(s => s.DayOfWeek)
             .ToList();
+
+        public async Task<ClassSchedule> GetActiveScheduleForCourseAsync(Guid courseId, bool trackChanges)
+        {
+            var currentTime = DateTime.Now;
+            var currentDayOfWeek = currentTime.DayOfWeek.ToString();
+            var currentTimeOnly = TimeOnly.FromDateTime(currentTime);
+
+            var activeSchedule = await FindByCondition(cs =>
+                cs.CourseId.Equals(courseId) &&
+                cs.DayOfWeek == currentDayOfWeek &&
+                cs.StartTime <= currentTimeOnly &&
+                cs.EndTime >= currentTimeOnly,
+                trackChanges)
+                .Include(cs => cs.Classroom)
+                .SingleOrDefaultAsync();
+
+            return activeSchedule;
+        }
+            
     }
 }

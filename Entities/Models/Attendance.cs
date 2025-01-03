@@ -19,10 +19,10 @@ namespace Entities.Models
 
         public string? Notes { get; set; }
 
-        [ForeignKey(nameof(Student))]
-        public Guid StudentId { get; set; }
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
         [DeleteBehavior(DeleteBehavior.NoAction)]
-        public Student Student { get; set; }
+        public User User { get; set; }
 
         [ForeignKey(nameof(Course))]
         public Guid CourseId { get; set; }

@@ -23,6 +23,7 @@ namespace Service
         private readonly Lazy<ILecturerService> _lecturerService;
         private readonly Lazy<IAcademicSessionService> _academicSessionService;
         private readonly Lazy<IClassScheduleService> _classScheduleService;
+        private readonly Lazy<IAttendanceService> _attendanceService;
 
         public ServiceManager(IRepositoryManager repositoryManager, 
             ILoggerManager logger,
@@ -39,6 +40,7 @@ namespace Service
             _lecturerService = new Lazy<ILecturerService>(() => new LecturerService(repositoryManager, logger, mapper, userManager));
             _academicSessionService = new Lazy<IAcademicSessionService>(() => new AcademicSessionService(repositoryManager, logger, mapper));
             _classScheduleService = new Lazy<IClassScheduleService>(() => new ClassScheduleService(repositoryManager, logger, mapper));
+            _attendanceService = new Lazy<IAttendanceService>(() => new AttendanceService(repositoryManager, logger, mapper));
         }
 
         public IFacultyService FacultyService => _facultyService.Value;
@@ -50,5 +52,6 @@ namespace Service
         public ILecturerService LecturerService => _lecturerService.Value;
         public IAcademicSessionService AcademicSessionService => _academicSessionService.Value;
         public IClassScheduleService ClassScheduleService => _classScheduleService.Value;
+        public IAttendanceService AttendanceService => _attendanceService.Value;
     }
 }

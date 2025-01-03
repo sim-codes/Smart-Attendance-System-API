@@ -8,6 +8,7 @@ namespace SmartAttendance
     {
         public MappingProfile()
         {
+            CreateMap<AttendanceForCreationDto, Attendance>();
             CreateMap<Attendance, AttendanceDto>()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
             CreateMap<ClassSchedule, ClassScheduleDto>();

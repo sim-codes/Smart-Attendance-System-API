@@ -69,5 +69,6 @@ namespace Repository
         public DbSet<ClassSchedule>? ClassSchedules { get; set; }
         public DbSet<Level>? Level { get; set; }
         public DbSet<Attendance>? Attendances { get; set; }
+        public DbSet<Enrollment>? Enrollments { get; set; }
     }
 }

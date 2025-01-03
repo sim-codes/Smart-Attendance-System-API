@@ -3,6 +3,7 @@ using Contracts;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Entities.Exceptions;
+using Entities.Models;
 
 namespace Service
 {
@@ -20,9 +21,22 @@ namespace Service
             _mapper = mapper;
         }
 
-        public AttendanceDto CreateAttendance(AttendanceForCreationDto attendance)
+        public async Task<AttendanceDto> CreateAttendance(string userId, AttendanceForCreationDto attendance)
         {
-            throw new NotImplementedException();
+            var (isValid, message) = await ValiidateAttendance(attendance);
+
+            if (!isValid)
+                throw new AttendanceValidationException(message);
+
+            var attendanceEntity = _mapper.Map<Attendance>(attendance);
+            attendanceEntity.UserId = userId;
+            attendanceEntity.RecordedAt = DateTime.UtcNow;
+
+            _repository.Attendance.CreateAttendance(attendanceEntity);
+            await _repository.SaveAsync();
+
+            var attendanceDto = _mapper.Map<AttendanceDto>(attendanceEntity);
+            return attendanceDto;
         }
 
         public AttendanceDto GetAttendance(Guid attendanceId, bool trackChanges)
@@ -40,6 +54,41 @@ namespace Service
             var attendances = _repository.Attendance.GetAllAttendances(trackChanges);
             var attendancesDto = _mapper.Map<IEnumerable<AttendanceDto>>(attendances);
             return attendancesDto;
+        }
+
+        public async Task<(bool isVaid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance)
+        {
+            var activeSchedule = await _repository.ClassSchedule.GetActiveScheduleForCourseAsync(attendance.CourseId, false);
+            if (activeSchedule is null)
+            {
+                _logger.LogError($"No active schedule found for course with id {attendance.CourseId}");
+                return (false, "No active schedule found for course");
+            }
+
+            var classroom = await _repository.Classroom.GetClassroomByCourseScheduleAsync(activeSchedule.Id, false);
+
+            var isWithinBoundary = IsPointWithinBoundary(
+                attendance.StudentLat,
+                attendance.StudentLon,
+                classroom);
+
+            if (!isWithinBoundary)
+            {
+                _logger.LogError($"Student is not within the boundary of the classroom with id {classroom.Id}");
+                return (false, "Student is not within the boundary of the classroom");
+            }
+                return (true, "Location is verified successfully");
+        }
+
+        private bool IsPointWithinBoundary(double lat, double lon, Classroom classroom)
+        {
+            bool isWithinLatitude = lat >= Math.Min(classroom.BottomLeftLat, classroom.BottomRightLat) &&
+                lat <= Math.Max(classroom.TopLeftLat, classroom.TopRightLat);
+
+            bool isWithinLongitude = lon >= Math.Min(classroom.BottomLeftLon, classroom.TopLeftLon) &&
+                lon <= Math.Max(classroom.BottomRightLon, classroom.TopRightLon);
+
+            return isWithinLatitude && isWithinLongitude;
         }
     }
 }
