@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -56,6 +57,7 @@ namespace Presentation.Controllers
         [HttpPost(Name = "CreateLevel")]
         [ProducesResponseType(typeof(LevelDto), 201)]
         [ProducesResponseType(400)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateLevel([FromBody] LevelForCreationDto level)
         {
             var createdLevel = _service.LevelService.CreateLevel(level);

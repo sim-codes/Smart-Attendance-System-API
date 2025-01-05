@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -59,6 +60,7 @@ namespace Presentation.Controllers
         [HttpPost(Name = "CreateCourseForDepartment")]
         [ProducesResponseType(typeof(CourseDto), 201)]
         [ProducesResponseType(400)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateCourseForDepartment(Guid departmentId, [FromBody] CourseForCreationDto course)
         {
             if (course == null)

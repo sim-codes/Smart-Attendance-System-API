@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -56,6 +57,7 @@ namespace Presentation.Controllers
         [HttpPost(Name = "CreateClassSchedule")]
         [ProducesResponseType(typeof(ClassScheduleDto), 201)]
         [ProducesResponseType(400)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateClassSchedule([FromBody] ClassScheduleForCreationDto classSchedule)
         {
             var createdClassSchedule = _service.ClassScheduleService.CreateClassSchedule(classSchedule);
@@ -68,7 +70,10 @@ namespace Presentation.Controllers
         /// <param name="Id">The ID of the class schedule</param>
         /// <param name="classSchedule">The class schedule data for update</param>
         /// <returns>Status code 204 if the class schedule is updated successfully</returns>
+        /// <response code="204">Returns status code 204 if the class schedule is updated successfully</response>
         [HttpPut("{Id}", Name = "UpdateClassSchedule")]
+        [ProducesResponseType(204)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult UpdateClassSchedule(Guid Id, [FromBody] ClassScheduleForUpdateDto classSchedule)
         {
             _service.ClassScheduleService.UpdateClassSchedule(Id, classSchedule, trackChanges: true);
