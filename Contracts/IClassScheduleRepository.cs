@@ -12,6 +12,7 @@ namespace Contracts
         IEnumerable<ClassSchedule> GetClassSchedules(bool tackChanges);
         ClassSchedule GetClassSchedule(Guid scheduleId, bool trackChanges);
         void CreateClassSchedule(ClassSchedule schedule);
+        void DeleteClassSchedule(ClassSchedule schedule);
         Task<ClassSchedule> GetActiveScheduleForCourseAsync(Guid courseId, bool trackChanges);
     }
 }

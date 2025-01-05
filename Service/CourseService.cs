@@ -61,5 +61,19 @@ namespace Service
             var courseDto = _mapper.Map<CourseDto>(courseEntity);
             return courseDto;
         }
+
+        public void DeleteCourseForDepartment(Guid departmentId, Guid id)
+        {
+            var department = _repository.Department.GetDepartment(departmentId, trackChanges: false);
+            if (department is null)
+                throw new DepartmentNotFoundException(departmentId);
+
+            var course = _repository.Course.GetDepartmentalCourse(departmentId, id, trackChanges: false);
+            if (course is null)
+                throw new CourseNotFoundException(id);
+
+            _repository.Course.DeleteDepartmentalCourse(course);
+            _repository.Save();
+        }
     }
 }

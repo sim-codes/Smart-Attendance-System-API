@@ -74,5 +74,17 @@ namespace Presentation.Controllers
             _service.ClassScheduleService.UpdateClassSchedule(Id, classSchedule, trackChanges: true);
             return NoContent();
         }
+
+        /// <summary>
+        /// Delete a specific class scheddule by ID
+        /// </summary>
+        /// <param name="id">The ID for the class schedule to delete</param>
+        /// <returns>Empty response</returns>
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteClassSchedule(Guid id)
+        {
+            _service.ClassScheduleService.DeleteClassSchedule(id);
+            return NoContent();
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace Service.Contracts
         ClassScheduleDto GetClassScheduleById(Guid Id, bool trackChanges);
         ClassScheduleDto CreateClassSchedule(ClassScheduleForCreationDto classSchedule);
         void UpdateClassSchedule(Guid Id, ClassScheduleForUpdateDto classSchedule, bool trackChanges);
+        void DeleteClassSchedule(Guid Id);
     }
 }

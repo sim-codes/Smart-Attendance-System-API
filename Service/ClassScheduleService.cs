@@ -58,5 +58,15 @@ namespace Service
             _mapper.Map(classSchedule, classScheduleEntity);
             _repositoryManager.Save();
         }
+
+        public void DeleteClassSchedule(Guid Id)
+        {
+            var classScheduleEntity = _repositoryManager.ClassSchedule.GetClassSchedule(Id, false);
+            if (classScheduleEntity is null)
+                throw new ClassScheduleNotFoundException(Id);
+
+            _repositoryManager.ClassSchedule.DeleteClassSchedule(classScheduleEntity);
+            _repositoryManager.Save();
+        }
     }
 }

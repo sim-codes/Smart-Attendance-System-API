@@ -20,5 +20,7 @@ namespace Repository
             course.DepartmentId = departmentId;
             Create(course);
         }
+
+        public void DeleteDepartmentalCourse(Course course) => Delete(course);
     }
 }

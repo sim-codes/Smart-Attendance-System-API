@@ -67,5 +67,18 @@ namespace Presentation.Controllers
             var createdCourse = _service.CourseService.CreateCourseForDepartment(departmentId, course, trackChanges: false);
             return CreatedAtRoute("GetCourseById", new { departmentId, id = createdCourse.Id }, createdCourse);
         }
+
+        /// <summary>
+        /// Delete a specific course by ID
+        /// </summary>
+        /// <param name="departmentId">The ID for the department to delete course for</param>
+        /// <param name="id">The ID for the course to delete</param>
+        /// <returns>Empty response</returns>
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteCourseForDepartment(Guid departmentId, Guid id)
+        {
+            _service.CourseService.DeleteCourseForDepartment(departmentId, id);
+            return NoContent();
+        }
     }
 }

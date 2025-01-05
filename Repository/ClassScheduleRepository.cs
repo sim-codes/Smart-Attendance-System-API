@@ -27,6 +27,8 @@ namespace Repository
             .OrderBy(s => s.DayOfWeek)
             .ToList();
 
+        public void DeleteClassSchedule(ClassSchedule schedule) => Delete(schedule);
+
         public async Task<ClassSchedule> GetActiveScheduleForCourseAsync(Guid courseId, bool trackChanges)
         {
             var currentTime = DateTime.Now;
