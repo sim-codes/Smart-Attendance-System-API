@@ -14,7 +14,7 @@ namespace Repository
             FindByCondition(e => e.FacultyId.Equals(facultyId), trackChanges)
             .OrderBy(e => e.Name).ToList();
 
-        public Department GetDepartment(Guid facultyId, Guid id, bool trackChanges) =>
+        public Department GetFacultyDepartment(Guid facultyId, Guid id, bool trackChanges) =>
             FindByCondition(e => e.FacultyId.Equals(facultyId) && e.Id.Equals(id), trackChanges)
             .SingleOrDefault();
 
@@ -23,5 +23,9 @@ namespace Repository
             department.FacultyId = facultyId;
             Create(department);
         }
+
+        public Department GetDepartment(Guid id, bool trackChanges) =>
+            FindByCondition(e => e.Id.Equals(id), trackChanges)
+            .SingleOrDefault();
     }
 } 

@@ -8,13 +8,14 @@ namespace SmartAttendance
     {
         public MappingProfile()
         {
+            CreateMap<Course, CourseDto>();
+            CreateMap<CourseForCreationDto, Course>();
             CreateMap<AttendanceForCreationDto, Attendance>();
             CreateMap<Attendance, AttendanceDto>()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
             CreateMap<ClassSchedule, ClassScheduleDto>();
             CreateMap<ClassScheduleForCreationDto, ClassSchedule>();
-            CreateMap<ClassScheduleForUpdateDto, ClassSchedule>()
-                .ForAllMembers(opts => opts.Condition((src, dest, srcValue) => srcValue != null));
+            CreateMap<ClassScheduleForUpdateDto, ClassSchedule>();
             CreateMap<AcademicSession, AcademicSessionDto>();
             CreateMap<Faculty, FacultyDto>();
             CreateMap<Department, DepartmentDto>();

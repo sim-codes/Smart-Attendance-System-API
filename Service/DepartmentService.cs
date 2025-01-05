@@ -43,7 +43,7 @@ namespace Service
             if (faculty is null)
                 throw new FacultyNotFoundException(facultyId);
 
-            var departmentFromDb = _repository.Department.GetDepartment(facultyId, id, trackChanges);
+            var departmentFromDb = _repository.Department.GetFacultyDepartment(facultyId, id, trackChanges);
             if (departmentFromDb is null)
                 throw new DepartmentNotFoundException(id);
 

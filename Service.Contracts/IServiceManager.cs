@@ -18,5 +18,6 @@ namespace Service.Contracts
         IAcademicSessionService AcademicSessionService { get; }
         IClassScheduleService ClassScheduleService { get; }
         IAttendanceService AttendanceService { get; }
+        ICourseService CourseService { get; }
     }
 }

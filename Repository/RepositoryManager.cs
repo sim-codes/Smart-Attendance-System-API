@@ -19,6 +19,7 @@ namespace Repository
         private Lazy<IAcademicSessionRepository> _academicSessionRepository;
         private Lazy<IClassScheduleRepository> _classScheduleRepository;
         private Lazy<IAttendanceRepository> _attendanceRepository;
+        private Lazy<ICourseRepository> _courseRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -31,6 +32,7 @@ namespace Repository
             _academicSessionRepository = new Lazy<IAcademicSessionRepository>(() => new AcademicSessionRepository(_repositoryContext));
             _classScheduleRepository = new Lazy<IClassScheduleRepository>(() => new ClassScheduleRepository(_repositoryContext));
             _attendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(_repositoryContext));
+            _courseRepository = new Lazy<ICourseRepository>(() => new CourseRepository(_repositoryContext));
         }
 
         public IFacultyRepository Faculty => _facultyRepository.Value;
@@ -41,6 +43,7 @@ namespace Repository
         public ILecturerRepository Lecturer => _lecturerRepository.Value;
         public IAcademicSessionRepository AcademicSession => _academicSessionRepository.Value;
         public IClassScheduleRepository ClassSchedule => _classScheduleRepository.Value;
+        public ICourseRepository Course => _courseRepository.Value;
 
         public void Save() => _repositoryContext.SaveChanges();
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
