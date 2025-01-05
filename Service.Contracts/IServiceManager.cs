@@ -9,6 +9,7 @@ namespace Service.Contracts
     public interface IServiceManager
     {
         IFacultyService FacultyService { get; }
+        ILevelService LevelService { get; }
         IDepartmentService DepartmentService { get; }
         IAuthenticationService AuthenticationService { get; }
         IClassroomService ClassroomService { get; }

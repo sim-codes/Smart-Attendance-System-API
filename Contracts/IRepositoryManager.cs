@@ -17,6 +17,7 @@ namespace Contracts
         IClassScheduleRepository ClassSchedule { get; }
         IAttendanceRepository Attendance { get; }
         ICourseRepository Course { get; }
+        ILevelRepository Level { get; }
         void Save();
         Task SaveAsync();
     }

@@ -284,6 +284,31 @@
             <response code="201">Returns the newly created lecturer</response>
             <response code="400">If the leturer data is invalid</response>
         </member>
+        <member name="M:Presentation.Controllers.LevelsController.GetAllLevels">
+            <summary>
+            Get the list of all levels
+            </summary>
+            <returns>The levels list</returns>
+            <response code="200">Returns the list of levels</response>
+        </member>
+        <member name="M:Presentation.Controllers.LevelsController.GetLevelById(System.Guid)">
+            <summary>
+            Get a specific level by ID
+            </summary>
+            <param name="id">The ID of the level</param>
+            <returns>The level details</returns>
+            <response code="200">Returns the level details</response>
+            <response code="404">If the level is not found</response>
+        </member>
+        <member name="M:Presentation.Controllers.LevelsController.CreateLevel(Shared.DataTransferObjects.LevelForCreationDto)">
+            <summary>
+            Create a new level
+            </summary>
+            <param name="level">The level data for creation</param>
+            <returns>The created level</returns>
+            <response code="201">Returns the newly created level</response>
+            <response code="400">If the level data is invalid</response>
+        </member>
         <member name="M:Presentation.Controllers.StudentsController.GetAllStudents">
             <summary>
             Get the list of all students

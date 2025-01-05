@@ -20,6 +20,7 @@ namespace Repository
         private Lazy<IClassScheduleRepository> _classScheduleRepository;
         private Lazy<IAttendanceRepository> _attendanceRepository;
         private Lazy<ICourseRepository> _courseRepository;
+        private Lazy<ILevelRepository> _levelRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -33,9 +34,11 @@ namespace Repository
             _classScheduleRepository = new Lazy<IClassScheduleRepository>(() => new ClassScheduleRepository(_repositoryContext));
             _attendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(_repositoryContext));
             _courseRepository = new Lazy<ICourseRepository>(() => new CourseRepository(_repositoryContext));
+            _levelRepository = new Lazy<ILevelRepository>(() => new LevelRepository(_repositoryContext));
         }
 
         public IFacultyRepository Faculty => _facultyRepository.Value;
+        public ILevelRepository Level => _levelRepository.Value;
         public IAttendanceRepository Attendance => _attendanceRepository.Value;
         public IDepartmentRepository Department => _departmentRepository.Value;
         public IClassroomRepository Classroom => _classroomRepository.Value;
