@@ -30,6 +30,34 @@
             <response code="204">If the academic session is successfully deleted</response>
             <response code="404">If the academic session is not found</response>
         </member>
+        <member name="M:Presentation.Controllers.AttendanceController.CreateAttendance(System.String,Shared.DataTransferObjects.AttendanceForCreationDto)">
+            <summary>
+            Create a new attendance record
+            </summary>
+            <param name="userId">The ID of the user</param>
+            <param name="attendance">The attendance data for creation</param>
+            <returns>The created attendance record</returns>
+            <response code="201">Returns the newly created attendance record</response>
+            <response code="400">If the attendance data is invalid</response>
+            <response code="404">If the classroom is not found</response>
+            <response code="409">If the student is not in the classroom</response>
+        </member>
+        <member name="M:Presentation.Controllers.AttendanceController.GetAttendance(System.Guid)">
+            <summary>
+            Get a specific attendance record by ID
+            </summary>
+            <param name="id">The ID of the attendance record</param>
+            <returns>The attendance record details</returns>
+            <response code="200">Returns the attendance record details</response>
+            <response code="404">If the attendance record is not found</response>
+        </member>
+        <member name="M:Presentation.Controllers.AttendanceController.GetAttendances">
+            <summary>
+            Get the list of all attendance records
+            </summary>
+            <returns>The attendance records list</returns>
+            <response code="200">Returns the list of attendance records</response>
+        </member>
         <member name="M:Presentation.Controllers.AuthenticationController.RegisterUser(Shared.DataTransferObjects.UserForRegistrationDto)">
             <summary>
             Register a new user
@@ -107,6 +135,39 @@
             <param name="facultyId">The ID of the faculty</param>
             <param name="id">The ID for the classroom to delete</param>
             <returns>Empty response</returns>
+        </member>
+        <member name="M:Presentation.Controllers.ClassSchedulesController.GetClassSchedules">
+            <summary>
+            Get the list of all class schedules
+            </summary>
+            <returns>The class schedules list</returns>
+            <response code="200">Returns the list of class schedules</response>
+        </member>
+        <member name="M:Presentation.Controllers.ClassSchedulesController.GetClassScheduleById(System.Guid)">
+            <summary>
+            Get a specific class schedule by ID
+            </summary>
+            <param name="id">The ID of the class schedule</param>
+            <returns>The class schedule details</returns>
+            <response code="200">Returns the class schedule details</response>
+            <response code="404">If the class schedule is not found</response>
+        </member>
+        <member name="M:Presentation.Controllers.ClassSchedulesController.CreateClassSchedule(Shared.DataTransferObjects.ClassScheduleForCreationDto)">
+            <summary>
+            Create a new class schedule
+            </summary>
+            <param name="classSchedule">The class schedule data for creation</param>
+            <returns>The created class schedule</returns>
+            <response code="201">Returns the newly created class schedule</response>
+            <response code="400">If the class schedule data is invalid</response>
+        </member>
+        <member name="M:Presentation.Controllers.ClassSchedulesController.UpdateClassSchedule(System.Guid,Shared.DataTransferObjects.ClassScheduleForUpdateDto)">
+            <summary>
+            Update class schedule by ID
+            </summary>
+            <param name="Id">The ID of the class schedule</param>
+            <param name="classSchedule">The class schedule data for update</param>
+            <returns>Status code 204 if the class schedule is updated successfully</returns>
         </member>
         <member name="M:Presentation.Controllers.DepartmentsController.GetDepartments(System.Guid)">
             <summary>

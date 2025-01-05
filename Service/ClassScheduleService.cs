@@ -47,5 +47,16 @@ namespace Service
             var classSchedulesDto = _mapper.Map<IEnumerable<ClassScheduleDto>>(classSchedules);
             return classSchedulesDto;
         }
+
+        public void UpdateClassSchedule(Guid Id, ClassScheduleForUpdateDto classSchedule, bool trackChanges)
+        {
+            var classScheduleEntity = _repositoryManager.ClassSchedule.GetClassSchedule(Id, trackChanges);
+
+            if (classScheduleEntity is null)
+                throw new ClassScheduleNotFoundException(Id);
+
+            _mapper.Map(classSchedule, classScheduleEntity);
+            _repositoryManager.Save();
+        }
     }
 }

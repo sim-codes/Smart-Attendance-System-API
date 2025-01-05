@@ -12,5 +12,6 @@ namespace Service.Contracts
         IEnumerable<ClassScheduleDto> GetClassSchedules(bool trackChanges);
         ClassScheduleDto GetClassScheduleById(Guid Id, bool trackChanges);
         ClassScheduleDto CreateClassSchedule(ClassScheduleForCreationDto classSchedule);
+        void UpdateClassSchedule(Guid Id, ClassScheduleForUpdateDto classSchedule, bool trackChanges);
     }
 }
