@@ -16,11 +16,13 @@ namespace Repository
             var courses = FindByCondition(e => e.DepartmentId.Equals(departmentId), trackChanges)
                 .Search(courseParameters.SearchTerm)
                 .OrderBy(e => e.Title)
+                .Skip((courseParameters.PageNumber - 1) * courseParameters.PageSize)
+                .Take(courseParameters.PageSize)
                 .ToList();
 
-            return PagedList<Course>
-                .ToPagedList(courses, courseParameters.PageNumber, 
-                courseParameters.PageSize);
+            var count = FindByCondition(e => e.DepartmentId.Equals(departmentId), trackChanges).Count();
+
+            return new PagedList<Course>(courses, count, courseParameters.PageNumber, courseParameters.PageSize);
         }
 
         public Course GetDepartmentalCourse(Guid departmentId, Guid id, bool trackChanges) =>
