@@ -10,12 +10,16 @@ namespace Repository
             : base(repositoryContext)
         {
         }
-        public IEnumerable<Course> GetDepartmentalCourses(Guid departmentId, CourseParameters courseParameters, bool trackChanges) =>
-            FindByCondition(e => e.DepartmentId.Equals(departmentId), trackChanges)
+        public PagedList<Course> GetDepartmentalCourses(Guid departmentId, CourseParameters courseParameters, bool trackChanges)
+        {
+            var courses = FindByCondition(e => e.DepartmentId.Equals(departmentId), trackChanges)
             .OrderBy(e => e.Title)
-            .Skip((courseParameters.PageNumber - 1) * courseParameters.PageSize)
-            .Take(courseParameters.PageSize)
             .ToList();
+
+            return PagedList<Course>
+                .ToPagedList(courses, courseParameters.PageNumber, 
+                courseParameters.PageSize);
+        }
 
         public Course GetDepartmentalCourse(Guid departmentId, Guid id, bool trackChanges) =>
             FindByCondition(e => e.DepartmentId.Equals(departmentId) && e.Id.Equals(id), trackChanges)

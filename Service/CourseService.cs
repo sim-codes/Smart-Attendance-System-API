@@ -26,15 +26,16 @@ namespace Service
             _mapper = mapper;
         }
 
-        public IEnumerable<CourseDto> GetDepartmentCourses(Guid departmentId, CourseParameters courseParameters, bool trackChanges)
+        public (IEnumerable<CourseDto> courses, MetaData metaData) GetDepartmentCourses(Guid departmentId, CourseParameters courseParameters, bool trackChanges)
         {
             var department = _repository.Department.GetDepartment(departmentId, trackChanges);
             if (department is null)
                 throw new DepartmentNotFoundException(departmentId);
 
-            var coursesFromDb = _repository.Course.GetDepartmentalCourses(departmentId, courseParameters, trackChanges);
-            var coursesDto = _mapper.Map<IEnumerable<CourseDto>>(coursesFromDb);
-            return coursesDto;
+            var coursesWithMetaData = _repository.Course.GetDepartmentalCourses(departmentId, courseParameters, trackChanges);
+
+            var coursesDto = _mapper.Map<IEnumerable<CourseDto>>(coursesWithMetaData);
+            return (courses: coursesDto, metaData: coursesWithMetaData.MetaData);
         }
 
         public CourseDto GetDepartmentCourse(Guid departmentId, Guid id, bool trackChanges)

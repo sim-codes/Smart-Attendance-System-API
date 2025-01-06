@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Presentation.Controllers
@@ -30,8 +32,10 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(IEnumerable<CourseDto>), 200)]
         public IActionResult GetAllDepartmentCourses(Guid departmentId, [FromQuery] CourseParameters courseParameters)
         {
-            var courses = _service.CourseService.GetDepartmentCourses(departmentId, courseParameters, trackChanges: false);
-            return Ok(courses);
+            var pagedResult = _service.CourseService.GetDepartmentCourses(departmentId, courseParameters, trackChanges: false);
+
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.courses);
         }
 
         /// <summary>
