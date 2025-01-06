@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Repository.Extensions;
 using Shared.RequestFeatures;
 
 namespace Repository
@@ -13,8 +14,9 @@ namespace Repository
         public PagedList<Course> GetDepartmentalCourses(Guid departmentId, CourseParameters courseParameters, bool trackChanges)
         {
             var courses = FindByCondition(e => e.DepartmentId.Equals(departmentId), trackChanges)
-            .OrderBy(e => e.Title)
-            .ToList();
+                .Search(courseParameters.SearchTerm)
+                .OrderBy(e => e.Title)
+                .ToList();
 
             return PagedList<Course>
                 .ToPagedList(courses, courseParameters.PageNumber, 

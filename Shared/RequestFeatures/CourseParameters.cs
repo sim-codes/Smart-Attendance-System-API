@@ -8,6 +8,6 @@ namespace Shared.RequestFeatures
 {
     public class CourseParameters : RequestParameters
     {
-        
+        public string? SearchTerm { get; set; }
     }
 }
