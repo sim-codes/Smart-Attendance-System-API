@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,13 @@ namespace Service
             _mapper = mapper;
         }
 
-        public IEnumerable<CourseDto> GetDepartmentCourses(Guid departmentId, bool trackChanges)
+        public IEnumerable<CourseDto> GetDepartmentCourses(Guid departmentId, CourseParameters courseParameters, bool trackChanges)
         {
             var department = _repository.Department.GetDepartment(departmentId, trackChanges);
             if (department is null)
                 throw new DepartmentNotFoundException(departmentId);
-            var coursesFromDb = _repository.Course.GetDepartmentalCourses(departmentId, trackChanges);
+
+            var coursesFromDb = _repository.Course.GetDepartmentalCourses(departmentId, courseParameters, trackChanges);
             var coursesDto = _mapper.Map<IEnumerable<CourseDto>>(coursesFromDb);
             return coursesDto;
         }

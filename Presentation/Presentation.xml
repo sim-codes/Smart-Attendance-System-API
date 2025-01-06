@@ -168,6 +168,7 @@
             <param name="Id">The ID of the class schedule</param>
             <param name="classSchedule">The class schedule data for update</param>
             <returns>Status code 204 if the class schedule is updated successfully</returns>
+            <response code="204">Returns status code 204 if the class schedule is updated successfully</response>
         </member>
         <member name="M:Presentation.Controllers.ClassSchedulesController.DeleteClassSchedule(System.Guid)">
             <summary>
@@ -176,11 +177,12 @@
             <param name="id">The ID for the class schedule to delete</param>
             <returns>Empty response</returns>
         </member>
-        <member name="M:Presentation.Controllers.CoursesController.GetAllDepartmentCourses(System.Guid)">
+        <member name="M:Presentation.Controllers.CoursesController.GetAllDepartmentCourses(System.Guid,Shared.RequestFeatures.CourseParameters)">
             <summary>
             Get the list of all courses for a specific department
             </summary>
             <param name="departmentId">The ID of the department</param>
+            <param name="courseParameters">The course parameters</param>
             <returns>The courses list</returns>
             <response code="200">Returns the list of courses</response>
         </member>

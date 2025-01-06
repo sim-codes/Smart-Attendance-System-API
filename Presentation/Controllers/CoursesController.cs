@@ -2,6 +2,7 @@
 using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,14 @@ namespace Presentation.Controllers
         /// Get the list of all courses for a specific department
         /// </summary>
         /// <param name="departmentId">The ID of the department</param>
+        /// <param name="courseParameters">The course parameters</param>
         /// <returns>The courses list</returns>
         /// <response code="200">Returns the list of courses</response>
         [HttpGet(Name = "GetAllDepartmentCourses")]
         [ProducesResponseType(typeof(IEnumerable<CourseDto>), 200)]
-        public IActionResult GetAllDepartmentCourses(Guid departmentId)
+        public IActionResult GetAllDepartmentCourses(Guid departmentId, [FromQuery] CourseParameters courseParameters)
         {
-            var courses = _service.CourseService.GetDepartmentCourses(departmentId, trackChanges: false);
+            var courses = _service.CourseService.GetDepartmentCourses(departmentId, courseParameters, trackChanges: false);
             return Ok(courses);
         }
 
