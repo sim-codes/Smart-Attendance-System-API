@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,18 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.ConfigureTokenProtection();
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigueHttpCacheHeaders();
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllers()
-    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+builder.Services.AddControllers(config =>
+{
+    config.RespectBrowserAcceptHeader = true;
+    config.ReturnHttpNotAcceptable = true;
+}).AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureSwagger();
 
@@ -45,7 +55,10 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
+app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
+app.UseResponseCaching();
+app.UseHttpCacheHeaders();
 app.UseSwagger();
 app.UseSwaggerUI(s =>
 {
