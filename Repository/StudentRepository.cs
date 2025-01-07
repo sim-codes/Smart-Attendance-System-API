@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,17 @@ namespace Repository
             : base(repositoryContext)
         {
         }
-        public async Task<IEnumerable<Student>> GetAllStudentsAsync(bool trackChanges)
+        public async Task<PagedList<Student>> GetAllStudentsAsync(StudentParameters studentParameters, bool trackChanges)
         {
             var students = await FindAll(trackChanges)
-            .Include(s => s.User)
-            .Include(s => s.Level)
-            .Include(s => s.Department)
-            .ToListAsync();
-            return students;
+                .Include(s => s.User)
+                .Include(s => s.Level)
+                .Include(s => s.Department)
+                .ToListAsync();
+
+            return PagedList<Student>
+                .ToPagedList(students, studentParameters.PageNumber, 
+                studentParameters.PageSize);
         }
 
         public async Task<Student> GetStudentAsync(string userId, bool trackChanges)

@@ -260,7 +260,7 @@
             <response code="400">If the item is null</response>
             <response code="422">If the model is invalid</response>
         </member>
-        <member name="M:Presentation.Controllers.LecturersController.GetLecturers">
+        <member name="M:Presentation.Controllers.LecturersController.GetLecturers(Shared.RequestFeatures.LecturerParameters)">
             <summary>
             Get the list of all lecturers
             </summary>
@@ -311,10 +311,11 @@
             <response code="201">Returns the newly created level</response>
             <response code="400">If the level data is invalid</response>
         </member>
-        <member name="M:Presentation.Controllers.StudentsController.GetAllStudents">
+        <member name="M:Presentation.Controllers.StudentsController.GetAllStudents(Shared.RequestFeatures.StudentParameters)">
             <summary>
             Get the list of all students
             </summary>
+            <param name="studentParameters">The student parameters</param>
             <returns>The students list</returns>
             <response code="200">Returns the list of students</response>
         </member>

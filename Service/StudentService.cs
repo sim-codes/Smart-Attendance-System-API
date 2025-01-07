@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Entities.Exceptions;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -42,11 +43,12 @@ namespace Service
             return createdStudent;
         }
 
-        public async Task<IEnumerable<StudentDto>> GetAllStudentsAsync(bool trackChanges)
+        public async Task<(IEnumerable<StudentDto> students, MetaData metaData)> GetAllStudentsAsync(StudentParameters studentParameters, bool trackChanges)
         {
-            var students = await _repository.Student.GetAllStudentsAsync(trackChanges);
-            var studentsDto = _mapper.Map<IEnumerable<StudentDto>>(students);
-            return studentsDto;
+            var studentsWithMetaData = await _repository.Student.GetAllStudentsAsync(studentParameters, trackChanges);
+            var studentsDto = _mapper.Map<IEnumerable<StudentDto>>(studentsWithMetaData);
+
+            return (students: studentsDto, metaData: studentsWithMetaData.MetaData);
         }
 
         public async Task<StudentDto> GetStudentAsync(string userId, bool trackChanges)

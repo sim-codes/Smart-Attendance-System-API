@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Presentation.Controllers
@@ -21,14 +24,18 @@ namespace Presentation.Controllers
         /// <summary>
         /// Get the list of all students
         /// </summary>
+        /// <param name="studentParameters">The student parameters</param>
         /// <returns>The students list</returns>
         /// <response code="200">Returns the list of students</response>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<StudentDto>), 200)]
-        public async Task<IActionResult> GetAllStudents()
+        public async Task<IActionResult> GetAllStudents([FromQuery] StudentParameters studentParameters)
         {
-            var students = await _services.StudentService.GetAllStudentsAsync(trackChanges: false);
-            return Ok(students);
+            var pagedResult = await _services.StudentService.GetAllStudentsAsync(studentParameters, trackChanges: false);
+
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+             
+            return Ok(pagedResult.students);
         }
 
         /// <summary>

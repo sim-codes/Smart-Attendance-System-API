@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Presentation.Controllers
@@ -23,10 +26,12 @@ namespace Presentation.Controllers
         /// <response code="200">Returns the list of lectuers</response>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<LecturerDto>), 200)]
-        public async Task<IActionResult> GetLecturers()
+        public async Task<IActionResult> GetLecturers([FromQuery] LecturerParameters lecturerParameters)
         {
-            var lecturers = await _service.LecturerService.GetLecturersAsync(trackChanges: false);
-            return Ok(lecturers);
+            var pagedResult = await _service.LecturerService.GetLecturersAsync(lecturerParameters, trackChanges: false);
+
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.lecturers);
         }
 
         /// <summary>

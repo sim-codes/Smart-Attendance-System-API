@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,15 @@ namespace Repository
         {
         }
 
-        public async Task<IEnumerable<Lecturer>> GetAllLecturersAsync(bool trackChanges)
+        public async Task<PagedList<Lecturer>> GetAllLecturersAsync(LecturerParameters lecturerParameters, bool trackChanges)
         {
             var lecturers = await FindAll(trackChanges)
                 .Include(l => l.User)
                 .Include(l => l.Department)
                 .ToListAsync();
-            return lecturers;
+
+            return PagedList<Lecturer>
+                .ToPagedList(lecturers, lecturerParameters.PageNumber, lecturerParameters.PageSize);
         }
 
         public async Task<Lecturer> GetLecturerAsync(string userId, bool trackChanges)

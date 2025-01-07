@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,11 +58,11 @@ namespace Service
             return lecturerDto;
         }
 
-        public async Task<IEnumerable<LecturerDto>> GetLecturersAsync(bool trackChanges)
+        public async Task<(IEnumerable<LecturerDto> lecturers, MetaData metaData)> GetLecturersAsync(LecturerParameters lecturerParameters, bool trackChanges)
         {
-            var lecturers = await _repository.Lecturer.GetAllLecturersAsync(trackChanges);
-            var lecturersDto = _mapper.Map<IEnumerable<LecturerDto>>(lecturers);
-            return lecturersDto;
+            var lecturersWithMetaData = await _repository.Lecturer.GetAllLecturersAsync(lecturerParameters, trackChanges);
+            var lecturersDto = _mapper.Map<IEnumerable<LecturerDto>>(lecturersWithMetaData);
+            return (lecturers: lecturersDto, metaData: lecturersWithMetaData.MetaData);
         }
     }
 }
