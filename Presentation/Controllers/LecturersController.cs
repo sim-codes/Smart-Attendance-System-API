@@ -22,6 +22,7 @@ namespace Presentation.Controllers
         /// <summary>
         /// Get the list of all lecturers
         /// </summary>
+        /// <param name="lecturerParameters">The lecturer parameters</param>
         /// <returns>The lecturer list</returns>
         /// <response code="200">Returns the list of lectuers</response>
         [HttpGet]

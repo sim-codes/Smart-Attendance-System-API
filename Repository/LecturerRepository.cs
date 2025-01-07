@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Repository
             var lecturers = await FindAll(trackChanges)
                 .Include(l => l.User)
                 .Include(l => l.Department)
+                .Search(lecturerParameters.SearchTerm)
                 .ToListAsync();
 
             return PagedList<Lecturer>

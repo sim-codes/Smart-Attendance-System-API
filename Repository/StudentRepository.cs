@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Repository
                 .Include(s => s.User)
                 .Include(s => s.Level)
                 .Include(s => s.Department)
+                .Search(studentParameters.SearchTerm)
                 .ToListAsync();
 
             return PagedList<Student>
