@@ -13,5 +13,6 @@ namespace Service.Contracts
         Task<(IEnumerable<StudentDto> students, MetaData metaData)> GetAllStudentsAsync(StudentParameters studentParameters, bool trackChanges);
         Task<StudentDto> GetStudentAsync(string userId, bool trackChanges);
         Task<StudentDto> CreateStudent(string userId, StudentForCreationDto student);
+        Task UpdateStudent(string userId, StudentForUpdateDto student);
     }
 }

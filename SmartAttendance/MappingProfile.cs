@@ -37,6 +37,12 @@ namespace SmartAttendance
                 .ForMember(dest => dest.Level, opt => opt.MapFrom(src => src.Level.Name))
                 .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department.Name));
 
+            CreateMap<StudentForUpdateDto, Student>()
+                .ForPath(dest => dest.User.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForPath(dest => dest.User.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.User.ProfileImageUrl, opt => opt.MapFrom(src => src.ProfileImageUrl));
+
             CreateMap<LecturerForCreationDto, Lecturer>();
             CreateMap<Lecturer, LecturerDto>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))

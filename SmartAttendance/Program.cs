@@ -33,7 +33,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers(config =>
 {
-    config.RespectBrowserAcceptHeader = true;
+    //config.RespectBrowserAcceptHeader = trsue;
     config.ReturnHttpNotAcceptable = true;
 }).AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 

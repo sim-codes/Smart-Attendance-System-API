@@ -74,5 +74,13 @@ namespace Presentation.Controllers
 
             return CreatedAtRoute("GetStudentByUserId", new { userId = createdStudent.UserId }, createdStudent);
         }
+
+        [HttpPut("{userId}", Name = "UpdateStudentDetail")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateStudenDetails(string userId, [FromBody] StudentForUpdateDto student)
+        {
+            await _services.StudentService.UpdateStudent(userId, student);
+            return NoContent();
+        }
     }
 }
