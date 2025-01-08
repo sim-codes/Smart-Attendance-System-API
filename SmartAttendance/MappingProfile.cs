@@ -42,6 +42,7 @@ namespace SmartAttendance
                 .ForPath(dest => dest.User.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForPath(dest => dest.User.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.User.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ForPath(dest => dest.User.ProfileImageUrl, opt => opt.MapFrom(src => src.ProfileImageUrl));
 
             CreateMap<LecturerForCreationDto, Lecturer>();
@@ -52,6 +53,13 @@ namespace SmartAttendance
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.User.PhoneNumber))
                 .ForMember(dest => dest.ProfileImageUrl, opt => opt.MapFrom(src => src.User.ProfileImageUrl))
                 .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department.Name));
+
+            CreateMap<LecturerForUpdateDto, Lecturer>()
+                .ForPath(dest => dest.User.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForPath(dest => dest.User.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.User.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForPath(dest => dest.User.ProfileImageUrl, opt => opt.MapFrom(src => src.ProfileImageUrl));
         }
     }
 }
