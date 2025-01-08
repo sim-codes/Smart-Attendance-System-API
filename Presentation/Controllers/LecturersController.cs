@@ -70,5 +70,21 @@ namespace Presentation.Controllers
 
             return CreatedAtRoute("GetLecturerByUserId", new { userId = createdLecturer.UserId }, createdLecturer);
         }
+
+        /// <summary>
+        /// Update lecture profile by ID
+        /// </summary>
+        /// <param name="userId">The ID of the student</param>
+        /// <param name="lecturer">The class lecturer data for update</param>
+        /// <returns>Status code 204 if the lecture profile is updated successfully</returns>
+        /// <response code="204">Returns status code 204 if the lecture profile is updated successfully</response>
+        [HttpPut("{userId}", Name = "UpdateLecturerDetail")]
+        [ProducesResponseType(204)]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateLecturerDetails(string userId, [FromBody] LecturerForUpdateDto lecturer)
+        {
+            await _service.LecturerService.UpdateLecturer(userId, lecturer);
+            return NoContent();
+        }
     }
 }
