@@ -64,12 +64,11 @@ namespace Service
         public async Task UpdateStudent(string userId, StudentForUpdateDto student)
         {
             var studentEntity = await _repository.Student.GetStudentAsync(userId, trackChanges: true);
+
             if (studentEntity is null)
                 throw new StudentNotFoundException(userId);
 
             _mapper.Map(student, studentEntity);
-            Console.WriteLine(studentEntity);
-            //await _userManager.UpdateAsync(studentEntity.User);
             await _repository.SaveAsync();
         }
     }

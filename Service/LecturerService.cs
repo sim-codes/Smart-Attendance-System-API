@@ -64,5 +64,16 @@ namespace Service
             var lecturersDto = _mapper.Map<IEnumerable<LecturerDto>>(lecturersWithMetaData);
             return (lecturers: lecturersDto, metaData: lecturersWithMetaData.MetaData);
         }
+
+        public async Task UpdateLecturer(string userId, LecturerForUpdateDto lecturer)
+        {
+            var lecturerEntity = await _repository.Lecturer.GetLecturerAsync(userId, trackChanges: true);
+
+            if (lecturerEntity is null)
+                throw new LecturerNotFoundException(userId);
+
+            _mapper.Map(lecturer, lecturerEntity);
+            await _repository.SaveAsync();
+        }
     }
 }

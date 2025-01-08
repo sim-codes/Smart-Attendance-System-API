@@ -13,5 +13,6 @@ namespace Service.Contracts
         Task<(IEnumerable<LecturerDto> lecturers, MetaData metaData)> GetLecturersAsync(LecturerParameters lecturerParameters, bool trackChanges);
         Task<LecturerDto> GetLecturerAsync(string userId, bool trackChanges);
         Task<LecturerDto> CreateLecturer(string userId, LecturerForCreationDto lecturer);
+        Task UpdateLecturer(string userId, LecturerForUpdateDto lecturer);
     }
 }
