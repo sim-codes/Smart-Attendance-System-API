@@ -33,6 +33,7 @@ namespace SmartAttendance
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.User.PhoneNumber))
                 .ForMember(dest => dest.ProfileImageUrl, opt => opt.MapFrom(src => src.User.ProfileImageUrl))
                 .ForMember(dest => dest.Level, opt => opt.MapFrom(src => src.Level.Name))
                 .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department.Name));
@@ -48,6 +49,7 @@ namespace SmartAttendance
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.User.PhoneNumber))
                 .ForMember(dest => dest.ProfileImageUrl, opt => opt.MapFrom(src => src.User.ProfileImageUrl))
                 .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department.Name));
         }
