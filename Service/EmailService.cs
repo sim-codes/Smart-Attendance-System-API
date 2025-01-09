@@ -1,4 +1,5 @@
-﻿using Service.Contracts;
+﻿using Microsoft.Extensions.Configuration;
+using Service.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,22 @@ namespace Service
 {
     public class EmailService : IEmailService
     {
+        private IConfiguration _configuration;
+
+        public EmailService(IConfiguration configuration) => _configuration = configuration;
         public void SendEmail(string to, string subject, string body)
         {
+            var emailConfig = _configuration.GetSection("MailSettings");
+
             // Set up SMPT client
-            
+            SmtpClient client = new SmtpClient(emailConfig["Host"], 587);
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(emailConfig["Mail"], emailConfig["Password"]);
+
             // Create email
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("robert68@ethereal.email");
+            mailMessage.From = new MailAddress(emailConfig["Mail"]);
             mailMessage.To.Add(to);
             mailMessage.Subject = subject;
             mailMessage.IsBodyHtml = true;

@@ -181,13 +181,9 @@ namespace Service
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            StringBuilder mailBody = new StringBuilder();
-            mailBody.AppendFormat("<p>Please reset your password by clicking the link below:</p>");
-            mailBody.AppendFormat($"<a href=https://localhost:7195/reset-password?email={generateResetPassword.Email}&token={token}>Reset password</a>");
-            mailBody.AppendFormat("<p>If you did not request a password reset, please ignore this email</p>");
-            mailBody.AppendFormat("<p>Thank you</p>");
+            var emailBody = GeneratePasswordResetEmailBody(generateResetPassword.Email, token);
 
-            _emailService.SendEmail(generateResetPassword.Email, "Password Reset Request", mailBody.ToString());
+            _emailService.SendEmail(generateResetPassword.Email, "Password Reset Request", emailBody);
             return token;
         }
 
@@ -209,6 +205,16 @@ namespace Service
 
             var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
             return result;
+        }
+
+        private string GeneratePasswordResetEmailBody(string email, string token)
+        {
+            StringBuilder mailBody = new StringBuilder();
+            mailBody.AppendFormat("<p>Please reset your password by clicking the link below:</p>");
+            mailBody.AppendFormat($"<a href=https://frontend-url/reset-verification?email={email}&token={token}>Reset password</a>");
+            mailBody.AppendFormat("<p>If you did not request a password reset, please ignore this email</p>");
+            mailBody.AppendFormat("<p>Thank you</p>");
+            return mailBody.ToString();
         }
 
     }
