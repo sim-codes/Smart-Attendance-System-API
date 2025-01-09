@@ -34,6 +34,9 @@ namespace SmartAttendance.Extensions
             {
             });
 
+        public static void ConfigureEmailService(this IServiceCollection services) =>
+            services.AddTransient<IEmailService, EmailService>();
+
         public static void ConfigureResponseCaching(this IServiceCollection services) =>
             services.AddResponseCaching();
 

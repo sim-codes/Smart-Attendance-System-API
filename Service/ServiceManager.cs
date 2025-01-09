@@ -31,11 +31,13 @@ namespace Service
             ILoggerManager logger,
             IMapper mapper,
             UserManager<User> userManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IEmailService emailService
+            )
         {
             _facultyService = new Lazy<IFacultyService>(() => new FacultyService(repositoryManager, logger, mapper));
             _departmentService = new Lazy<IDepartmentService>(() => new DepartmentService(repositoryManager, logger, mapper));
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, emailService));
             _classroomService = new Lazy<IClassroomService>(() => new ClassroomService(repositoryManager, logger, mapper));
             _profileService = new Lazy<IProfileService>(() => new ProfileService(logger, mapper, userManager, configuration));
             _studentService = new Lazy<IStudentService>(() => new StudentService(repositoryManager, logger, mapper, userManager));

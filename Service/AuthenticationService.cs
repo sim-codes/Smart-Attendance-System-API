@@ -26,10 +26,13 @@ namespace Service
         private UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly JwtConfiguration _jwtConfiguration;
+        private readonly IEmailService _emailService;
 
         private User? _user;
 
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
+        public AuthenticationService(ILoggerManager logger, IMapper mapper, 
+            UserManager<User> userManager, IConfiguration configuration,
+            IEmailService emailService)
         {
             _logger = logger;
             _mapper = mapper;
@@ -37,6 +40,7 @@ namespace Service
             _configuration = configuration;
             _jwtConfiguration = new JwtConfiguration();
             _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
+            _emailService = emailService;
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
@@ -176,6 +180,14 @@ namespace Service
                 throw new UserNotFoundException(generateResetPassword.Email);
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            StringBuilder mailBody = new StringBuilder();
+            mailBody.AppendFormat("<p>Please reset your password by clicking the link below:</p>");
+            mailBody.AppendFormat($"<a href=https://localhost:7195/reset-password?email={generateResetPassword.Email}&token={token}>Reset password</a>");
+            mailBody.AppendFormat("<p>If you did not request a password reset, please ignore this email</p>");
+            mailBody.AppendFormat("<p>Thank you</p>");
+
+            _emailService.SendEmail(generateResetPassword.Email, "Password Reset Request", mailBody.ToString());
             return token;
         }
 

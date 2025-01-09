@@ -80,7 +80,9 @@ namespace Presentation.Controllers
         public async Task<IActionResult> GeneratePasswordResetToken([FromBody] GenerateResetPasswordDto generateResetPassword)
         {
             var token = await _service.AuthenticationService.GeneratePasswordResetTokenAsync(generateResetPassword);
-            return Ok(token);
+            if (token == null)
+                return NotFound();
+            return Ok(new { Message = "Token generated successfully"});
         }
 
         /// <summary>

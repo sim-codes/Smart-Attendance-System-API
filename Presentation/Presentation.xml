@@ -287,6 +287,15 @@
             <response code="201">Returns the newly created lecturer</response>
             <response code="400">If the leturer data is invalid</response>
         </member>
+        <member name="M:Presentation.Controllers.LecturersController.UpdateLecturerDetails(System.String,Shared.DataTransferObjects.LecturerForUpdateDto)">
+            <summary>
+            Update lecture profile by ID
+            </summary>
+            <param name="userId">The ID of the student</param>
+            <param name="lecturer">The class lecturer data for update</param>
+            <returns>Status code 204 if the lecture profile is updated successfully</returns>
+            <response code="204">Returns status code 204 if the lecture profile is updated successfully</response>
+        </member>
         <member name="M:Presentation.Controllers.LevelsController.GetAllLevels">
             <summary>
             Get the list of all levels
@@ -338,6 +347,15 @@
             <returns>The created student</returns>
             <response code="201">Returns the newly created student</response>
             <response code="400">If the student data is invalid</response>
+        </member>
+        <member name="M:Presentation.Controllers.StudentsController.UpdateStudentDetails(System.String,Shared.DataTransferObjects.StudentForUpdateDto)">
+            <summary>
+            Update student profile by ID
+            </summary>
+            <param name="userId">The ID of the student</param>
+            <param name="student">The class student data for update</param>
+            <returns>Status code 204 if the student profile is updated successfully</returns>
+            <response code="204">Returns status code 204 if the student profile is updated successfully</response>
         </member>
     </members>
 </doc>

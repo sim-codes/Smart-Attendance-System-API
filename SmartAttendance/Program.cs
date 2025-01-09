@@ -30,6 +30,7 @@ builder.Services.ConfigueHttpCacheHeaders();
 builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
+builder.Services.ConfigureEmailService();
 
 builder.Services.AddControllers(config =>
 {
