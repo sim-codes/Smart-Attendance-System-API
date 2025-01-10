@@ -6,5 +6,13 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-    public record ClassScheduleForUpdateDto(string DayOfWeek, TimeOnly StartTime, TimeOnly EndTime, string SessionId, Guid CourseId, Guid ClassroomId);
+    public record ClassScheduleForUpdateDto
+    {
+        public string DayOfWeek { get; init; }
+        public TimeOnly StartTime { get; init; }
+        public TimeOnly EndTime { get; init; }
+        public string SessionId { get; init; }
+        public Guid CourseId { get; init; }
+        public Guid ClassroomId { get; init; }
+    }
 }
