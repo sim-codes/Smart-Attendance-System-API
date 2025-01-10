@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shared.RequestFeatures;
+using Microsoft.AspNetCore.Http;
 
 namespace Tests
 {
@@ -20,6 +21,53 @@ namespace Tests
         {
             _mockService = new Mock<IServiceManager>();
             _controller = new StudentsController(_mockService.Object);
+        }
+
+        [Fact]
+        public async Task GetAllStudents_ReturnsOkResult_WithListOfStudents()
+        {
+            // Arrange
+            var studentParameters = new StudentParameters
+            {
+                PageNumber = 1,
+                PageSize = 10,
+                SearchTerm = null
+            };
+
+            var students = new List<StudentDto>
+            {
+                new StudentDto { UserId = Guid.NewGuid().ToString(), MatriculationNumber = "12345" },
+                new StudentDto { UserId = Guid.NewGuid().ToString(), MatriculationNumber = "67890" }
+            };
+
+            var metaData = new MetaData
+            {
+                CurrentPage = studentParameters.PageNumber,
+                PageSize = studentParameters.PageSize,
+                TotalCount = students.Count,
+                TotalPages = 1
+            };
+
+            _mockService.Setup(s => s.StudentService.GetAllStudentsAsync(studentParameters, false))
+                        .ReturnsAsync((students, metaData));
+
+            // Set up HttpContext and Response headers
+            var httpContext = new DefaultHttpContext();
+            _controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = httpContext
+            };
+
+            // Act
+            var result = await _controller.GetAllStudents(studentParameters);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnStudents = Assert.IsAssignableFrom<IEnumerable<StudentDto>>(okResult.Value);
+            Assert.Equal(2, returnStudents.Count());
+
+            // Verify the pagination header was set
+            Assert.True(httpContext.Response.Headers.ContainsKey("X-Pagination"));
         }
 
         [Fact]
@@ -58,6 +106,33 @@ namespace Tests
             var returnStudent = Assert.IsType<StudentDto>(createdAtRouteResult.Value);
             Assert.Equal("GetStudentByUserId", createdAtRouteResult.RouteName);
             Assert.Equal(createdStudent.UserId, createdAtRouteResult.RouteValues["userId"]);
+        }
+
+        [Fact]
+        public async Task UpdateStudentDetails_ReturnsNoContentResult()
+        {
+            // Arrange
+            var userId = Guid.NewGuid().ToString();
+            var studentForUpdate = new StudentForUpdateDto
+            {
+                MatriculationNumber = "12345",
+                LevelId = Guid.NewGuid(),
+                DepartmentId = Guid.NewGuid(),
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = "123-456-7890",
+                ProfileImageUrl = "http://example.com/profile.jpg"
+            };
+
+            _mockService.Setup(s => s.StudentService.UpdateStudent(userId, studentForUpdate))
+                        .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.UpdateStudentDetails(userId, studentForUpdate);
+
+            // Assert
+            Assert.IsType<NoContentResult>(result);
         }
     }
 }
