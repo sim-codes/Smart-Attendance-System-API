@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Shared.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 
-namespace Tests
+namespace Test.Controllers
 {
     public class StudentsControllerTests
     {

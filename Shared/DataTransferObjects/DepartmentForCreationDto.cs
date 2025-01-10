@@ -6,5 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-    public record DepartmentForCreationDto(string Name, string Code);
+    public record DepartmentForCreationDto
+    {
+        public string Name { get; set; }
+        public string Code { get; set; }
+    }
 }

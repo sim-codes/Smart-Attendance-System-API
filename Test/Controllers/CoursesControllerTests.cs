@@ -8,7 +8,7 @@ using Shared.RequestFeatures;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 
-namespace Tests
+namespace Test.Controllers
 {
     public class CoursesControllerTests
     {

@@ -5,7 +5,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects;
 using Presentation.Controllers;
 
-namespace Tests
+namespace Test.Controllers
 {
     public class FacultiesControllerTests
     {
