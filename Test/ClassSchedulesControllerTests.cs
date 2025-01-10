@@ -77,5 +77,46 @@ namespace Tests
             Assert.Equal(createdClassSchedule.Id, createdAtRouteResult.RouteValues["id"]);
         }
 
+        [Fact]
+        public void UpdateClassSchedule_ReturnsNoContentResult()
+        {
+            // Arrange
+            var classScheduleId = Guid.NewGuid();
+            var classScheduleForUpdate = new ClassScheduleForUpdateDto
+            {
+                DayOfWeek = "Monday",
+                StartTime = new TimeOnly(9, 0),
+                EndTime = new TimeOnly(10, 0),
+                SessionId = "2023",
+                CourseId = Guid.NewGuid(),
+                ClassroomId = Guid.NewGuid()
+            };
+
+            _mockService.Setup(s => s.ClassScheduleService.UpdateClassSchedule(classScheduleId, classScheduleForUpdate, true))
+                        .Callback(() => { }); // Mocking a void method
+
+            // Act
+            var result = _controller.UpdateClassSchedule(classScheduleId, classScheduleForUpdate);
+
+            // Assert
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public void DeleteClassSchedule_ReturnsNoContentResult()
+        {
+            // Arrange
+            var classScheduleId = Guid.NewGuid();
+
+            _mockService.Setup(s => s.ClassScheduleService.DeleteClassSchedule(classScheduleId))
+                        .Callback(() => { }); // Mocking a void method
+
+            // Act
+            var result = _controller.DeleteClassSchedule(classScheduleId);
+
+            // Assert
+            Assert.IsType<NoContentResult>(result);
+        }
+
     }
 }
