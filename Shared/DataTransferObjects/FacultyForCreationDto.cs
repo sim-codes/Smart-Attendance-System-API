@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-    public record FacultyForCreationDto(string Name, string Code,
-        IEnumerable<DepartmentForCreationDto> departments);
+    public record FacultyForCreationDto
+    {
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public IEnumerable<DepartmentForCreationDto> departments { get; set; }
+    }
 }
