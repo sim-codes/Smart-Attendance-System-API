@@ -277,7 +277,7 @@
             <response code="200">Returns the lecturer details</response>
             <response code="404">If the lecturer is not found</response>
         </member>
-        <member name="M:Presentation.Controllers.LecturersController.CreateStudent(System.String,Shared.DataTransferObjects.LecturerForCreationDto)">
+        <member name="M:Presentation.Controllers.LecturersController.CreateLecturer(System.String,Shared.DataTransferObjects.LecturerForCreationDto)">
             <summary>
             Create a new lecturer
             </summary>

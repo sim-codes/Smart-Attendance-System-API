@@ -64,7 +64,7 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(LecturerDto), 201)]
         [ProducesResponseType(400)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateStudent(string userId, [FromBody] LecturerForCreationDto lecturer)
+        public async Task<IActionResult> CreateLecturer(string userId, [FromBody] LecturerForCreationDto lecturer)
         {
             var createdLecturer = await _service.LecturerService.CreateLecturer(userId, lecturer);
 
