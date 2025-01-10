@@ -93,7 +93,7 @@ namespace Tests
             };
 
             _mockService.Setup(s => s.ClassScheduleService.UpdateClassSchedule(classScheduleId, classScheduleForUpdate, true))
-                        .Callback(() => { }); // Mocking a void method
+                        .Callback(() => { });
 
             // Act
             var result = _controller.UpdateClassSchedule(classScheduleId, classScheduleForUpdate);
