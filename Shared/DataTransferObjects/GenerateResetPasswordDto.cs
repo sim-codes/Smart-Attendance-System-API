@@ -6,5 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-    public record class GenerateResetPasswordDto(string Email);
+    public record class GenerateResetPasswordDto
+    {
+        public string Email { get; init; }
+    }
 }
