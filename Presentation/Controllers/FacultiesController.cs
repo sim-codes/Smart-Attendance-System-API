@@ -8,6 +8,7 @@ namespace Presentation.Controllers
 {
     [Route("api/faculties")]
     [ApiController]
+    [Authorize]
     public class FacultiesController : ControllerBase
     {
         private readonly IServiceManager _service;

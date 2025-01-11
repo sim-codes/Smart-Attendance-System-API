@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -12,6 +13,7 @@ namespace Presentation.Controllers
 {
     [Route("api/class-schedules")]
     [ApiController]
+    [Authorize]
     public class ClassSchedulesController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -58,6 +60,7 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ClassScheduleDto), 201)]
         [ProducesResponseType(400)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "Lecturer")]
         public IActionResult CreateClassSchedule([FromBody] ClassScheduleForCreationDto classSchedule)
         {
             var createdClassSchedule = _service.ClassScheduleService.CreateClassSchedule(classSchedule);
@@ -74,6 +77,7 @@ namespace Presentation.Controllers
         [HttpPut("{Id}", Name = "UpdateClassSchedule")]
         [ProducesResponseType(204)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "Lecturer")]
         public IActionResult UpdateClassSchedule(Guid Id, [FromBody] ClassScheduleForUpdateDto classSchedule)
         {
             _service.ClassScheduleService.UpdateClassSchedule(Id, classSchedule, trackChanges: true);
@@ -86,6 +90,7 @@ namespace Presentation.Controllers
         /// <param name="id">The ID for the class schedule to delete</param>
         /// <returns>Empty response</returns>
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Lecturer")]
         public IActionResult DeleteClassSchedule(Guid id)
         {
             _service.ClassScheduleService.DeleteClassSchedule(id);

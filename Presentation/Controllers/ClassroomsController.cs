@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -12,6 +13,7 @@ namespace Presentation.Controllers
 {
     [Route("api/faculties/{facultyId}/classrooms")]
     [ApiController]
+    [Authorize]
     public class ClassroomsController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -69,6 +71,7 @@ namespace Presentation.Controllers
         /// <param name="id">The ID for the classroom to delete</param>
         /// <returns>Empty response</returns>
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult DeleteClassroom(Guid facultyId, Guid id)
         {
             _service.ClassroomService.DeleteClassroomForFaculty(facultyId, id, trackChanges: false);

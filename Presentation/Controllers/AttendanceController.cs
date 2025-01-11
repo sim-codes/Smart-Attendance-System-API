@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -11,6 +12,7 @@ namespace Presentation.Controllers
 {
     [Route("api/attendance/{userId}")]
     [ApiController]
+    [Authorize]
     public class AttendanceController : ControllerBase
     {
         private IServiceManager _service;
@@ -32,6 +34,7 @@ namespace Presentation.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(409)]
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> CreateAttendance(string userId, [FromBody] AttendanceForCreationDto attendance)
         {
             var createdAttendance = await _service.AttendanceService.CreateAttendance(userId, attendance);

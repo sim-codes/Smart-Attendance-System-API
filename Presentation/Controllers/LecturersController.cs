@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Service.Contracts;
@@ -15,6 +16,7 @@ namespace Presentation.Controllers
 {
     [Route("api/lecturers")]
     [ApiController]
+    [Authorize]
     public class LecturersController : ControllerBase
     {
         private readonly IServiceManager _service;

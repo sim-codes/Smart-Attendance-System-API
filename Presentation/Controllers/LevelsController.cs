@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -12,6 +13,7 @@ namespace Presentation.Controllers
 {
     [Route("api/levels")]
     [ApiController]
+    [Authorize]
     public class LevelsController : ControllerBase
     {
         private readonly IServiceManager _service;
