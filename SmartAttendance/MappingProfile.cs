@@ -8,6 +8,8 @@ namespace SmartAttendance
     {
         public MappingProfile()
         {
+            CreateMap<Enrollment, EnrollmentDto>();
+            CreateMap<EnrollmentForCreationDto, Enrollment>();
             CreateMap<Level, LevelDto>();
             CreateMap<LevelForCreationDto, Level>();
             CreateMap<Course, CourseDto>();

@@ -237,6 +237,37 @@
             <param name="department">The department data for creation</param>
             <returns>The created department</returns>
         </member>
+        <member name="M:Presentation.Controllers.EnrollmentsController.GetEnrollments(System.String)">
+            <summary>
+            Get the list of all courses enrolled by a specific student
+            </summary>
+            <param name="userId">The ID of the student</param>
+            <returns>The list of enrolled courses</returns>
+        </member>
+        <member name="M:Presentation.Controllers.EnrollmentsController.GetEnrolledCourseById(System.String,System.Guid)">
+            <summary>
+            Get a specific enrolled course by ID for a specific student
+            </summary>
+            <param name="userId">The ID of the student</param>
+            <param name="courseId">The ID of the course</param>
+            <returns>The enrolled course details</returns>
+        </member>
+        <member name="M:Presentation.Controllers.EnrollmentsController.EnrollForCourse(System.String,Shared.DataTransferObjects.EnrollmentForCreationDto)">
+            <summary>
+            Enroll a student for a course
+            </summary>
+            <param name="userId">The ID of the student</param>
+            <param name="enrollmentForCreation">The enrollment data for creation</param>
+            <returns>The created enrollment</returns>
+        </member>
+        <member name="M:Presentation.Controllers.EnrollmentsController.DeleteEnrolledCourse(System.String,System.Guid)">
+            <summary>
+            Delete a specific enrolled course by ID for a specific student
+            </summary>
+            <param name="userId">The ID of the student</param>
+            <param name="courseId">The ID of the course</param>
+            <returns>Empty response</returns>
+        </member>
         <member name="M:Presentation.Controllers.FacultiesController.GetFaculties">
             <summary>
             Get the list of all faculties
