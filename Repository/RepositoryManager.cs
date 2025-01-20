@@ -45,6 +45,7 @@ namespace Repository
         public ICourseRepository Course => _courseRepository.Value;
         public IEnrollmentRepository CourseEnrollment => _enrollmentRepository.Value;
 
+
         public void Save() => _repositoryContext.SaveChanges();
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }

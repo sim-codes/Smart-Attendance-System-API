@@ -17,10 +17,14 @@ namespace Repository
 
         public void DeleteCourseEnrolledByStudent(Enrollment courseEnrollment) => Delete(courseEnrollment);
 
-        public void EnrollStudentForCourse(string userId, Enrollment courseEnrollment) => Create(courseEnrollment);
+        public void EnrollStudentForCourse(string userId, Enrollment courseEnrollment)
+        {
+            courseEnrollment.UserId = userId;
+            Create(courseEnrollment);
+        }
 
-        public Enrollment GetCourseEnrolledByStudent(string userId, Guid id, bool trackChanges) =>
-            FindByCondition(e => e.UserId.Equals(userId) && e.Id.Equals(id), trackChanges)
+        public Enrollment GetCourseEnrolledByStudent(string userId, Guid courseId, bool trackChanges) =>
+            FindByCondition(e => e.UserId.Equals(userId) && e.CourseId.Equals(courseId), trackChanges)
             .SingleOrDefault();
 
         public IEnumerable<Enrollment> GetStudentEnrolledCourses(string userId, bool trackChanges) =>
