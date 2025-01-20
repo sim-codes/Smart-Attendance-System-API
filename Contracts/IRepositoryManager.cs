@@ -18,6 +18,7 @@ namespace Contracts
         IAttendanceRepository Attendance { get; }
         ICourseRepository Course { get; }
         ILevelRepository Level { get; }
+        IEnrollmentRepository CourseRegistration { get; }
         void Save();
         Task SaveAsync();
     }

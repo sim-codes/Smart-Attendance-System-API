@@ -1,10 +1,4 @@
 ﻿using Contracts;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -21,6 +15,7 @@ namespace Repository
         private Lazy<IAttendanceRepository> _attendanceRepository;
         private Lazy<ICourseRepository> _courseRepository;
         private Lazy<ILevelRepository> _levelRepository;
+        private Lazy<IEnrollmentRepository> _enrollmentRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -35,6 +30,7 @@ namespace Repository
             _attendanceRepository = new Lazy<IAttendanceRepository>(() => new AttendanceRepository(_repositoryContext));
             _courseRepository = new Lazy<ICourseRepository>(() => new CourseRepository(_repositoryContext));
             _levelRepository = new Lazy<ILevelRepository>(() => new LevelRepository(_repositoryContext));
+            _enrollmentRepository = new Lazy<IEnrollmentRepository>(() => new EnrollmentRepository(_repositoryContext));
         }
 
         public IFacultyRepository Faculty => _facultyRepository.Value;
@@ -47,6 +43,7 @@ namespace Repository
         public IAcademicSessionRepository AcademicSession => _academicSessionRepository.Value;
         public IClassScheduleRepository ClassSchedule => _classScheduleRepository.Value;
         public ICourseRepository Course => _courseRepository.Value;
+        public IEnrollmentRepository CourseEnrollment => _enrollmentRepository.Value;
 
         public void Save() => _repositoryContext.SaveChanges();
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
