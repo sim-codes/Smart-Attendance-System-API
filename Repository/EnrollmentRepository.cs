@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,12 @@ namespace Repository
 
         public Enrollment GetCourseEnrolledByStudent(string userId, Guid courseId, bool trackChanges) =>
             FindByCondition(e => e.UserId.Equals(userId) && e.CourseId.Equals(courseId), trackChanges)
+            .Include(e => e.Course)
             .SingleOrDefault();
 
         public IEnumerable<Enrollment> GetStudentEnrolledCourses(string userId, bool trackChanges) =>
             FindByCondition(e => e.UserId.Equals(userId), trackChanges)
+            .Include(e => e.Course)
             .OrderBy(e => e.EnrollmentDate).ToList();
     }
 }

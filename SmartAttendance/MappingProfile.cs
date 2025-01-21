@@ -8,7 +8,6 @@ namespace SmartAttendance
     {
         public MappingProfile()
         {
-            CreateMap<Enrollment, EnrollmentDto>();
             CreateMap<EnrollmentForCreationDto, Enrollment>();
             CreateMap<Level, LevelDto>();
             CreateMap<LevelForCreationDto, Level>();
@@ -62,6 +61,11 @@ namespace SmartAttendance
                 .ForPath(dest => dest.User.Email, opt => opt.MapFrom(src => src.Email))
                 .ForPath(dest => dest.User.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ForPath(dest => dest.User.ProfileImageUrl, opt => opt.MapFrom(src => src.ProfileImageUrl));
+
+            CreateMap<Enrollment, EnrollmentDto>()
+                .ForMember(dest => dest.CourseTitle, opt => opt.MapFrom(src => src.Course.Title))
+                .ForMember(dest => dest.CourseCode, opt => opt.MapFrom(src => src.Course.Code))
+                .ForMember(dest => dest.CreditUnits, opt => opt.MapFrom(src => src.Course.CreditUnits));
         }
     }
 }
