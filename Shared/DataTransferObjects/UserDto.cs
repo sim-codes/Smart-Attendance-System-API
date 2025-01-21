@@ -10,5 +10,5 @@
         public string PhoneNumber { get; set; }
         public List<string> Roles { get; set; }
         public string ProfileImageUrl { get; set; }
-     }
+    }
 }
