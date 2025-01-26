@@ -19,7 +19,7 @@ namespace Repository.Configuration
                 {
                     Id = new Guid("8f47b996-12c3-4178-a69f-412b56b8f155"),
                     StaffId = "AU22/07623",
-                    UserId = "0da45a2c-7dda-490e-88ac-ff99fbef5a6a",
+                    UserId = "0c2b7446-f77d-4c39-aa91-963ec72d627a",
                     DepartmentId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3") // Assuming this is a valid DepartmentId
                 }
             );
