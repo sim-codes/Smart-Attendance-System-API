@@ -10,7 +10,7 @@ namespace Entities.Models
         public DateTime RefreshTokenExpiryTime { get; set; }
         public string? ProfileImageUrl { get; set; }
 
-        public Student? Student { get; set; }
-        public Lecturer? Lecturer { get; set; }
+        public virtual Student? Student { get; set; }
+        public virtual Lecturer? Lecturer { get; set; }
     }
 }
