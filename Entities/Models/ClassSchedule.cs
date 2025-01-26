@@ -26,7 +26,7 @@ namespace Entities.Models
         [Required]
         [ForeignKey(nameof(AcademicSession))]
         public Guid SessionId { get; set; }
-        public virtual AcademicSession? AcademicSession { get; set; }
+        public virtual AcademicSession AcademicSession { get; set; }
 
         [Required]
         [ForeignKey(nameof(Course))]
@@ -34,11 +34,23 @@ namespace Entities.Models
         [DeleteBehavior(DeleteBehavior.NoAction)]
         public virtual Course? Course { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(Level))]
+        public Guid LevelId { get; set; }
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        public virtual Level Level { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Department))]
+        public Guid DepartmentId { get; set; }
+        [DeleteBehavior(DeleteBehavior.NoAction)]
+        public virtual Department Department { get; set; }
+
+        [Required]
         [ForeignKey(nameof(Classroom))]
         public Guid ClassroomId { get; set; }
-        [Required]
         [DeleteBehavior(DeleteBehavior.NoAction)]
-        public virtual Classroom? Classroom { get; set; }
+        public virtual Classroom Classroom { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

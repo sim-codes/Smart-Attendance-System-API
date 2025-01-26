@@ -26,5 +26,7 @@ namespace Entities.Models
         public Faculty? Faculty { get; set; }
 
         public ICollection<Student>? Students { get; set; }
+        public ICollection<Course>? Courses { get; set; }
+        public ICollection<ClassSchedule>? ClassSchedules { get; set; }
     }
 }

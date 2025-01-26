@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -11,6 +12,7 @@ namespace Presentation.Controllers
 {
     [Route("api/enrollments/{userId}")]
     [ApiController]
+    [Authorize]
     public class EnrollmentsController : ControllerBase
     {
         private IServiceManager _service;

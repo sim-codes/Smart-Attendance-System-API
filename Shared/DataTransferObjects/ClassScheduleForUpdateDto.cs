@@ -13,6 +13,8 @@ namespace Shared.DataTransferObjects
         public TimeOnly EndTime { get; init; }
         public string SessionId { get; init; }
         public Guid CourseId { get; init; }
+        public Guid LevelId { get; init; }
+        public Guid DepartmentId { get; init; }
         public Guid ClassroomId { get; init; }
     }
 }

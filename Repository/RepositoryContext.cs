@@ -56,6 +56,7 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
             modelBuilder.ApplyConfiguration(new LecturerConfiguration());
             modelBuilder.ApplyConfiguration(new CourseConfiguration());
+            modelBuilder.ApplyConfiguration(new ClassScheduleConfiguration());
         }
 
         public DbSet<AcademicSession> AcademicSessions { get; set; }
