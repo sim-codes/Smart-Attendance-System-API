@@ -143,6 +143,14 @@
             <returns>The class schedules list</returns>
             <response code="200">Returns the list of class schedules</response>
         </member>
+        <member name="M:Presentation.Controllers.ClassSchedulesController.GetClassScheduleForCourses(Shared.DataTransferObjects.CourseIdsDto)">
+            <summary>
+            Get the list of all class schedules for specific course IDs
+            </summary>
+            <param name="courseIds">The list of course IDs</param>
+            <returns>The class schedules list</returns>
+            <response code="200">Returns the list of class schedules</response>
+        </member>
         <member name="M:Presentation.Controllers.ClassSchedulesController.GetClassScheduleById(System.Guid)">
             <summary>
             Get a specific class schedule by ID

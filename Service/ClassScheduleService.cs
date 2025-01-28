@@ -68,5 +68,12 @@ namespace Service
             _repositoryManager.ClassSchedule.DeleteClassSchedule(classScheduleEntity);
             _repositoryManager.Save();
         }
+
+        public IEnumerable<ClassScheduleDto> GetClassSchedulesByCourseIds(IEnumerable<Guid> courseIds, bool trackChanges)
+        {
+            var classSchedules = _repositoryManager.ClassSchedule.GetClassSchedulesByCourseIds(courseIds, trackChanges);
+            var classSchedulesDto = _mapper.Map<IEnumerable<ClassScheduleDto>>(classSchedules);
+            return classSchedulesDto;
+        }
     }
 }

@@ -46,6 +46,11 @@ namespace Repository
 
             return activeSchedule;
         }
-            
+
+        public IEnumerable<ClassSchedule> GetClassSchedulesByCourseIds(IEnumerable<Guid> courseIds, bool trackChanges) =>
+            FindByCondition(cs => courseIds.Contains(cs.CourseId), trackChanges)
+            .Include(s => s.Course)
+            .Include(s => s.Classroom)
+            .ToList();
     }
 }

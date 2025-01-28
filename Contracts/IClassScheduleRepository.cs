@@ -10,6 +10,7 @@ namespace Contracts
     public interface IClassScheduleRepository
     {
         IEnumerable<ClassSchedule> GetClassSchedules(bool tackChanges);
+        IEnumerable<ClassSchedule> GetClassSchedulesByCourseIds(IEnumerable<Guid> courseIds, bool trackChanges);
         ClassSchedule GetClassSchedule(Guid scheduleId, bool trackChanges);
         void CreateClassSchedule(ClassSchedule schedule);
         void DeleteClassSchedule(ClassSchedule schedule);

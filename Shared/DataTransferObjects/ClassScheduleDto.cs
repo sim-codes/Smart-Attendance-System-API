@@ -12,6 +12,8 @@ namespace Shared.DataTransferObjects
         public string DayOfWeek { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
+        public string CourseTitle { get; set; }
+        public string Classroom { get; set; }
         public Guid SessionId { get; set; }
         public Guid CourseId { get; set; }
         public Guid LevelId { get; set; }

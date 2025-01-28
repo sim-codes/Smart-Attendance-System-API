@@ -34,6 +34,20 @@ namespace Presentation.Controllers
         }
 
         /// <summary>
+        /// Get the list of all class schedules for specific course IDs
+        /// </summary>
+        /// <param name="courseIds">The list of course IDs</param>
+        /// <returns>The class schedules list</returns>
+        /// <response code="200">Returns the list of class schedules</response>
+        [HttpGet("courses", Name = "GetClassSchedulesByCourseIds")]
+        [ProducesResponseType(typeof(IEnumerable<ClassScheduleDto>), 200)]
+        public IActionResult GetClassScheduleForCourses([FromBody] CourseIdsDto courseIds)
+        {
+            var classSchedules = _service.ClassScheduleService.GetClassSchedulesByCourseIds(courseIds.Ids, trackChanges: false);
+            return Ok(classSchedules);
+        }
+
+        /// <summary>
         /// Get a specific class schedule by ID
         /// </summary>
         /// <param name="id">The ID of the class schedule</param>
