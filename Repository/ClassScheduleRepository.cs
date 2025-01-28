@@ -20,10 +20,14 @@ namespace Repository
 
         public ClassSchedule GetClassSchedule(Guid scheduleId, bool trackChanges) =>
             FindByCondition(s => s.Id.Equals(scheduleId), trackChanges)
+            .Include(s => s.Course)
+            .Include(s => s.Classroom)
             .SingleOrDefault();
 
         public IEnumerable<ClassSchedule> GetClassSchedules(bool tackChanges) =>
             FindAll(tackChanges)
+            .Include(s => s.Course)
+            .Include(s => s.Classroom)
             .OrderBy(s => s.DayOfWeek)
             .ToList();
 
