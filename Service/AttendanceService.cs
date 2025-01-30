@@ -56,6 +56,28 @@ namespace Service
             return attendancesDto;
         }
 
+        public async Task<AttendanceDto> SignAttendanceWithoutLocation(string userId, AttendanceForCreationDto attendance)
+        {
+            var activeSchedule = await _repository.ClassSchedule.GetActiveScheduleForCourseAsync(attendance.CourseId, false);
+            if (activeSchedule is null)
+            {
+                _logger.LogError($"No active schedule found for course with id {attendance.CourseId}");
+                throw new AttendanceValidationException("No active schedule found for course");
+            }
+
+            var attendanceEntity = _mapper.Map<Attendance>(attendance);
+            attendanceEntity.UserId = userId;
+            attendanceEntity.RecordedAt = DateTime.UtcNow;
+
+            _repository.Attendance.CreateAttendance(attendanceEntity);
+            await _repository.SaveAsync();
+
+            Console.WriteLine(attendanceEntity);
+
+            var attendanceDto = _mapper.Map<AttendanceDto>(attendanceEntity);
+            return attendanceDto;
+        }
+
         public async Task<(bool isVaid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance)
         {
             var activeSchedule = await _repository.ClassSchedule.GetActiveScheduleForCourseAsync(attendance.CourseId, false);

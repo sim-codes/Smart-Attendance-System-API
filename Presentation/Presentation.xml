@@ -42,6 +42,16 @@
             <response code="404">If the classroom is not found</response>
             <response code="409">If the student is not in the classroom</response>
         </member>
+        <member name="M:Presentation.Controllers.AttendanceController.SignAttendanceWithoutLocation(System.String,Shared.DataTransferObjects.AttendanceForCreationDto)">
+            <summary>
+            Create a new attendance record without verifying location
+            </summary>
+            <param name="userId">The ID of the user</param>
+            <param name="attendance">The attendance data for creation</param>
+            <returns>The created attendance record</returns>
+            <response code="201">Returns the newly created attendance record</response>
+            <response code="400">If the attendance data is invalid</response>
+        </member>
         <member name="M:Presentation.Controllers.AttendanceController.GetAttendance(System.Guid)">
             <summary>
             Get a specific attendance record by ID

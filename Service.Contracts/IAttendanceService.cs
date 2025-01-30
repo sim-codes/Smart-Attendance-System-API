@@ -13,5 +13,6 @@ namespace Service.Contracts
         AttendanceDto GetAttendance(Guid attendanceId, bool trackChanges);
         Task<(bool isVaid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance);
         Task<AttendanceDto> CreateAttendance(string userId,AttendanceForCreationDto attendance);
+        Task<AttendanceDto> SignAttendanceWithoutLocation(string userId, AttendanceForCreationDto attendance);
     }
 }

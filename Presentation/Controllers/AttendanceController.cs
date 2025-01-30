@@ -42,6 +42,25 @@ namespace Presentation.Controllers
         }
 
         /// <summary>
+        /// Create a new attendance record without verifying location
+        /// </summary>
+        /// <param name="userId">The ID of the user</param>
+        /// <param name="attendance">The attendance data for creation</param>
+        /// <returns>The created attendance record</returns>
+        /// <response code="201">Returns the newly created attendance record</response>
+        /// <response code="400">If the attendance data is invalid</response>
+        [HttpPost("signin", Name = "CreateAttendanceWithoutLocation")]
+        [ProducesResponseType(typeof(AttendanceDto), 201)]
+        [ProducesResponseType(400)]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> SignAttendanceWithoutLocation(string userId, [FromBody] AttendanceForCreationDto attendance)
+        {
+            var createdAttendance = await _service.AttendanceService.SignAttendanceWithoutLocation(userId, attendance);
+            Console.WriteLine(createdAttendance);
+            return Ok(createdAttendance);
+        }
+
+        /// <summary>
         /// Get a specific attendance record by ID
         /// </summary>
         /// <param name="id">The ID of the attendance record</param>
