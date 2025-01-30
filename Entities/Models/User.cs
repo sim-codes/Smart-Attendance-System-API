@@ -12,5 +12,6 @@ namespace Entities.Models
 
         public virtual Student? Student { get; set; }
         public virtual Lecturer? Lecturer { get; set; }
+        public virtual Attendance? Attendance { get; set; }
     }
 }

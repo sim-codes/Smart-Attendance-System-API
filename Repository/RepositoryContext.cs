@@ -39,6 +39,14 @@ namespace Repository
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Attendance)
+                .WithOne(a => a.User);
+
+            modelBuilder.Entity<Attendance>()
+                .HasOne(a => a.User)
+                .WithOne(u => u.Attendance);
+
             modelBuilder.Entity<ClassSchedule>()
                 .Property(b => b.UpdatedAt)
                 .HasDefaultValueSql("GETUTCDATE()");
