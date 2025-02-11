@@ -54,14 +54,45 @@ namespace Service
             return result;
         }
 
-        public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
+        public async Task<AuthenticationResponse> ValidateUser(UserForAuthenticationDto userForAuth)
         {
-            _user = await _userManager.FindByNameAsync(userForAuth.Username);
-            var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
-            if (!result)
-                _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong username or password");
+            var response = new AuthenticationResponse();
 
-            return result;
+            // Check if username is null or empty
+            if (string.IsNullOrWhiteSpace(userForAuth.Username))
+            {
+                _logger.LogWarn($"{nameof(ValidateUser)}: Username is null or empty");
+                response.IsAuthenticated = false;
+                response.ErrorMessage = "Username is required";
+                return response;
+            }
+
+            // Find user
+            _user = await _userManager.FindByNameAsync(userForAuth.Username);
+
+            // User not found
+            if (_user == null)
+            {
+                _logger.LogWarn($"{nameof(ValidateUser)}: User not found. Username: {userForAuth.Username}");
+                response.IsAuthenticated = false;
+                response.ErrorMessage = "User not found";
+                return response;
+            }
+
+            // Check password
+            var passwordValid = await _userManager.CheckPasswordAsync(_user, userForAuth.Password);
+
+            if (!passwordValid)
+            {
+                _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong password for user: {userForAuth.Username}");
+                response.IsAuthenticated = false;
+                response.ErrorMessage = "Invalid password";
+                return response;
+            }
+
+            // Authentication successful
+            response.IsAuthenticated = true;
+            return response;
         }
 
         public async Task<TokenDto> CreateToken(bool populateExp)
