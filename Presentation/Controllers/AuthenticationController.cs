@@ -59,8 +59,16 @@ namespace Presentation.Controllers
         [ProducesResponseType(401)]
         public async Task<IActionResult> AuthenticateUser([FromBody] UserForAuthenticationDto user)
         {
-            if (!await _service.AuthenticationService.ValidateUser(user))
-                return Unauthorized();
+            var authResult = await _service.AuthenticationService.ValidateUser(user);
+
+            if (!authResult.IsAuthenticated)
+            {
+                return Unauthorized(new
+                {
+                    Message = authResult.ErrorMessage,
+                    IsAuthenticated = false
+                });
+            }
 
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
             var userProfile = await _service.ProfileService.GetUserByName(user.Username);

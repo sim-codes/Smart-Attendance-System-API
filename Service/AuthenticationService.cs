@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
+using Shared.RequestFeatures;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Service
 
         private User? _user;
 
-        public AuthenticationService(ILoggerManager logger, IMapper mapper, 
+        public AuthenticationService(ILoggerManager logger, IMapper mapper,
             UserManager<User> userManager, IConfiguration configuration,
             IEmailService emailService)
         {
@@ -58,7 +59,6 @@ namespace Service
         {
             var response = new AuthenticationResponse();
 
-            // Check if username is null or empty
             if (string.IsNullOrWhiteSpace(userForAuth.Username))
             {
                 _logger.LogWarn($"{nameof(ValidateUser)}: Username is null or empty");
@@ -67,10 +67,8 @@ namespace Service
                 return response;
             }
 
-            // Find user
             _user = await _userManager.FindByNameAsync(userForAuth.Username);
 
-            // User not found
             if (_user == null)
             {
                 _logger.LogWarn($"{nameof(ValidateUser)}: User not found. Username: {userForAuth.Username}");
@@ -79,7 +77,6 @@ namespace Service
                 return response;
             }
 
-            // Check password
             var passwordValid = await _userManager.CheckPasswordAsync(_user, userForAuth.Password);
 
             if (!passwordValid)
