@@ -2,6 +2,7 @@
 using Contracts;
 using Entities.ConfigurationModels;
 using Entities.Models;
+using Hangfire;
 using LoggerService;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -85,6 +86,16 @@ namespace SmartAttendance.Extensions
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddSqlServer<RepositoryContext>((configuration.GetConnectionString("sqlConnection")));
+
+        public static void AddHangfireConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(configuration.GetConnectionString("sqlConnection"));
+            });
+
+            services.AddHangfireServer();
+        }
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {

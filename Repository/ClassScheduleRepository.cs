@@ -56,5 +56,10 @@ namespace Repository
             .Include(s => s.Course)
             .Include(s => s.Classroom)
             .ToList();
+
+        public async Task<IEnumerable<ClassSchedule>> GetClassSchedulesByTimeAsync(TimeOnly startTime, TimeOnly endTime) =>
+            await FindByCondition(cs => cs.StartTime == startTime && cs.EndTime == endTime, false)
+            .ToListAsync();
+
     }
 }

@@ -1,0 +1,17 @@
+﻿using Hangfire;
+using Service.Contracts;
+
+namespace SmartAttendance.Extensions
+{
+    public static class HangfireScheduler
+    {
+        public static void ScheduleRecurringJobs()
+        {
+            RecurringJob.AddOrUpdate(
+            "auto-sign-attendance",
+            () => Console.WriteLine("Recurring!"),
+            "0 7-17 * * 1-5",
+            TimeZoneInfo.Utc);
+        }
+    }
+}

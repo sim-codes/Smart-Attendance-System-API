@@ -1,5 +1,6 @@
 using AspNetCoreRateLimit;
 using Contracts;
+using Hangfire;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
@@ -31,6 +32,7 @@ builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureEmailService();
+builder.Services.AddHangfireConfiguration(builder.Configuration);
 
 builder.Services.AddControllers(config =>
 {
@@ -56,6 +58,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
+HangfireScheduler.ScheduleRecurringJobs();
+
 app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 app.UseResponseCaching();
@@ -64,6 +68,9 @@ app.UseSwagger();
 app.UseSwaggerUI(s =>
 {
     s.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Attendance System API v1");
+});
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
 });
 
 app.UseAuthentication();

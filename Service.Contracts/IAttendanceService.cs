@@ -14,5 +14,6 @@ namespace Service.Contracts
         Task<(bool isVaid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance);
         Task<AttendanceDto> CreateAttendance(string userId,AttendanceForCreationDto attendance);
         Task<AttendanceDto> SignAttendanceWithoutLocation(string userId, AttendanceForCreationDto attendance);
+        Task AutoSignAttendanceForActiveClasses();
     }
 }

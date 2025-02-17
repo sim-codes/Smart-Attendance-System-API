@@ -15,5 +15,6 @@ namespace Contracts
         void CreateClassSchedule(ClassSchedule schedule);
         void DeleteClassSchedule(ClassSchedule schedule);
         Task<ClassSchedule> GetActiveScheduleForCourseAsync(Guid courseId, bool trackChanges);
+        Task<IEnumerable<ClassSchedule>> GetClassSchedulesByTimeAsync(TimeOnly startTime, TimeOnly endTime);
     }
 }

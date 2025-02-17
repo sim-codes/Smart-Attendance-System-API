@@ -21,6 +21,20 @@ namespace Service
             _mapper = mapper;
         }
 
+        public async Task AutoSignAttendanceForActiveClasses()
+        {
+            try
+            {
+                var currentTime = DateTime.UtcNow;
+                var currentDayStart = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
+                var currentDayEnd = currentDayStart.AddDays(1);
+            }
+            finally
+            {
+                await _repository.SaveAsync();
+            }
+        }
+
         public async Task<AttendanceDto> CreateAttendance(string userId, AttendanceForCreationDto attendance)
         {
             var (isValid, message) = await ValiidateAttendance(attendance);
