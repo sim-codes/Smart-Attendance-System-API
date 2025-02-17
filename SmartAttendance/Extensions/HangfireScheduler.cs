@@ -5,13 +5,13 @@ namespace SmartAttendance.Extensions
 {
     public static class HangfireScheduler
     {
-        public static void ScheduleRecurringJobs()
+        public static void ScheduleRecurringJobs(IRecurringJobManager recurringJobManager)
         {
-            RecurringJob.AddOrUpdate(
-            "auto-sign-attendance",
-            () => Console.WriteLine("Recurring!"),
-            "0 7-17 * * 1-5",
-            TimeZoneInfo.Utc);
+            recurringJobManager.AddOrUpdate(
+                "auto-sign-attendance",
+                () => Console.WriteLine("Recurring!"),
+                "0 7-17 * * 1-5",
+                TimeZoneInfo.Utc);
         }
     }
 }

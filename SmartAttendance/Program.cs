@@ -58,7 +58,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
-HangfireScheduler.ScheduleRecurringJobs();
+using (var scope = app.Services.CreateScope())
+{
+    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+    HangfireScheduler.ScheduleRecurringJobs(recurringJobManager);
+}
 
 app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");

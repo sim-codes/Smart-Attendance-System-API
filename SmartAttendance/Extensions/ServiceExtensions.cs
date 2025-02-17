@@ -3,6 +3,7 @@ using Contracts;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using Hangfire;
+using Hangfire.SqlServer;
 using LoggerService;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -92,6 +93,7 @@ namespace SmartAttendance.Extensions
             services.AddHangfire(config =>
             {
                 config.UseSqlServerStorage(configuration.GetConnectionString("sqlConnection"));
+                config.UseDashboardMetric(SqlServerStorage.ActiveConnections);
             });
 
             services.AddHangfireServer();
