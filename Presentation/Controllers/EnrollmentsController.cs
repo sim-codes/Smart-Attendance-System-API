@@ -41,13 +41,13 @@ namespace Presentation.Controllers
         [HttpGet("{courseId:guid}", Name = "GetEnrolledCourseById")]
         [ProducesResponseType(typeof(EnrollmentDto), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetEnrolledCourseById(string userId, Guid courseId)
+        public IActionResult GetEnrolledCourseById(string userId, Guid courseId)
         {
             var enrollment = _service.EnrollmentService.GetCourseEnrolledByStudent(userId, courseId, trackChanges: false);
             if (enrollment is null)
                 return NotFound();
 
-            var students = await _service.EnrollmentService.GetStudentsEnrolledByCourse(courseId, false);
+            var students = _service.EnrollmentService.GetStudentsEnrolledByCourse(courseId, false);
 
             return Ok(new { Students = students, Enrollment = enrollment});
         }

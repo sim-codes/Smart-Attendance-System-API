@@ -14,6 +14,7 @@ namespace Shared.DataTransferObjects
         public string CourseCode { get; init; }
         public int CreditUnits { get; init; }
         public DateTime EnrollmentDate { get; init; }
+        public UserDto? User { get; init; }
 
     }
 }
