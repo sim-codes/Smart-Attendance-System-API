@@ -36,7 +36,7 @@ namespace Repository
 
         public async Task<IEnumerable<Student>> GetStudentsEnrolledForCourse(Guid courseId, bool trackChanges) =>
             (IEnumerable<Student>)FindByCondition(e => e.CourseId.Equals(courseId), trackChanges)
-            .Include(e => e.UserId)
+            .Include(e => e.User)
             .OrderBy(e => e.EnrollmentDate)
             .ToListAsync();
     }

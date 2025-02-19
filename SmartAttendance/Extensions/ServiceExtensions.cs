@@ -61,7 +61,7 @@ namespace SmartAttendance.Extensions
                 new RateLimitRule
                 {
                     Endpoint = "*",
-                    Limit = 50,
+                    Limit = 100,
                     Period = "5m"
                 }
             };
