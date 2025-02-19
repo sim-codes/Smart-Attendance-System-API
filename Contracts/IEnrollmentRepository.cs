@@ -9,6 +9,7 @@ namespace Contracts
 {
     public interface IEnrollmentRepository
     {
+        Task<IEnumerable<Student>> GetStudentsEnrolledForCourse(Guid courseId, bool trackChanges);
         IEnumerable<Enrollment> GetStudentEnrolledCourses(string userId, bool trackChanges);
         Enrollment GetCourseEnrolledByStudent(string userId, Guid id, bool trackChanges);
         void EnrollStudentForCourse(string userId, Enrollment courseEnrollment);

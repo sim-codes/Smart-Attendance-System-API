@@ -13,5 +13,6 @@ namespace Service.Contracts
         EnrollmentDto GetCourseEnrolledByStudent(string userId, Guid courseId, bool trackChanges);
         EnrollmentDto EnrollStudentForCourse(string userId, EnrollmentForCreationDto enrollmentForCreation, bool trackChanges);
         void DeleteCourseEnrolledByStudent(string userId, Guid courseId, bool trackChanges);
+        Task<IEnumerable<StudentDto>> GetStudentsEnrolledByCourse(Guid CourseId, bool trackChanges);
     }
 }

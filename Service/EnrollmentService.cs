@@ -63,5 +63,12 @@ namespace Service
             var enrollmentDto = _mapper.Map<EnrollmentDto>(enrollment);
             return enrollmentDto;
         }
+
+        public async Task<IEnumerable<StudentDto>> GetStudentsEnrolledByCourse(Guid CourseId, bool trackChanges)
+        {
+            var students = await _repository.CourseEnrollment.GetStudentsEnrolledForCourse(CourseId, trackChanges);
+            var studentsDto = _mapper.Map<IEnumerable<StudentDto>>(students);
+            return studentsDto;
+        }
     }
 }
