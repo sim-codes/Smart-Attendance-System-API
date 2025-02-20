@@ -40,23 +40,23 @@ namespace Service
         {
             var now = DateTime.UtcNow;
 
-            var students = await _repository.CourseEnrollment.GetStudentsEnrolledForCourse(courseId, false);
-            var signedStudents = await _repository.Attendance.GetAllSignedStudentIdsAsync(courseId, now.Date, false);
+            var studentIds = await _repository.CourseEnrollment.GetAllStudentEnrolledIdsForCourse(courseId, false);
+            var signedStudentIds = await _repository.Attendance.GetAllSignedStudentIdsAsync(courseId, now.Date, false);
 
-            var absentStudents = students.Where(student => !signedStudents.Any(sId => sId.Equals(student.UserId))).ToList();
+            var absentStudentIds = studentIds.Except(signedStudentIds).ToList();
 
-            if (absentStudents.Any())
+            if (absentStudentIds.Any())
             {
-                var attendanceRecords = absentStudents.Select(student => new Attendance
+                var attendanceRecords = absentStudentIds.Select(studentId => new Attendance
                 {
                     Id = Guid.NewGuid(),
-                    UserId = student.UserId,
+                    UserId = studentId,
                     CourseId = courseId,
                     RecordedAt = now,
                     Status = AttendanceStatus.Absent
                 }).ToList();
 
-                //_repository.Attendance.CreateAttendanceRange(attendanceRecords);
+                _repository.Attendance.CreateAttendanceRange(attendanceRecords);
                 await _repository.SaveAsync();
             }
         }

@@ -38,5 +38,12 @@ namespace Repository
             await FindByCondition(e => e.CourseId.Equals(courseId), trackChanges)
             .Include(e => e.User)
             .OrderBy(e => e.EnrollmentDate).ToListAsync();
+
+        public async Task<IEnumerable<string>> GetAllStudentEnrolledIdsForCourse(Guid courseId, bool trackChanges)
+        {
+            var studentIds = await FindByCondition(e => e.CourseId.Equals(courseId), trackChanges)
+                .Select(e => e.UserId).ToListAsync();
+            return studentIds;
+        }
     }
 }

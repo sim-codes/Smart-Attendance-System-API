@@ -11,7 +11,10 @@ namespace SmartAttendance.Extensions
                 "auto-sign-attendance",
                 () => Console.WriteLine("Recurring!"),
                 "*/5 7-17 * * 1-5",
-                TimeZoneInfo.Utc);
+                new RecurringJobOptions
+                {
+                    TimeZone = TimeZoneInfo.Utc
+                });
         }
     }
 }

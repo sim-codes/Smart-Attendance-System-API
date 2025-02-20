@@ -18,6 +18,9 @@ namespace Repository
 
         public void CreateAttendance(Attendance attendance) => Create(attendance);
 
+        public void CreateAttendanceRange(IEnumerable<Attendance> attendances) =>
+            CreateRange(attendances);
+
         public IEnumerable<Attendance> GetAllAttendances(bool trackChanges) =>
             FindAll(trackChanges)
             .OrderBy(c => c.RecordedAt)
