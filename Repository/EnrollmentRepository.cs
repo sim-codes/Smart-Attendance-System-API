@@ -34,9 +34,9 @@ namespace Repository
             .Include(e => e.Course)
             .OrderBy(e => e.EnrollmentDate).ToList();
 
-        public IEnumerable<Enrollment> GetStudentsEnrolledForCourse(Guid courseId, bool trackChanges) =>
-            FindByCondition(e => e.CourseId.Equals(courseId), trackChanges)
+        public async Task<IEnumerable<Enrollment>> GetStudentsEnrolledForCourse(Guid courseId, bool trackChanges) =>
+            await FindByCondition(e => e.CourseId.Equals(courseId), trackChanges)
             .Include(e => e.User)
-            .OrderBy(e => e.EnrollmentDate).ToList();
+            .OrderBy(e => e.EnrollmentDate).ToListAsync();
     }
 }

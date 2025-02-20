@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +26,12 @@ namespace Repository
         public Attendance GetAttendanceById(Guid attendanceId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(attendanceId), trackChanges)
             .SingleOrDefault();
+
+        public async Task<IEnumerable<string>> GetAllSignedStudentIdsAsync(Guid courseId, DateTime today, bool trackChanges)
+        {
+            return await FindByCondition(a => a.CourseId.Equals(courseId) && a.RecordedAt.Date == today, trackChanges)
+                .Select(a => a.UserId)
+                .ToListAsync();
+        }
     }
 }

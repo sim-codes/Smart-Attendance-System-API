@@ -4,6 +4,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
+using System.Linq;
 
 namespace Service
 {
@@ -31,6 +32,31 @@ namespace Service
             }
             finally
             {
+                await _repository.SaveAsync();
+            }
+        }
+
+        private async Task MarkAbsentees(Guid courseId)
+        {
+            var now = DateTime.UtcNow;
+
+            var students = await _repository.CourseEnrollment.GetStudentsEnrolledForCourse(courseId, false);
+            var signedStudents = await _repository.Attendance.GetAllSignedStudentIdsAsync(courseId, now.Date, false);
+
+            var absentStudents = students.Where(student => !signedStudents.Any(sId => sId.Equals(student.UserId))).ToList();
+
+            if (absentStudents.Any())
+            {
+                var attendanceRecords = absentStudents.Select(student => new Attendance
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = student.UserId,
+                    CourseId = courseId,
+                    RecordedAt = now,
+                    Status = AttendanceStatus.Absent
+                }).ToList();
+
+                //_repository.Attendance.CreateAttendanceRange(attendanceRecords);
                 await _repository.SaveAsync();
             }
         }

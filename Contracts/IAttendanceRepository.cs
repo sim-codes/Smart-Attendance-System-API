@@ -11,6 +11,7 @@ namespace Contracts
     {
         IEnumerable<Attendance> GetAllAttendances(bool trackChanges);
         Attendance GetAttendanceById(Guid attendanceId, bool trackChanges);
+        Task<IEnumerable<string>> GetAllSignedStudentIdsAsync(Guid courseId, DateTime today, bool trackChanges);
         void CreateAttendance(Attendance attendance);
     }
 }

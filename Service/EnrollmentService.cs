@@ -64,10 +64,9 @@ namespace Service
             return enrollmentDto;
         }
 
-        public IEnumerable<EnrolledStudentDto> GetStudentsEnrolledByCourse(Guid CourseId, bool trackChanges)
+        public async Task<IEnumerable<EnrolledStudentDto>> GetStudentsEnrolledByCourse(Guid CourseId, bool trackChanges)
         {
-            var students = _repository.CourseEnrollment.GetStudentsEnrolledForCourse(CourseId, trackChanges);
-            Console.WriteLine(students);
+            var students = await _repository.CourseEnrollment.GetStudentsEnrolledForCourse(CourseId, trackChanges);
             var studentsDto = _mapper.Map<IEnumerable<EnrolledStudentDto>>(students);
             return studentsDto;
         }
