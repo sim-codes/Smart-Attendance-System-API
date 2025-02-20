@@ -47,9 +47,7 @@ namespace Presentation.Controllers
             if (enrollment is null)
                 return NotFound();
 
-            var students = _service.EnrollmentService.GetStudentsEnrolledByCourse(courseId, false);
-
-            return Ok(new { Students = students, Enrollment = enrollment});
+            return Ok(enrollment);
         }
 
         /// <summary>
