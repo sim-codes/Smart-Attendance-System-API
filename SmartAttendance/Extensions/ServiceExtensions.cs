@@ -3,6 +3,7 @@ using Contracts;
 using Entities.ConfigurationModels;
 using Entities.Models;
 using Hangfire;
+using Hangfire.AspNetCore;
 using Hangfire.SqlServer;
 using LoggerService;
 using Marvin.Cache.Headers;
@@ -16,6 +17,7 @@ using Repository;
 using Service;
 using Service.Contracts;
 using System.Text;
+using Quartz;
 
 namespace SmartAttendance.Extensions
 {
@@ -92,11 +94,36 @@ namespace SmartAttendance.Extensions
         {
             services.AddHangfire(config =>
             {
-                config.UseSqlServerStorage(configuration.GetConnectionString("sqlConnection"));
-                config.UseDashboardMetric(SqlServerStorage.ActiveConnections);
+                config.UseSqlServerStorage(configuration.GetConnectionString("sqlConnection"))
+                .UseDashboardMetric(SqlServerStorage.ActiveConnections)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseActivator(new AspNetCoreJobActivator(services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>()));
             });
 
             services.AddHangfireServer();
+        }
+
+        public static void ConfigureQuartz(this IServiceCollection services)
+        {
+            services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionScopedJobFactory();
+                var jobKey = new JobKey("AttendanceJob");
+                q.AddJob<AttendanceJob>(j => j.WithIdentity(jobKey));
+                q.AddTrigger(t => t
+                    .WithIdentity("AttendanceJob-trigger")
+                    .ForJob(jobKey)
+                    .StartNow()
+                    .WithSimpleSchedule(x => x
+                        .WithIntervalInSeconds(10)
+                        .RepeatForever())
+                );
+            });
+            services.AddQuartzServer(options =>
+            {
+                options.WaitForJobsToComplete = true;
+            });
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

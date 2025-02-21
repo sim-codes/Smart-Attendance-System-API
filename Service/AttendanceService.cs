@@ -24,16 +24,17 @@ namespace Service
 
         public async Task AutoSignAttendanceForActiveClasses()
         {
-            try
-            {
-                var currentTime = DateTime.UtcNow;
-                var currentDayStart = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
-                var currentDayEnd = currentDayStart.AddDays(1);
-            }
-            finally
-            {
-                await _repository.SaveAsync();
-            }
+            //try
+            //{
+            //    var currentTime = DateTime.UtcNow;
+            //    var currentDayStart = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
+            //    var currentDayEnd = currentDayStart.AddDays(1);
+            //}
+            //finally
+            //{
+            //    await _repository.SaveAsync();
+            //}
+            Console.WriteLine("Attendance background service running.");
         }
 
         private async Task MarkAbsentees(Guid courseId)
