@@ -95,36 +95,33 @@ namespace SmartAttendance.Extensions
             services.AddHangfire(config =>
             {
                 config.UseSqlServerStorage(configuration.GetConnectionString("sqlConnection"))
-                .UseDashboardMetric(SqlServerStorage.ActiveConnections)
-                .UseSimpleAssemblyNameTypeSerializer()
-                .UseRecommendedSerializerSettings()
-                .UseActivator(new AspNetCoreJobActivator(services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>()));
+                .UseDashboardMetric(SqlServerStorage.ActiveConnections);
             });
 
             services.AddHangfireServer();
         }
 
-        public static void ConfigureQuartz(this IServiceCollection services)
-        {
-            services.AddQuartz(q =>
-            {
-                q.UseMicrosoftDependencyInjectionScopedJobFactory();
-                var jobKey = new JobKey("AttendanceJob");
-                q.AddJob<AttendanceJob>(j => j.WithIdentity(jobKey));
-                q.AddTrigger(t => t
-                    .WithIdentity("AttendanceJob-trigger")
-                    .ForJob(jobKey)
-                    .StartNow()
-                    .WithSimpleSchedule(x => x
-                        .WithIntervalInSeconds(10)
-                        .RepeatForever())
-                );
-            });
-            services.AddQuartzServer(options =>
-            {
-                options.WaitForJobsToComplete = true;
-            });
-        }
+        //public static void ConfigureQuartz(this IServiceCollection services)
+        //{
+        //    services.AddQuartz(q =>
+        //    {
+        //        q.UseMicrosoftDependencyInjectionScopedJobFactory();
+        //        var jobKey = new JobKey("AttendanceJob");
+        //        q.AddJob<AttendanceJob>(j => j.WithIdentity(jobKey));
+        //        q.AddTrigger(t => t
+        //            .WithIdentity("AttendanceJob-trigger")
+        //            .ForJob(jobKey)
+        //            .StartNow()
+        //            .WithSimpleSchedule(x => x
+        //                .WithIntervalInSeconds(10)
+        //                .RepeatForever())
+        //        );
+        //    });
+        //    services.AddQuartzServer(options =>
+        //    {
+        //        options.WaitForJobsToComplete = true;
+        //    });
+        //}
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {

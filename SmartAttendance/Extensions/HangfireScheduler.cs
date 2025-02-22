@@ -7,9 +7,9 @@ namespace SmartAttendance.Extensions
     {
         public static void ScheduleRecurringJobs(IRecurringJobManager recurringJobManager)
         {
-            recurringJobManager.AddOrUpdate<IAttendanceService>(
+            recurringJobManager.AddOrUpdate<HangfireJobs>(
                 "auto-sign-attendance",
-                service => service.AutoSignAttendanceForActiveClasses(),
+                job => job.ProcessAttendance(),
                 "*/5 7-17 * * 1-5",
                 new RecurringJobOptions
                 {
