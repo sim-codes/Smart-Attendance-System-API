@@ -1,10 +1,12 @@
 using AspNetCoreRateLimit;
 using Contracts;
 using Hangfire;
+using Hangfire.AspNetCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Presentation.ActionFilters;
+using Service.Contracts;
 using SmartAttendance.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,6 +66,23 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 //    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
 //    HangfireScheduler.ScheduleRecurringJobs(recurringJobManager);
 //}
+JobActivator.Current = new AspNetCoreJobActivator((IServiceScopeFactory)app.Services);
+
+static async Task ActivateAttendanceJob(IJobCancellationToken token, WebApplication? app)
+{
+    using var scope = app.Services.CreateScope();
+    var serviceManager = scope.ServiceProvider.GetRequiredService<IServiceManager>();
+    await serviceManager.AttendanceService.AutoSignAttendanceForActiveClasses();
+}
+
+RecurringJob.AddOrUpdate<IAttendanceService>(
+        "auto-sign-attendance",
+        () => ActivateAttendanceJob(null, app),
+       "*/2 * * * *",
+        new RecurringJobOptions
+        {
+            TimeZone = TimeZoneInfo.Utc
+        });
 
 app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
