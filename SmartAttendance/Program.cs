@@ -56,8 +56,10 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.All
 });
+app.UseRouting();
 
-app.UseCoreAdminCustomUrl("smart-admin");
+app.UseCoreAdminCustomUrl("SmartAdmin");
+
 app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 app.UseResponseCaching();
