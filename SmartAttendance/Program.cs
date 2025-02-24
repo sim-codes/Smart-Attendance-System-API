@@ -1,13 +1,9 @@
 using AspNetCoreRateLimit;
 using Contracts;
-using Hangfire;
-using Hangfire.AspNetCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Presentation.ActionFilters;
-using Service;
-using Service.Contracts;
 using SmartAttendance.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,8 +31,8 @@ builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureEmailService();
-//builder.Services.AddHangfireConfiguration(builder.Configuration);
 builder.Services.ConfigureQuartz();
+builder.Services.AddCoreAdmin();
 
 builder.Services.AddControllers(config =>
 {
@@ -61,15 +57,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
-//GlobalConfiguration.Configuration.use(app.Services);
-
-//using (var scope = app.Services.CreateScope())
-//{
-//    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
-//    HangfireScheduler.ScheduleRecurringJobs(recurringJobManager);
-//}
-
-
+app.UseCoreAdminCustomUrl("smart-admin");
 app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 app.UseResponseCaching();
@@ -79,10 +67,6 @@ app.UseSwaggerUI(s =>
 {
     s.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Attendance System API v1");
 });
-//app.UseHangfireDashboard("/hangfire", new DashboardOptions
-//{
-//});
-
 app.UseAuthentication();
 app.UseAuthorization();
 

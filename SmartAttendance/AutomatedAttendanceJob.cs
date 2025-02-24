@@ -2,7 +2,7 @@
 using Quartz;
 using Service.Contracts;
 
-namespace SmartAttendance.Extensions
+namespace SmartAttendance
 {
     [DisallowConcurrentExecution]
     public class AutomatedAttendanceJob : IJob

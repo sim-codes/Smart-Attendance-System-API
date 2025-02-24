@@ -2,15 +2,11 @@
 using Contracts;
 using Entities.ConfigurationModels;
 using Entities.Models;
-using Hangfire;
-using Hangfire.AspNetCore;
-using Hangfire.SqlServer;
 using LoggerService;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repository;
@@ -89,17 +85,6 @@ namespace SmartAttendance.Extensions
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddSqlServer<RepositoryContext>((configuration.GetConnectionString("sqlConnection")));
-
-        public static void AddHangfireConfiguration(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddHangfire(config =>
-            {
-                config.UseSqlServerStorage(configuration.GetConnectionString("sqlConnection"))
-                .UseDashboardMetric(SqlServerStorage.ActiveConnections);
-            });
-
-            services.AddHangfireServer();
-        }
 
         public static void ConfigureQuartz(this IServiceCollection services)
         {
