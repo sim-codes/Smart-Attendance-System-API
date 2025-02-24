@@ -24,17 +24,29 @@ namespace Service
 
         public async Task AutoSignAttendanceForActiveClasses()
         {
-            //try
-            //{
-            //    var currentTime = DateTime.UtcNow;
-            //    var currentDayStart = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, 0, 0, 0);
-            //    var currentDayEnd = currentDayStart.AddDays(1);
-            //}
-            //finally
-            //{
-            //    await _repository.SaveAsync();
-            //}
-            Console.WriteLine("Attendance background service running.");
+            _logger.LogInfo("Starting automated attendance signing");
+
+            var now = DateTime.Now;
+            var currentTime = TimeOnly.FromDateTime(now);
+            
+            var endTime = currentTime.AddMinutes(10);
+
+            var activeClasses = await _repository.ClassSchedule
+                .GetClassSchedulesByTimeAsync(currentTime, endTime);
+
+            foreach (var classSchedule in activeClasses)
+            {
+                try
+                {
+                    _logger.LogInfo($"Processing attendance for class {classSchedule.CourseId} scheduled to end at {classSchedule.EndTime}");
+
+                    await MarkAbsentees(classSchedule.CourseId);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error processing attendance for class {classSchedule.CourseId}: {ex}");
+                }
+            }
         }
 
         private async Task MarkAbsentees(Guid courseId)

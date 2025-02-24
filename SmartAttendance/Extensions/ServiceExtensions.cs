@@ -101,27 +101,25 @@ namespace SmartAttendance.Extensions
             services.AddHangfireServer();
         }
 
-        //public static void ConfigureQuartz(this IServiceCollection services)
-        //{
-        //    services.AddQuartz(q =>
-        //    {
-        //        q.UseMicrosoftDependencyInjectionScopedJobFactory();
-        //        var jobKey = new JobKey("AttendanceJob");
-        //        q.AddJob<AttendanceJob>(j => j.WithIdentity(jobKey));
-        //        q.AddTrigger(t => t
-        //            .WithIdentity("AttendanceJob-trigger")
-        //            .ForJob(jobKey)
-        //            .StartNow()
-        //            .WithSimpleSchedule(x => x
-        //                .WithIntervalInSeconds(10)
-        //                .RepeatForever())
-        //        );
-        //    });
-        //    services.AddQuartzServer(options =>
-        //    {
-        //        options.WaitForJobsToComplete = true;
-        //    });
-        //}
+        public static void ConfigureQuartz(this IServiceCollection services)
+        {
+            services.AddQuartz(q =>
+            {
+               var jobKey = new JobKey("AutomatedAttendanceJob");
+
+                q.AddJob<AutomatedAttendanceJob>(opts => opts.WithIdentity(jobKey));
+
+                q.AddTrigger(opts => opts
+                .ForJob(jobKey)
+                .WithIdentity("AutomatedAttendanceTrigger")
+                .WithCronSchedule("0 */5 7-17 ? * MON-FRI", x => x
+                    .WithMisfireHandlingInstructionDoNothing()
+                    .InTimeZone(TimeZoneInfo.Local))
+            );
+            });
+
+            services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+        }
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
