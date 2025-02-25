@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
-    [Route("api/attendance/{userId}")]
+    [Route("api/attendance")]
     [ApiController]
     [Authorize]
     public class AttendanceController : ControllerBase
@@ -18,6 +18,19 @@ namespace Presentation.Controllers
         private IServiceManager _service;
 
         public AttendanceController(IServiceManager service) => _service = service;
+
+        /// <summary>
+        /// Get the list of all attendance records
+        /// </summary>
+        /// <returns>The attendance records list</returns>
+        /// <response code="200">Returns the list of attendance records</response>
+        [HttpGet(Name = "GetAttendanceRecords")]
+        [ProducesResponseType(typeof(IEnumerable<AttendanceDto>), 200)]
+        public IActionResult GetAllAttendanceRecords()
+        {
+            var attendances = _service.AttendanceService.GetAttendances(trackChanges: false);
+            return Ok(attendances);
+        }
 
         /// <summary>
         /// Create a new attendance record
@@ -29,7 +42,7 @@ namespace Presentation.Controllers
         /// <response code="400">If the attendance data is invalid</response>
         /// <response code="404">If the classroom is not found</response>
         /// <response code="409">If the student is not in the classroom</response>
-        [HttpPost(Name = "CreateAttendance")]
+        [HttpPost("{userId}", Name = "CreateAttendance")]
         [ProducesResponseType(typeof(AttendanceDto), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -49,7 +62,7 @@ namespace Presentation.Controllers
         /// <returns>The created attendance record</returns>
         /// <response code="201">Returns the newly created attendance record</response>
         /// <response code="400">If the attendance data is invalid</response>
-        [HttpPost("signin", Name = "CreateAttendanceWithoutLocation")]
+        [HttpPost("{userId}/signin", Name = "CreateAttendanceWithoutLocation")]
         [ProducesResponseType(typeof(AttendanceDto), 201)]
         [ProducesResponseType(400)]
         [Authorize(Roles = "Student")]
@@ -74,19 +87,6 @@ namespace Presentation.Controllers
         {
             var attendance = _service.AttendanceService.GetAttendance(id, trackChanges: false);
             return Ok(attendance);
-        }
-
-        /// <summary>
-        /// Get the list of all attendance records
-        /// </summary>
-        /// <returns>The attendance records list</returns>
-        /// <response code="200">Returns the list of attendance records</response>
-        [HttpGet(Name = "GetAttendances")]
-        [ProducesResponseType(typeof(IEnumerable<AttendanceDto>), 200)]
-        public IActionResult GetAttendances()
-        {
-            var attendances = _service.AttendanceService.GetAttendances(trackChanges: false);
-            return Ok(attendances);
         }
     }
 }

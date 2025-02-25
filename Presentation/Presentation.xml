@@ -30,6 +30,13 @@
             <response code="204">If the academic session is successfully deleted</response>
             <response code="404">If the academic session is not found</response>
         </member>
+        <member name="M:Presentation.Controllers.AttendanceController.GetAllAttendanceRecords">
+            <summary>
+            Get the list of all attendance records
+            </summary>
+            <returns>The attendance records list</returns>
+            <response code="200">Returns the list of attendance records</response>
+        </member>
         <member name="M:Presentation.Controllers.AttendanceController.CreateAttendance(System.String,Shared.DataTransferObjects.AttendanceForCreationDto)">
             <summary>
             Create a new attendance record
@@ -60,13 +67,6 @@
             <returns>The attendance record details</returns>
             <response code="200">Returns the attendance record details</response>
             <response code="404">If the attendance record is not found</response>
-        </member>
-        <member name="M:Presentation.Controllers.AttendanceController.GetAttendances">
-            <summary>
-            Get the list of all attendance records
-            </summary>
-            <returns>The attendance records list</returns>
-            <response code="200">Returns the list of attendance records</response>
         </member>
         <member name="M:Presentation.Controllers.AuthenticationController.RegisterUser(Shared.DataTransferObjects.UserForRegistrationDto)">
             <summary>
