@@ -39,13 +39,32 @@ namespace Repository
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Attendance)
-                .WithOne(a => a.User);
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.User)
+                .WithMany(u => u.Enrollments)
+                .HasForeignKey(e => e.UserId);
 
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.Course)
+                .WithMany(c => c.Enrollments)
+                .HasForeignKey(e => e.CourseId);
+
+            // Attendance Relationships
             modelBuilder.Entity<Attendance>()
                 .HasOne(a => a.User)
-                .WithOne(u => u.Attendance);
+                .WithMany(u => u.Attendances)
+                .HasForeignKey(a => a.UserId);
+
+            modelBuilder.Entity<Attendance>()
+                .HasOne(a => a.Course)
+                .WithMany(c => c.Attendances)
+                .HasForeignKey(a => a.CourseId);
+
+            // Prevent duplicate attendance for the same DateTime
+            modelBuilder.Entity<Attendance>()
+                .HasIndex(a => new { a.UserId, a.CourseId, a.RecordedAt })
+                .IsUnique();
+
 
             modelBuilder.Entity<ClassSchedule>()
                 .Property(b => b.UpdatedAt)

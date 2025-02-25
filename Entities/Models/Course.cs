@@ -33,6 +33,8 @@ namespace Entities.Models
         public Guid LevelId { get; set; }
         public virtual Level Level { get; set; }
 
-        public virtual ICollection<ClassSchedule> ClassSchedules { get; set; }
+        public virtual ICollection<ClassSchedule>? ClassSchedules { get; set; }
+        public virtual ICollection<Attendance>? Attendances { get; set; }
+        public virtual ICollection<Enrollment>? Enrollments { get; set; }
     }
 }

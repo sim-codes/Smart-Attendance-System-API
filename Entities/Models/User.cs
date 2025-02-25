@@ -12,6 +12,7 @@ namespace Entities.Models
 
         public virtual Student? Student { get; set; }
         public virtual Lecturer? Lecturer { get; set; }
-        public virtual Attendance? Attendance { get; set; }
+        public virtual ICollection<Attendance>? Attendances { get; set; }
+        public virtual ICollection<Enrollment>? Enrollments { get; set; }
     }
 }

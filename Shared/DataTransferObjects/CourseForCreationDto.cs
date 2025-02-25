@@ -10,7 +10,7 @@ namespace Shared.DataTransferObjects
     {
         public string Title { get; init; }
         public string Code { get; init; }
-        public string Description { get; init; }
+        public string? Description { get; init; }
         public int CreditUnits { get; init; }
         public Guid LevelId { get; init; }
     }

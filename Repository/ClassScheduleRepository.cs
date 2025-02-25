@@ -58,7 +58,8 @@ namespace Repository
             .ToList();
 
         public async Task<IEnumerable<ClassSchedule>> GetClassSchedulesByTimeAsync(TimeOnly startTime, TimeOnly endTime) =>
-            await FindByCondition(cs => cs.StartTime == startTime && cs.EndTime == endTime, false)
+            await FindByCondition(cs =>
+                cs.StartTime < endTime && cs.EndTime > startTime, false)
             .ToListAsync();
 
     }

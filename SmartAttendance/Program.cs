@@ -56,9 +56,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.All
 });
-app.UseRouting();
 
-app.UseCoreAdminCustomUrl("SmartAdmin");
 
 app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
@@ -69,6 +67,10 @@ app.UseSwaggerUI(s =>
 {
     s.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Attendance System API v1");
 });
+
+//app.UseRouting();
+//app.UseCoreAdminCustomUrl("SmartAdmin");
+
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace SmartAttendance.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20250225145750_UpdateUniqueField")]
+    partial class UpdateUniqueField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +78,7 @@ namespace SmartAttendance.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserId", "CourseId", "RecordedAt")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Attendances");
@@ -327,8 +330,10 @@ namespace SmartAttendance.Migrations
 
             modelBuilder.Entity("Entities.Models.Enrollment", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("EnrollmentId");
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
@@ -336,13 +341,16 @@ namespace SmartAttendance.Migrations
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("EnrollmentId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("UserId", "CourseId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Enrollments");
                 });
@@ -738,14 +746,14 @@ namespace SmartAttendance.Migrations
             modelBuilder.Entity("Entities.Models.Attendance", b =>
                 {
                     b.HasOne("Entities.Models.Course", "Course")
-                        .WithMany("Attendances")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", "User")
-                        .WithMany("Attendances")
-                        .HasForeignKey("UserId")
+                        .WithOne("Attendance")
+                        .HasForeignKey("Entities.Models.Attendance", "UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -845,14 +853,14 @@ namespace SmartAttendance.Migrations
             modelBuilder.Entity("Entities.Models.Enrollment", b =>
                 {
                     b.HasOne("Entities.Models.Course", "Course")
-                        .WithMany("Enrollments")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", "User")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("UserId")
+                        .WithOne("Enrollment")
+                        .HasForeignKey("Entities.Models.Enrollment", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -961,11 +969,7 @@ namespace SmartAttendance.Migrations
 
             modelBuilder.Entity("Entities.Models.Course", b =>
                 {
-                    b.Navigation("Attendances");
-
                     b.Navigation("ClassSchedules");
-
-                    b.Navigation("Enrollments");
                 });
 
             modelBuilder.Entity("Entities.Models.Department", b =>
@@ -993,9 +997,9 @@ namespace SmartAttendance.Migrations
 
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
-                    b.Navigation("Attendances");
+                    b.Navigation("Attendance");
 
-                    b.Navigation("Enrollments");
+                    b.Navigation("Enrollment");
 
                     b.Navigation("Lecturer");
 

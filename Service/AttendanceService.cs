@@ -34,6 +34,8 @@ namespace Service
             var activeClasses = await _repository.ClassSchedule
                 .GetClassSchedulesByTimeAsync(currentTime, endTime);
 
+            Console.WriteLine($"Number of active classes {activeClasses.Count()}");
+
             foreach (var classSchedule in activeClasses)
             {
                 try
