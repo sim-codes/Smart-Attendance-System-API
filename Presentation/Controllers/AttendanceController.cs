@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Presentation.Controllers
@@ -22,14 +26,18 @@ namespace Presentation.Controllers
         /// <summary>
         /// Get the list of all attendance records
         /// </summary>
+        /// /// <param name="attendanceParameters">Attendace parameters for filtering and searching</param>
         /// <returns>The attendance records list</returns>
         /// <response code="200">Returns the list of attendance records</response>
         [HttpGet(Name = "GetAttendanceRecords")]
         [ProducesResponseType(typeof(IEnumerable<AttendanceDto>), 200)]
-        public IActionResult GetAllAttendanceRecords()
+        public IActionResult GetAllAttendanceRecords([FromQuery] AttendanceParameters attendanceParameters)
         {
-            var attendances = _service.AttendanceService.GetAttendances(trackChanges: false);
-            return Ok(attendances);
+            var pageResult = _service.AttendanceService.GetAttendanceRecords(attendanceParameters, trackChanges: false);
+
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
+
+            return Ok(pageResult.attendanceRecords);
         }
 
         /// <summary>
