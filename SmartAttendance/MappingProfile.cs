@@ -15,6 +15,7 @@ namespace SmartAttendance
             CreateMap<CourseForCreationDto, Course>();
             CreateMap<AttendanceForCreationDto, Attendance>();
             CreateMap<Attendance, AttendanceDto>()
+                .ForMember(dest => dest.StudentId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
 
             CreateMap<ClassSchedule, ClassScheduleDto>()
