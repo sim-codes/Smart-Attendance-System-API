@@ -60,7 +60,7 @@ namespace Repository
                 .WithMany(c => c.Attendances)
                 .HasForeignKey(a => a.CourseId);
 
-            // Prevent duplicate attendance for the same DateTime
+            
             modelBuilder.Entity<Attendance>()
                 .HasIndex(a => new { a.UserId, a.CourseId, a.RecordedAt })
                 .IsUnique();
