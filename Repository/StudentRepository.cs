@@ -24,6 +24,7 @@ namespace Repository
                 .Include(s => s.Level)
                 .Include(s => s.Department)
                 .Search(studentParameters.SearchTerm)
+                .FilterStudentsByDepartment(studentParameters.DepartmentId)
                 .ToListAsync();
 
             return PagedList<Student>

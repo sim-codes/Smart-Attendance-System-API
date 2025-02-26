@@ -167,7 +167,7 @@ namespace Service
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_jwtConfiguration.SecretKey)),
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 ValidIssuer = _jwtConfiguration.ValidIssuer,
                 ValidAudience = _jwtConfiguration.ValidAudience,
             };
@@ -192,6 +192,7 @@ namespace Service
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
 
             var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
             if (user == null || user.RefreshToken != tokenDto.RefreshToken
                 || user.RefreshTokenExpiryTime <= DateTime.Now)
                 throw new RefreshTokenBadRequest();

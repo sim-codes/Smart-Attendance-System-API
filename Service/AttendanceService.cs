@@ -5,6 +5,7 @@ using Shared.DataTransferObjects;
 using Entities.Exceptions;
 using Entities.Models;
 using System.Linq;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -102,11 +103,12 @@ namespace Service
             return attendanceDto;
         }
 
-        public IEnumerable<AttendanceDto> GetAttendances(bool trackChanges)
+        public (IEnumerable<AttendanceDto> attendanceRecords, MetaData metaData) GetAttendanceRecords(AttendanceParameters attendanceParameters, bool trackChanges)
         {
-            var attendances = _repository.Attendance.GetAllAttendances(trackChanges);
-            var attendancesDto = _mapper.Map<IEnumerable<AttendanceDto>>(attendances);
-            return attendancesDto;
+            var attendanceWithMetaData = _repository.Attendance.GetAllAttendanceRecords(attendanceParameters, trackChanges);
+            var attendancesDto = _mapper.Map<IEnumerable<AttendanceDto>>(attendanceWithMetaData);
+
+            return (attendanceRecords: attendancesDto, metaData: attendanceWithMetaData.MetaData);
         }
 
         public async Task<AttendanceDto> SignAttendanceWithoutLocation(string userId, AttendanceForCreationDto attendance)

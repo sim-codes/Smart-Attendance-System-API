@@ -19,5 +19,13 @@ namespace Repository.Extensions
             return students.Where(e => e.User.FirstName.ToLower().Contains(lowerCaseSearchTerm) ||
                                        e.User.LastName.ToLower().Contains(lowerCaseSearchTerm));
         }
+
+        public static IQueryable<Student> FilterStudentsByDepartment(this IQueryable<Student> students, Guid departmentId)
+        {
+            if (departmentId == Guid.Empty)
+                return students;
+            return students.Where(e => e.DepartmentId.Equals(departmentId));
+        }
+            
     }
 }

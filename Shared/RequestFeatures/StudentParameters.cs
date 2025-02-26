@@ -9,5 +9,6 @@ namespace Shared.RequestFeatures
     public class StudentParameters : RequestParameters
     {
         public string? SearchTerm { get; set; }
+        public Guid DepartmentId { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +23,17 @@ namespace Repository
         public void CreateAttendanceRange(IEnumerable<Attendance> attendances) =>
             CreateRange(attendances);
 
-        public IEnumerable<Attendance> GetAllAttendances(bool trackChanges) =>
-            FindAll(trackChanges)
-            .OrderBy(c => c.RecordedAt)
-            .ToList();
+        public PagedList<Attendance> GetAllAttendanceRecords(AttendanceParameters attendanceParameters,bool trackChanges)
+        {
+            var attendances = FindAll(trackChanges)
+                .Search(attendanceParameters.SearchTerm)
+                .FilterByStudent(attendanceParameters.UserId)
+                .FilterByCourse(attendanceParameters.CourseId)
+                .ToList();
+
+            return PagedList<Attendance>
+                .ToPagedList(attendances, attendanceParameters.PageNumber, attendanceParameters.PageSize);
+        }
 
         public Attendance GetAttendanceById(Guid attendanceId, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(attendanceId), trackChanges)

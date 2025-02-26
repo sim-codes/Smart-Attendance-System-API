@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Contracts
 {
     public interface IAttendanceRepository
     {
-        IEnumerable<Attendance> GetAllAttendances(bool trackChanges);
+        PagedList<Attendance> GetAllAttendanceRecords(AttendanceParameters attendanceParameters, bool trackChanges);
         Attendance GetAttendanceById(Guid attendanceId, bool trackChanges);
         Task<IEnumerable<string>> GetAllSignedStudentIdsAsync(Guid courseId, DateTime today, bool trackChanges);
         void CreateAttendance(Attendance attendance);
