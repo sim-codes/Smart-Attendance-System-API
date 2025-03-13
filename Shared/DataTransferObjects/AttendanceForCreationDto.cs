@@ -16,5 +16,8 @@ namespace Shared.DataTransferObjects
 
         [Required]
         public double StudentLat { get; init; }
+
+        [Required]
+        public double Accuracy { get; init; }
     }
 }

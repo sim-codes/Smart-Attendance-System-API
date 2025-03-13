@@ -147,6 +147,7 @@ namespace Service
             var isWithinBoundary = IsPointWithinBoundary(
                 attendance.StudentLat,
                 attendance.StudentLon,
+                attendance.Accuracy,
                 classroom);
 
             if (!isWithinBoundary)
@@ -157,15 +158,51 @@ namespace Service
                 return (true, "Location is verified successfully");
         }
 
-        private bool IsPointWithinBoundary(double lat, double lon, Classroom classroom)
+        private bool IsPointWithinBoundary(double lat, double lon, double accuracy, Classroom classroom)
         {
-            bool isWithinLatitude = lat >= Math.Min(classroom.BottomLeftLat, classroom.BottomRightLat) &&
-                lat <= Math.Max(classroom.TopLeftLat, classroom.TopRightLat);
+            // Get the min and max latitude values regardless of naming convention
+            double minLat = Math.Min(
+                Math.Min(classroom.TopLeftLat, classroom.TopRightLat),
+                Math.Min(classroom.BottomLeftLat, classroom.BottomRightLat)
+            );
 
-            bool isWithinLongitude = lon >= Math.Min(classroom.BottomLeftLon, classroom.TopLeftLon) &&
-                lon <= Math.Max(classroom.BottomRightLon, classroom.TopRightLon);
+            double maxLat = Math.Max(
+                Math.Max(classroom.TopLeftLat, classroom.TopRightLat),
+                Math.Max(classroom.BottomLeftLat, classroom.BottomRightLat)
+            );
 
-            return isWithinLatitude && isWithinLongitude;
+            // Get the min and max longitude values regardless of naming convention
+            double minLon = Math.Min(
+                Math.Min(classroom.TopLeftLon, classroom.BottomLeftLon),
+                Math.Min(classroom.TopRightLon, classroom.BottomRightLon)
+            );
+
+            double maxLon = Math.Max(
+                Math.Max(classroom.TopLeftLon, classroom.BottomLeftLon),
+                Math.Max(classroom.TopRightLon, classroom.BottomRightLon)
+            );
+
+            // Convert GPS accuracy from meters to approximate degrees
+            // This is a rough conversion that varies by latitude
+            // At the equator, 1 degree is about 111,000 meters
+            double accuracyDegrees = accuracy / 111000;
+
+            // Check if the point is within the latitude and longitude bounds,
+            // considering the GPS accuracy
+            bool isWithinLatitude = (lat + accuracyDegrees) >= minLat && (lat - accuracyDegrees) <= maxLat;
+            bool isWithinLongitude = (lon + accuracyDegrees) >= minLon && (lon - accuracyDegrees) <= maxLon;
+
+            // Alternative: check if the point is "close enough" to the boundary
+            // This is more lenient and may be more appropriate for small classrooms
+            double distanceToLatBoundary = Math.Min(Math.Abs(lat - minLat), Math.Abs(lat - maxLat));
+            double distanceToLonBoundary = Math.Min(Math.Abs(lon - minLon), Math.Abs(lon - maxLon));
+
+            bool isCloseEnough = distanceToLatBoundary <= (accuracyDegrees * 1.5) &&
+                                  distanceToLonBoundary <= (accuracyDegrees * 1.5);
+
+            // You can use either strict boundary check or the "close enough" check
+            // return isWithinLatitude && isWithinLongitude;
+            return isCloseEnough || (isWithinLatitude && isWithinLongitude);
         }
     }
 }
