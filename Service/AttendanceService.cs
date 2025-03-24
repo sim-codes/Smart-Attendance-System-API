@@ -160,49 +160,65 @@ namespace Service
 
         private bool IsPointWithinBoundary(double lat, double lon, double accuracy, Classroom classroom)
         {
-            // Get the min and max latitude values regardless of naming convention
-            double minLat = Math.Min(
-                Math.Min(classroom.TopLeftLat, classroom.TopRightLat),
-                Math.Min(classroom.BottomLeftLat, classroom.BottomRightLat)
-            );
+            var p1 = (classroom.TopLeftLat, classroom.TopLeftLon);
+            var p2 = (classroom.TopRightLat, classroom.TopRightLon);
+            var p3 = (classroom.BottomRightLat, classroom.BottomRightLon);
+            var p4 = (classroom.BottomLeftLat, classroom.BottomLeftLon);
+            var polygon = new (double, double)[] { p1, p2, p3, p4 };
 
-            double maxLat = Math.Max(
-                Math.Max(classroom.TopLeftLat, classroom.TopRightLat),
-                Math.Max(classroom.BottomLeftLat, classroom.BottomRightLat)
-            );
+            if (IsPointInsideQuadrilateral(lat, lon, polygon))
+            {
+                return true; // Strict check
+            }
 
-            // Get the min and max longitude values regardless of naming convention
-            double minLon = Math.Min(
-                Math.Min(classroom.TopLeftLon, classroom.BottomLeftLon),
-                Math.Min(classroom.TopRightLon, classroom.BottomRightLon)
-            );
+            // Convert accuracy to degrees
+            double accuracyLat = accuracy / 111000;
+            double accuracyLon = accuracy / (111000 * Math.Cos(lat * Math.PI / 180));
 
-            double maxLon = Math.Max(
-                Math.Max(classroom.TopLeftLon, classroom.BottomLeftLon),
-                Math.Max(classroom.TopRightLon, classroom.BottomRightLon)
-            );
+            // Try again with expanded boundary
+            return IsPointInsideQuadrilateral(lat + accuracyLat, lon, polygon) ||
+                   IsPointInsideQuadrilateral(lat - accuracyLat, lon, polygon) ||
+                   IsPointInsideQuadrilateral(lat, lon + accuracyLon, polygon) ||
+                   IsPointInsideQuadrilateral(lat, lon - accuracyLon, polygon);
+        }
 
-            // Convert GPS accuracy from meters to approximate degrees
-            // This is a rough conversion that varies by latitude
-            // At the equator, 1 degree is about 111,000 meters
-            double accuracyDegrees = accuracy / 111000;
+        private bool IsPointInsideQuadrilateral(double lat, double lon, (double lat, double lon)[] quad)
+        {
+            int intersections = 0;
+            int count = quad.Length;
 
-            // Check if the point is within the latitude and longitude bounds,
-            // considering the GPS accuracy
-            bool isWithinLatitude = (lat + accuracyDegrees) >= minLat && (lat - accuracyDegrees) <= maxLat;
-            bool isWithinLongitude = (lon + accuracyDegrees) >= minLon && (lon - accuracyDegrees) <= maxLon;
+            for (int i = 0; i < count; i++)
+            {
+                var p1 = quad[i];
+                var p2 = quad[(i + 1) % count]; // Wraps around to the first point
 
-            // Alternative: check if the point is "close enough" to the boundary
-            // This is more lenient and may be more appropriate for small classrooms
-            double distanceToLatBoundary = Math.Min(Math.Abs(lat - minLat), Math.Abs(lat - maxLat));
-            double distanceToLonBoundary = Math.Min(Math.Abs(lon - minLon), Math.Abs(lon - maxLon));
+                if (((p1.lat > lat) != (p2.lat > lat)) &&
+                    (lon < (p2.lon - p1.lon) * (lat - p1.lat) / (p2.lat - p1.lat) + p1.lon))
+                {
+                    intersections++;
+                }
+            }
 
-            bool isCloseEnough = distanceToLatBoundary <= (accuracyDegrees * 1.5) &&
-                                  distanceToLonBoundary <= (accuracyDegrees * 1.5);
+            // Odd number of intersections means inside, even means outside
+            return (intersections % 2) == 1;
+        }
 
-            // You can use either strict boundary check or the "close enough" check
-            // return isWithinLatitude && isWithinLongitude;
-            return isCloseEnough || (isWithinLatitude && isWithinLongitude);
+        // Helper function to check if a point is inside a triangle
+        private bool IsPointInsideTriangle(double px, double py, (double x, double y) p1, (double x, double y) p2, (double x, double y) p3)
+        {
+            double areaOrig = TriangleArea(p1, p2, p3);
+            double area1 = TriangleArea((px, py), p2, p3);
+            double area2 = TriangleArea(p1, (px, py), p3);
+            double area3 = TriangleArea(p1, p2, (px, py));
+
+            // Check if sum of small triangle areas equals the original area
+            return Math.Abs(areaOrig - (area1 + area2 + area3)) < 0.0000001;
+        }
+
+        // Compute the area of a triangle given three points
+        private double TriangleArea((double x, double y) p1, (double x, double y) p2, (double x, double y) p3)
+        {
+            return Math.Abs((p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)) / 2.0);
         }
     }
 }

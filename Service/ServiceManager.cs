@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
+using Azure.AI.Vision.Face;
 using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -27,13 +23,15 @@ namespace Service
         private readonly Lazy<ICourseService> _courseService;
         private readonly Lazy<ILevelService> _levelService;
         private readonly Lazy<IEnrollmentService> _enrollmentService;
+        private readonly Lazy<IFaceRecognitionService> _faceRecognitionService;
 
         public ServiceManager(IRepositoryManager repositoryManager, 
             ILoggerManager logger,
             IMapper mapper,
             UserManager<User> userManager,
             IConfiguration configuration,
-            IEmailService emailService
+            IEmailService emailService,
+            FaceClient faceClient
             )
         {
             _facultyService = new Lazy<IFacultyService>(() => new FacultyService(repositoryManager, logger, mapper));
@@ -49,6 +47,7 @@ namespace Service
             _courseService = new Lazy<ICourseService>(() => new CourseService(repositoryManager, logger, mapper));
             _levelService = new Lazy<ILevelService>(() => new LevelService(repositoryManager, logger, mapper));
             _enrollmentService = new Lazy<IEnrollmentService>(() => new EnrollmentService(repositoryManager, logger, mapper));
+            _faceRecognitionService = new Lazy<IFaceRecognitionService>(() => new FaceRecognitionService(faceClient));
         }
 
         public IFacultyService FacultyService => _facultyService.Value;
@@ -64,5 +63,6 @@ namespace Service
         public IAttendanceService AttendanceService => _attendanceService.Value;
         public ICourseService CourseService => _courseService.Value;
         public IEnrollmentService EnrollmentService => _enrollmentService.Value;
+        public IFaceRecognitionService FaceRecognitionService => _faceRecognitionService.Value;
     }
 }

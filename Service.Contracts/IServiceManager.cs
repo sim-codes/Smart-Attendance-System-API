@@ -21,5 +21,6 @@ namespace Service.Contracts
         IAttendanceService AttendanceService { get; }
         ICourseService CourseService { get; }
         IEnrollmentService EnrollmentService { get; }
+        IFaceRecognitionService FaceRecognitionService { get; }
     }
 }

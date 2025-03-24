@@ -39,6 +39,8 @@ builder.Services.AddControllers(config =>
     config.ReturnHttpNotAcceptable = true;
 }).AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 
+
+builder.Services.ConfigureFaceClient(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureSwagger();
 

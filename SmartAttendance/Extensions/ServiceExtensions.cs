@@ -14,6 +14,8 @@ using Service;
 using Service.Contracts;
 using System.Text;
 using Quartz;
+using Azure.AI.Vision.Face;
+using Azure;
 
 namespace SmartAttendance.Extensions
 {
@@ -86,6 +88,16 @@ namespace SmartAttendance.Extensions
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddSqlServer<RepositoryContext>((configuration.GetConnectionString("sqlConnection")));
 
+        public static void ConfigureFaceClient(this IServiceCollection services, IConfiguration configuration)
+        {
+            string endpoint = configuration["AzureFace:Endpoint"];
+            string subscriptionKey = configuration["AzureFace:SubscriptionKey"];
+
+            services.AddSingleton(sp =>
+                new FaceClient(new Uri(endpoint), new AzureKeyCredential(subscriptionKey))
+            );
+        }
+
         public static void ConfigureQuartz(this IServiceCollection services)
         {
             services.AddQuartz(q =>
@@ -105,6 +117,8 @@ namespace SmartAttendance.Extensions
 
             services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }
+
+
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {

@@ -37,7 +37,7 @@ namespace Presentation.Controllers
 
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
              
-            return Ok(pagedResult.students);
+            return Ok(new {Students = pagedResult.students, Metadata = pagedResult.metaData });
         }
 
         /// <summary>
