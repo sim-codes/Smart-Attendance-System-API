@@ -37,7 +37,7 @@ namespace Presentation.Controllers
 
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pageResult.metaData));
 
-            return Ok(pageResult.attendanceRecords);
+            return Ok(new {Reports = pageResult.attendanceRecords, Metadata = pageResult.metaData});
         }
 
         /// <summary>
