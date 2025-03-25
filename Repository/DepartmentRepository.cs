@@ -10,7 +10,11 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Department> GetDepartments(Guid facultyId, bool trackChanges) =>
+        public IEnumerable<Department> GetAllDepartments(bool trackChanges) =>
+            FindAll(trackChanges)
+            .OrderBy(e => e.Name).ToList();
+
+        public IEnumerable<Department> GetFacultyDepartments(Guid facultyId, bool trackChanges) =>
             FindByCondition(e => e.FacultyId.Equals(facultyId), trackChanges)
             .OrderBy(e => e.Name).ToList();
 

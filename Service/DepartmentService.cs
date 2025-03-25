@@ -26,13 +26,20 @@ namespace Service
             _mapper = mapper;
         }
 
-        public IEnumerable<DepartmentDto> GetDepartments(Guid facultyId, bool trackChanges)
+        public IEnumerable<DepartmentDto> GetDepartmentsForFaculty(Guid facultyId, bool trackChanges)
         {
             var faculty = _repository.Faculty.GetFaculty(facultyId, trackChanges);
             if (faculty is null)
                 throw new FacultyNotFoundException(facultyId);
 
-            var departmentsFromDb = _repository.Department.GetDepartments(facultyId, trackChanges);
+            var departmentsFromDb = _repository.Department.GetFacultyDepartments(facultyId, trackChanges);
+            var departmentsDto = _mapper.Map<IEnumerable<DepartmentDto>>(departmentsFromDb);
+            return departmentsDto;
+        }
+
+        public IEnumerable<DepartmentDto> GetAllDepartments( bool trackChanges)
+        {
+            var departmentsFromDb = _repository.Department.GetAllDepartments(trackChanges);
             var departmentsDto = _mapper.Map<IEnumerable<DepartmentDto>>(departmentsFromDb);
             return departmentsDto;
         }

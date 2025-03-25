@@ -9,7 +9,8 @@ namespace Service.Contracts
 {
     public interface IDepartmentService
     {
-        IEnumerable<DepartmentDto> GetDepartments(Guid facultyId, bool trackChanges);
+        IEnumerable<DepartmentDto> GetAllDepartments(bool trackChanges);
+        IEnumerable<DepartmentDto> GetDepartmentsForFaculty(Guid facultyId, bool trackChanges);
         DepartmentDto GetDepartment(Guid facultyId, Guid id, bool trackChanges);
         DepartmentDto CreateDepartment(Guid facultyId, DepartmentForCreationDto department, bool trackChanges);
     }

@@ -17,7 +17,8 @@ namespace Repository.Extensions
             var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
 
             return students.Where(e => e.User.FirstName.ToLower().Contains(lowerCaseSearchTerm) ||
-                                       e.User.LastName.ToLower().Contains(lowerCaseSearchTerm));
+                                       e.User.LastName.ToLower().Contains(lowerCaseSearchTerm) ||
+                                       e.User.Email.ToLower().Contains(lowerCaseSearchTerm));
         }
 
         public static IQueryable<Student> FilterStudentsByDepartment(this IQueryable<Student> students, Guid departmentId)

@@ -233,11 +233,17 @@
             <param name="id">The ID for the course to delete</param>
             <returns>Empty response</returns>
         </member>
-        <member name="M:Presentation.Controllers.DepartmentsController.GetDepartments(System.Guid)">
+        <member name="M:Presentation.Controllers.DepartmentsController.GetDepartmentsForFaculty(System.Guid)">
             <summary>
             Get the list of all departments for a specific faculty
             </summary>
             <param name="facultyId">The ID of the faculty</param>
+            <returns>The departments list</returns>
+        </member>
+        <member name="M:Presentation.Controllers.DepartmentsController.GetAllDepartments">
+            <summary>
+            Get the list of all departments
+            </summary>
             <returns>The departments list</returns>
         </member>
         <member name="M:Presentation.Controllers.DepartmentsController.GetDepartment(System.Guid,System.Guid)">
