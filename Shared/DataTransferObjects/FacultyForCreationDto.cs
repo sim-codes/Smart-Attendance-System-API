@@ -10,6 +10,5 @@ namespace Shared.DataTransferObjects
     {
         public string Name { get; set; }
         public string Code { get; set; }
-        public IEnumerable<DepartmentForCreationDto> departments { get; set; }
     }
 }

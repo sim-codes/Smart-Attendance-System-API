@@ -32,7 +32,8 @@ namespace Presentation.Controllers
             var pagedResult = _service.CourseService.GetDepartmentCourses(departmentId, courseParameters, trackChanges: false);
 
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
-            return Ok(pagedResult.courses);
+
+            return Ok(new { pagedResult.courses, Metadata = pagedResult.metaData });
         }
 
         /// <summary>

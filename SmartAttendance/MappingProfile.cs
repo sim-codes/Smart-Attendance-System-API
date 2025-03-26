@@ -20,9 +20,14 @@ namespace SmartAttendance
 
             CreateMap<ClassSchedule, ClassScheduleDto>()
                 .ForMember(dest => dest.CourseTitle, opt => opt.MapFrom(src => src.Course.Title))
-                .ForMember(dest => dest.Classroom, opt => opt.MapFrom(src => src.Classroom.Name));
-            CreateMap<ClassScheduleForCreationDto, ClassSchedule>();
-            CreateMap<ClassScheduleForUpdateDto, ClassSchedule>();
+                .ForMember(dest => dest.Classroom, opt => opt.MapFrom(src => src.Classroom.Name))
+                .ForMember(dest => dest.LecturerId, opt => opt.MapFrom(src => src.UserId));
+
+            CreateMap<ClassScheduleForCreationDto, ClassSchedule>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.LecturerId));
+            CreateMap<ClassScheduleForUpdateDto, ClassSchedule>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.LecturerId));
+
             CreateMap<AcademicSession, AcademicSessionDto>();
             CreateMap<Faculty, FacultyDto>();
             CreateMap<Department, DepartmentDto>();

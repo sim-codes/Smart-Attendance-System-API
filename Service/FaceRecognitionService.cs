@@ -28,7 +28,7 @@ namespace Service
                     new Uri(imageUrl),
                     _detectionModel,
                     _recognitionModel,
-                    returnFaceId: false);
+                    returnFaceId: true);
 
                 return response.Value;
             }
@@ -47,6 +47,8 @@ namespace Service
 
                 if (faces1.Count == 0 || faces2.Count == 0)
                     throw new Exception("No faces detected in one or both images");
+
+                Console.WriteLine($"Face values {faces1} - {faces2}");
 
                 var faceId1 = faces1[0].FaceId.Value;
                 var faceId2 = faces2[0].FaceId.Value;

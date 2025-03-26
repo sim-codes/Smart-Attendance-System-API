@@ -24,9 +24,9 @@ namespace Entities.Models
         public TimeOnly EndTime { get; set; }
 
         [Required]
-        [ForeignKey(nameof(AcademicSession))]
-        public Guid SessionId { get; set; }
-        public virtual AcademicSession AcademicSession { get; set; }
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
+        public virtual User? User { get; set; }
 
         [Required]
         [ForeignKey(nameof(Course))]

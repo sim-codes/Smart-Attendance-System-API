@@ -14,7 +14,7 @@ namespace Shared.DataTransferObjects
         public TimeOnly EndTime { get; set; }
         public string CourseTitle { get; set; }
         public string Classroom { get; set; }
-        public Guid SessionId { get; set; }
+        public string LecturerId { get; set; }
         public Guid CourseId { get; set; }
         public Guid LevelId { get; set; }
         public Guid DepartmentId { get; set; }

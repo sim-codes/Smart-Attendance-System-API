@@ -11,7 +11,7 @@ namespace Shared.DataTransferObjects
         public string DayOfWeek { get; init; }
         public TimeOnly StartTime { get; init; }
         public TimeOnly EndTime { get; init; }
-        public string SessionId { get; init; }
+        public string LecturerId { get; init; }
         public Guid CourseId { get; init; }
         public Guid LevelId { get; init; }
         public Guid DepartmentId { get; init; }
