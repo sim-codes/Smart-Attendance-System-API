@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  yourprojectname:
+    image: SmartAttendance:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "_password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
