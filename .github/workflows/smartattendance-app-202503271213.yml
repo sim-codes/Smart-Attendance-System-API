@@ -8,7 +8,7 @@ env:
   CONTAINER_APP_NAME: smartattendance-app-202503271213
   CONTAINER_APP_RESOURCE_GROUP_NAME: smart-attendance
   CONTAINER_REGISTRY_LOGIN_SERVER: smartattendance20250327121941.azurecr.io
-  DOCKER_FILE_PATH: SmartAttendance/Dockerfile
+  DOCKER_FILE_PATH: Dockerfile
   PROJECT_NAME_FOR_DOCKER: smartattendance
 jobs:
   build:
