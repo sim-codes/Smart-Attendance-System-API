@@ -1,14 +1,27 @@
-**/.classpath
-**/.dockerignore
-**/.env
-**/.git
-**/.gitignore
-**/.project
-**/.settings
-**/.toolstarget
-**/.vs
-**/.vscode
-**/*.*proj.user
-**/bin
-**/obj
+# Ignore build and compile outputs
+**/bin/
+**/obj/
 
+# Ignore development configurations
+**/*.Development.json
+**/*.Development.yml
+
+# Ignore source control and IDE folders
+.git/
+.github/
+.vscode/
+.idea/
+
+# Ignore test projects
+**/*Tests/
+
+# Ignore log files
+**/*.log
+
+# Ignore user-specific files
+**/*.user
+**/*.userprefs
+
+# Ignore macOS and Windows system files
+.DS_Store
+Thumbs.db
