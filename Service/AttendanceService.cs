@@ -23,6 +23,24 @@ namespace Service
             _mapper = mapper;
         }
 
+        public AttendanceDto GetAttendance(Guid attendanceId, bool trackChanges)
+        {
+            var attendance = _repository.Attendance.GetAttendanceById(attendanceId, trackChanges);
+            if (attendance is null)
+                throw new AttendanceNotFoundException(attendanceId);
+
+            var attendanceDto = _mapper.Map<AttendanceDto>(attendance);
+            return attendanceDto;
+        }
+
+        public (IEnumerable<AttendanceDto> attendanceRecords, MetaData metaData) GetAttendanceRecords(AttendanceParameters attendanceParameters, bool trackChanges)
+        {
+            var attendanceWithMetaData = _repository.Attendance.GetAllAttendanceRecords(attendanceParameters, trackChanges);
+            var attendancesDto = _mapper.Map<IEnumerable<AttendanceDto>>(attendanceWithMetaData);
+
+            return (attendanceRecords: attendancesDto, metaData: attendanceWithMetaData.MetaData);
+        }
+
         public async Task AutoSignAttendanceForActiveClasses()
         {
             _logger.LogInfo("Starting automated attendance signing");
@@ -82,6 +100,13 @@ namespace Service
             if (!isValid)
                 throw new AttendanceValidationException(message);
 
+            var (isDuplicate, dulpicateMessage) = await CheckForDuplicateSigning(attendance.CourseId, userId);
+            if (isDuplicate)
+            {
+                _logger.LogError(message);
+                throw new AttendanceValidationException(dulpicateMessage);
+            }
+
             var attendanceEntity = _mapper.Map<Attendance>(attendance);
             attendanceEntity.UserId = userId;
             attendanceEntity.RecordedAt = DateTime.UtcNow;
@@ -91,24 +116,6 @@ namespace Service
 
             var attendanceDto = _mapper.Map<AttendanceDto>(attendanceEntity);
             return attendanceDto;
-        }
-
-        public AttendanceDto GetAttendance(Guid attendanceId, bool trackChanges)
-        {
-            var attendance = _repository.Attendance.GetAttendanceById(attendanceId, trackChanges);
-            if (attendance is null)
-                throw new AttendanceNotFoundException(attendanceId);
-
-            var attendanceDto = _mapper.Map<AttendanceDto>(attendance);
-            return attendanceDto;
-        }
-
-        public (IEnumerable<AttendanceDto> attendanceRecords, MetaData metaData) GetAttendanceRecords(AttendanceParameters attendanceParameters, bool trackChanges)
-        {
-            var attendanceWithMetaData = _repository.Attendance.GetAllAttendanceRecords(attendanceParameters, trackChanges);
-            var attendancesDto = _mapper.Map<IEnumerable<AttendanceDto>>(attendanceWithMetaData);
-
-            return (attendanceRecords: attendancesDto, metaData: attendanceWithMetaData.MetaData);
         }
 
         public async Task<AttendanceDto> SignAttendanceWithoutLocation(string userId, AttendanceForCreationDto attendance)
@@ -120,6 +127,13 @@ namespace Service
                 throw new AttendanceValidationException("No active schedule found for course");
             }
 
+            var (isDuplicate, message) = await CheckForDuplicateSigning(attendance.CourseId, userId);
+            if (isDuplicate)
+            {
+                _logger.LogError(message);
+                throw new AttendanceValidationException(message);
+            }
+
             var attendanceEntity = _mapper.Map<Attendance>(attendance);
             attendanceEntity.UserId = userId;
             attendanceEntity.RecordedAt = DateTime.UtcNow;
@@ -127,13 +141,25 @@ namespace Service
             _repository.Attendance.CreateAttendance(attendanceEntity);
             await _repository.SaveAsync();
 
-            Console.WriteLine(attendanceEntity);
-
             var attendanceDto = _mapper.Map<AttendanceDto>(attendanceEntity);
             return attendanceDto;
         }
 
-        public async Task<(bool isVaid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance)
+        private async Task<(bool isDuplicate, string message)> CheckForDuplicateSigning(Guid courseId, string StudentId) {
+            var now = DateTime.UtcNow;
+
+            var signedStudentIds = await _repository.Attendance.GetAllSignedStudentIdsAsync(courseId, now.Date, false);
+            if (signedStudentIds.Any())
+            {
+                var isSigned = signedStudentIds.Contains(StudentId);
+                if (isSigned) return (true, "Student already signed!");
+                return (false, "");
+            }
+
+            return (false, "");
+        }
+
+        public async Task<(bool isValid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance)
         {
             var activeSchedule = await _repository.ClassSchedule.GetActiveScheduleForCourseAsync(attendance.CourseId, false);
             if (activeSchedule is null)
@@ -168,7 +194,7 @@ namespace Service
 
             if (IsPointInsideQuadrilateral(lat, lon, polygon))
             {
-                return true; // Strict check
+                return true;
             }
 
             // Convert accuracy to degrees
@@ -201,24 +227,6 @@ namespace Service
 
             // Odd number of intersections means inside, even means outside
             return (intersections % 2) == 1;
-        }
-
-        // Helper function to check if a point is inside a triangle
-        private bool IsPointInsideTriangle(double px, double py, (double x, double y) p1, (double x, double y) p2, (double x, double y) p3)
-        {
-            double areaOrig = TriangleArea(p1, p2, p3);
-            double area1 = TriangleArea((px, py), p2, p3);
-            double area2 = TriangleArea(p1, (px, py), p3);
-            double area3 = TriangleArea(p1, p2, (px, py));
-
-            // Check if sum of small triangle areas equals the original area
-            return Math.Abs(areaOrig - (area1 + area2 + area3)) < 0.0000001;
-        }
-
-        // Compute the area of a triangle given three points
-        private double TriangleArea((double x, double y) p1, (double x, double y) p2, (double x, double y) p3)
-        {
-            return Math.Abs((p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)) / 2.0);
         }
     }
 }

@@ -28,11 +28,11 @@ namespace Test.Controllers
                 new DepartmentDto { Id = Guid.NewGuid(), Name = "Department2" }
             };
 
-            _mockService.Setup(s => s.DepartmentService.GetDepartments(facultyId, false))
+            _mockService.Setup(s => s.DepartmentService.GetDepartmentsForFaculty(facultyId, false))
                         .Returns(departments);
 
             // Act
-            var result = _controller.GetDepartments(facultyId);
+            var result = _controller.GetDepartmentsForFaculty(facultyId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);

@@ -12,7 +12,7 @@ namespace Service.Contracts
     {
         (IEnumerable<AttendanceDto> attendanceRecords, MetaData metaData) GetAttendanceRecords(AttendanceParameters attendanceParameters, bool trackChanges);
         AttendanceDto GetAttendance(Guid attendanceId, bool trackChanges);
-        Task<(bool isVaid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance);
+        Task<(bool isValid, string message)> ValiidateAttendance(AttendanceForCreationDto attendance);
         Task<AttendanceDto> CreateAttendance(string userId,AttendanceForCreationDto attendance);
         Task<AttendanceDto> SignAttendanceWithoutLocation(string userId, AttendanceForCreationDto attendance);
         Task AutoSignAttendanceForActiveClasses();

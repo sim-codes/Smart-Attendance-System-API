@@ -111,9 +111,6 @@ namespace SmartAttendance.Migrations
                     b.Property<Guid>("LevelId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SessionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time");
 
@@ -121,6 +118,10 @@ namespace SmartAttendance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -132,7 +133,7 @@ namespace SmartAttendance.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.HasIndex("SessionId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ClassSchedules");
                 });
@@ -327,8 +328,10 @@ namespace SmartAttendance.Migrations
 
             modelBuilder.Entity("Entities.Models.Enrollment", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("EnrollmentId");
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
@@ -336,13 +339,15 @@ namespace SmartAttendance.Migrations
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("EnrollmentId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("UserId", "CourseId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Enrollments");
                 });
@@ -780,13 +785,11 @@ namespace SmartAttendance.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.AcademicSession", "AcademicSession")
+                    b.HasOne("Entities.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("SessionId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AcademicSession");
 
                     b.Navigation("Classroom");
 
@@ -795,6 +798,8 @@ namespace SmartAttendance.Migrations
                     b.Navigation("Department");
 
                     b.Navigation("Level");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.Classroom", b =>

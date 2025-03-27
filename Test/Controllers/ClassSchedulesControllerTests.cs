@@ -87,7 +87,7 @@ namespace Test.Controllers
                 DayOfWeek = "Monday",
                 StartTime = new TimeOnly(9, 0),
                 EndTime = new TimeOnly(10, 0),
-                SessionId = "2023",
+                LecturerId = "2023",
                 CourseId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid()
             };
