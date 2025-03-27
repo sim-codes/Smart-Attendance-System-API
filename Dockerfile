@@ -6,14 +6,14 @@ WORKDIR /app
 COPY . .
 
 # Restore dependencies for the entire solution
-RUN dotnet restore "SmartAttendance.csproj"
+RUN dotnet restore "SmartAttendance/SmartAttendance.csproj"
 
 # Build the main project and its project references
-RUN dotnet build "SmartAttendance.csproj" -c Release -o /app/build
+RUN dotnet build "SmartAttendance/SmartAttendance.csproj" -c Release -o /app/build
 
 # Publish the application
 FROM build AS publish
-RUN dotnet publish "SmartAttendance.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SmartAttendance/SmartAttendance.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Create the final runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
@@ -45,4 +45,4 @@ ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS=http://+:8080
 
 # Set the entry point
-ENTRYPOINT ["dotnet", "SmartAttendance.dll"]
+ENTRYPOINT ["dotnet", "SmartAttendance/SmartAttendance.dll"]
